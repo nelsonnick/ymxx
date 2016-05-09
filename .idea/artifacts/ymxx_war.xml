@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="ymxx:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="schoolServices.war">
+      <element id="artifact" artifact-name="ymxx:war exploded" />
+    </root>
+  </artifact>
+</component>
