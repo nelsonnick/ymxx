@@ -68,7 +68,7 @@
 	    }
 	});
 
-	_reactDom2.default.render(_react2.default.createElement(HelloWorld, null), document.getElementById('test'));
+	_reactDom2.default.render(_react2.default.createElement(HelloWorld, null), document.getElementById('t'));
 
 /***/ },
 /* 1 */
