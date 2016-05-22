@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="ymxx:war exploded">
+  <artifact type="exploded-war" build-on-make="true" name="ymxx:war exploded">
     <output-path>$PROJECT_DIR$/target/schoolServices</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
