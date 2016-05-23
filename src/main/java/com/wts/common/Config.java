@@ -20,10 +20,8 @@ public class Config extends JFinalConfig {
      */
     public void configConstant(Constants me) {
         // 加载少量必要配置，随后可用PropKit.get(...)获取值
-        PropKit.use("a_little_config.txt");
+        PropKit.use("src/main/config/a_little_config.txt");
         me.setDevMode(PropKit.getBoolean("devMode", true));
-        me.setError404View("/error500.html");
-        me.setError500View("/error500.html");
     }
 
     /**

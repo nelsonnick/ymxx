@@ -3,7 +3,8 @@ var webpack = require('webpack');
 
 var plugins = [
     new CopyWebpackPlugin([
-        {from: './index.html', to: './index.html'}
+        {from: './index.html', to: './index.html'},
+        {from: './home.html', to: './home.html'}
     ]),
     //第三方库自动注入
     new  webpack.ProvidePlugin({
@@ -28,7 +29,8 @@ var plugins = [
 };*/
 module.exports = {
     entry: {
-        mainPage: './mainPage.js'
+        mainPage: './mainPage.js',
+        table: './table.js'
     },
     output: {
         path: './build/',
