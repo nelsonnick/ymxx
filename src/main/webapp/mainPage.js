@@ -4,6 +4,7 @@ import { DatePicker,Button ,Row,Col } from 'antd';
 import 'antd/dist/antd.css';
 import HelloMessage from './header';
 import Login from './component/Login';
+
 ReactDOM.render(<div>
     <Row type="flex" justify="center" align="top">
         <Col span={24}> <HelloMessage/></Col>
