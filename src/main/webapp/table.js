@@ -1,7 +1,7 @@
 import { Table, Icon } from 'antd';
 import React from 'react';
 import ReactDOM from 'react-dom';
-
+import 'antd/dist/antd.css';
 const columns = [{
     title: '姓名',
     dataIndex: 'name',
