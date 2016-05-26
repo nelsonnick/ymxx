@@ -41,6 +41,7 @@
     "eslint": "^2.7.0",
     "eslint-config-airbnb": "6.x",
     "eslint-plugin-react": "4.x",
+    "html-webpack-plugin": "^2.17.0",
     "less": "^2.7.1",
     "pre-commit": "1.x",
     "style-loader": "^0.13.1",
@@ -48,8 +49,13 @@
     "webpack-dev-server": "^1.14.0"
   },
   "babel": {
-    "presets": [ "es2015", "react" ],
-    "plugins": [ "babel-plugin-antd" ]
+    "presets": [
+      "es2015",
+      "react"
+    ],
+    "plugins": [
+      "babel-plugin-antd"
+    ]
   },
   "pre-commit": [
     "lint"

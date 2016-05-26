@@ -1,39 +1,41 @@
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var webpack = require('webpack');
 
+var path = require('path');
+var HtmlwebpackPlugin = require('html-webpack-plugin');
+//定义了一些文件夹的路径
+var ROOT_PATH = path.resolve(__dirname);
+var APP_PATH = path.resolve(ROOT_PATH, 'app');
+var BUILD_PATH = path.resolve(ROOT_PATH, 'build');
+
+
+
 var plugins = [
-    new CopyWebpackPlugin([
-        {from: './index.html', to: './index.html'},
-        {from: './home.html', to: './home.html'}
-    ]),
+    // new CopyWebpackPlugin([
+    //     {from: './index.html', to: './index.html'},
+    //     {from: './home.html', to: './home.html'}
+    // ]),
     //第三方库自动注入
     new  webpack.ProvidePlugin({
         '_':'lodash',
         '$':'jquery',
         'React':'react',
         'ReactDOM':'react-dom'
+    }),
+    new HtmlwebpackPlugin({
+        title: 'Hello World app'
     })
 ];
-/*module.exports = function (webpackConfig) {
-    webpackConfig.babel.plugins.push(['antd', {
-        style: 'css', // if true, use less
-    }]);
 
-    // Fix ie8 compatibility
-    webpackConfig.module.loaders.unshift({
-        test: /\.jsx?$/,
-        loader: 'es3ify-loader',
-    });
-
-    return webpackConfig;
-};*/
 module.exports = {
-    entry: {
-        mainPage: './mainPage.js',
-        table: './table.js'
-    },
+    entry: APP_PATH,
+// {
+//         mainPage: './mainPage.js',
+//         table: './table.js'
+//        
+//     },
     output: {
-        path: './build/',
+        path: BUILD_PATH,
         filename: '[name].js'
     },
 
