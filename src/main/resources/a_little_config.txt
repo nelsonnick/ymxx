@@ -2,3 +2,4 @@ jdbcUrl = jdbc:mysql://127.0.0.1/ymxx?characterEncoding=utf8&zeroDateTimeBehavio
 user = root
 password =root
 devMode = true
+
