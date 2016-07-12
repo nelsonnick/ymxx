@@ -1,4 +1,4 @@
-package com.wts.common;
+package com.wts.util;
 
 import java.io.Serializable;
 
