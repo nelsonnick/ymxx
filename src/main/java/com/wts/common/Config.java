@@ -7,8 +7,8 @@ import com.jfinal.ext.handler.ContextPathHandler;
 import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.c3p0.C3p0Plugin;
-import com.wts.controller.UserController;
-import com.wts.entity.User;
+import com.wts.controller.DepartmentController;
+import com.wts.entity.Department;
 
 /**
  * API引导式配置
@@ -20,15 +20,15 @@ public class Config extends JFinalConfig {
      */
     public void configConstant(Constants me) {
         // 加载少量必要配置，随后可用PropKit.get(...)获取值
-        PropKit.use("src/main/config/a_little_config.txt");
-        me.setDevMode(PropKit.getBoolean("devMode", true));
+        PropKit.use("a_little_config.txt");
+        me.setDevMode(true);
     }
 
     /**
      * 配置路由
      */
     public void configRoute(Routes me) {
-        me.add("/user", UserController.class);
+        me.add("/", DepartmentController.class);
     }
 
     /**
@@ -42,7 +42,7 @@ public class Config extends JFinalConfig {
         // 配置ActiveRecord插件
         ActiveRecordPlugin arp = new ActiveRecordPlugin(c3p0Plugin);
         me.add(arp);
-        arp.addMapping("user", User.class);    // 映射user 表到 User模型
+        arp.addMapping("department", Department.class);
     }
 
     /**
