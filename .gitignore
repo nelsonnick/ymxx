@@ -1,4 +1,6 @@
 src/main/webapp/node_modules/
+src/main/webapp/.idea/
+src/main/webapp/dist/
 .idea/dataSources.ids
 .idea/dataSources.local.xml
 .idea/workspace.xml

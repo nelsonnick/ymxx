@@ -13,9 +13,13 @@ public class DepartmentController extends Controller {
 	 * */
 
 	public void getList() {
-        List<Department> departments=Department.dao.find("select * from department");
+        List<Department> departments=Department.dao.find("select * from department where id = ?",getPara("id") );
         System.out.println(departments);
+        System.out.println(getPara("id") );
         renderJson(departments);
+    }
+    public void g() {
+        render("dist/index.html");
     }
 
 }
