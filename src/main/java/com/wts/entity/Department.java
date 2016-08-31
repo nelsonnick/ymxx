@@ -1,7 +1,7 @@
 package com.wts.entity;
 
 import com.jfinal.plugin.activerecord.Model;
-
+import com.jfinal.plugin.activerecord.Page;
 /**
  * Department model.
 
@@ -19,6 +19,9 @@ import com.jfinal.plugin.activerecord.Model;
  */
 public class Department extends Model<Department> {
     public static final Department dao = new Department();
+    public Page<Department> paginate(int pageNumber, int pageSize,String query) {
+        return paginate(pageNumber, pageSize, "select department.id,department.name,department.phone,department.address,department.state", "from department where department.name like '%"+query+"%' order by department.id desc");
+    }
  }
 
 

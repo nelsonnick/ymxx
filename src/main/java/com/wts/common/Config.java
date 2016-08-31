@@ -8,6 +8,7 @@ import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.c3p0.C3p0Plugin;
 import com.wts.controller.DepartmentController;
+import com.wts.controller.MainController;
 import com.wts.entity.Department;
 
 /**
@@ -28,7 +29,8 @@ public class Config extends JFinalConfig {
      * 配置路由
      */
     public void configRoute(Routes me) {
-        me.add("/", DepartmentController.class);
+        me.add("/", MainController.class);
+        me.add("/department", DepartmentController.class);
     }
 
     /**
