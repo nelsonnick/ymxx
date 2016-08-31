@@ -130,16 +130,19 @@ export default class DataTable extends React.Component {
           />
         );
         operate.push(<span className="ant-divider" />);
-        if (record.state === '激活') {
+        if (record.state.toString() === '激活') {
           operate.push(<Popconfirm title={`确定要注销<${record.name}>`} okText="注销" onConfirm={this.abandon.bind(this, record.key)} onCancel={this.cancel}>
             <a href="#">注销</a>
           </Popconfirm>);
-        } else {
+          operate.push(<span className="ant-divider" />);
+        } else if (record.state.toString() === '注销') {
           operate.push(<Popconfirm title={`确定要激活<${record.name}>`} okText="激活" onConfirm={this.active.bind(this, record.key)} onCancel={this.cancel}>
             <a href="#">激活</a>
           </Popconfirm>);
+          operate.push(<span className="ant-divider" />);
+        } else {
+          operate.push(<span className="ant-divider" />);
         }
-        operate.push(<span className="ant-divider" />);
         operate.push(<Popconfirm title={`确定要删除<${record.name}>`} okText="删除" onConfirm={this.delete.bind(this, record.key)} onCancel={this.cancel}>
           <a href="#">删除</a>
         </Popconfirm>);
