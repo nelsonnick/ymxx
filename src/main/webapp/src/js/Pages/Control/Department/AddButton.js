@@ -44,7 +44,7 @@ export default class AddButton extends React.Component {
       $.ajax({
         'type': 'POST',
         'url': AjaxFunction.DepartmentAdd,
-        'dataType': 'json',
+        'dataType': 'text',
         'data': {
           'name': values.departmentName,
           'phone': values.departmentPhone,
@@ -53,15 +53,15 @@ export default class AddButton extends React.Component {
           'other': values.departmentOther,
         },
         'success': (data) => {
-          if (data === 'Save Success') {
+          if (data.toString() === 'OK') {
             this.setState({
               visible: false,
               confirmLoading: false,
             });
             this.refs.AddForm.resetFields();
-            openNotificationWithIcon('success', '保存成功', '保存成功，请进行后续操作');
+            openNotificationWithIcon('success', '保存成功', `~~${values.departmentName}~~保存成功，请进行后续操作`);
           } else {
-            openNotificationWithIcon('error', '保存失败', '无法进行保存操作，请检查输入的内容');
+            openNotificationWithIcon('error', '保存失败', `无法进行保存操作： ${data.toString()}`);
             this.setState({
               confirmLoading: false,
             });

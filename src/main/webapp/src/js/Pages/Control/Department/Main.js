@@ -79,7 +79,7 @@ export default class DepCont extends React.Component {
     $.ajax({
       'type': 'POST',
       'url': AjaxFunction.DepartmentTotalCount,
-      'dataType': 'json',
+      'dataType': 'text',
       'data': {
         'PageNumber': this.state.PageNumber,
         'PageSize': this.state.PageSize,
@@ -187,13 +187,12 @@ export default class DepCont extends React.Component {
         );
       },
     });
-    console.log(this.state.DataCount);
     $.ajax({
       'type': 'POST',
       'url': AjaxFunction.DepartmentTotalCount,
-      'dataType': 'json',
+      'dataType': 'text',
       'data': {
-        'QueryString': this.state.QueryString,
+        'QueryString': QueryStrings,
       },
       'success': (data) => {
         this.setState(
@@ -211,7 +210,6 @@ export default class DepCont extends React.Component {
         );
       },
     });
-    console.log(this.state.DataCount);
   }
   PageChange(page) {
     this.setState({
@@ -272,7 +270,7 @@ export default class DepCont extends React.Component {
     $.ajax({
       'type': 'POST',
       'url': AjaxFunction.DepartmentTotalCount,
-      'dataType': 'json',
+      'dataType': 'text',
       'success': (data) => {
         this.setState(
           {

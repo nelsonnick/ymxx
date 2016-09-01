@@ -19,13 +19,13 @@ class AddFrom extends React.Component {
       $.ajax({
         'type': 'POST',
         'url': AjaxFunction.DepartmentName,
-        'dataType': 'json',
+        'dataType': 'text',
         'data': { 'name': value },
         'success': (data) => {
-          if (data === '正常') {
+          if (data.toString() === 'OK') {
             callback();
           } else {
-            callback(new Error(data));
+            callback(new Error(data.toString()));
           }
         },
         'error': () => {
@@ -41,13 +41,13 @@ class AddFrom extends React.Component {
       $.ajax({
         'type': 'POST',
         'url': AjaxFunction.DepartmentPhone,
-        'dataType': 'json',
+        'dataType': 'text',
         'data': { 'phone': value },
         'success': (data) => {
-          if (data === '正常') {
+          if (data.toString() === 'OK') {
             callback();
           } else {
-            callback(new Error(data));
+            callback(new Error(data.toString()));
           }
         },
         'error': () => {
@@ -63,13 +63,13 @@ class AddFrom extends React.Component {
       $.ajax({
         'type': 'POST',
         'url': AjaxFunction.DepartmentAddress,
-        'dataType': 'json',
+        'dataType': 'text',
         'data': { 'address': value },
         'success': (data) => {
-          if (data === '正常') {
+          if (data.toString() === 'OK') {
             callback();
           } else {
-            callback(new Error(data));
+            callback(new Error(data.toString()));
           }
         },
         'error': () => {
@@ -102,6 +102,11 @@ class AddFrom extends React.Component {
         { required: true, whitespace: true, message: '必填项' },
         { validator: this.departmentAddressCheck },
       ],
+    });
+    const departmentStateProps = getFieldProps('departmentState', {
+      initialValue: '激活',
+    });
+    const departmentOtherProps = getFieldProps('departmentOther', {
     });
     return (
       <Form horizontal>
@@ -137,9 +142,9 @@ class AddFrom extends React.Component {
           {...formItemLayout}
           required
         >
-          <Select size="large" defaultValue="1" >
-            <Option value="1">激活</Option>
-            <Option value="0">注销</Option>
+          <Select size="large" {...departmentStateProps} >
+            <Option value="激活">激活</Option>
+            <Option value="注销">注销</Option>
           </Select>
         </FormItem>
         <FormItem
@@ -147,7 +152,7 @@ class AddFrom extends React.Component {
           {...formItemLayout}
           hasFeedback
         >
-          <Input type="textarea" rows="3" placeholder="其他需要填写的信息" />
+          <Input type="textarea" rows="3" placeholder="其他需要填写的信息" {...departmentOtherProps} />
         </FormItem>
       </Form>
     );
