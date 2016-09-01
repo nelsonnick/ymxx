@@ -46,7 +46,7 @@ export default class DataTable extends React.Component {
     $.ajax({
       'type': 'POST',
       'url': AjaxFunction.DepartmentAbandon,
-      'dataType': 'json',
+      'dataType': 'text',
       'data': {
         'id': DepartmentId,
       },

@@ -106,7 +106,12 @@ public class DepartmentController extends Controller {
             }
         }
     }
+    /**
+     * 注销部门
+     */
+    public void abandon(){
 
+    }
 
 
 

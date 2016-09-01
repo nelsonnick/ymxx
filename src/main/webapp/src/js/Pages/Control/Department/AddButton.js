@@ -60,6 +60,7 @@ export default class AddButton extends React.Component {
             });
             this.refs.AddForm.resetFields();
             openNotificationWithIcon('success', '保存成功', `~~${values.departmentName}~~保存成功，请进行后续操作`);
+            this.props.afterAdd();
           } else {
             openNotificationWithIcon('error', '保存失败', `无法进行保存操作： ${data.toString()}`);
             this.setState({
@@ -114,3 +115,6 @@ export default class AddButton extends React.Component {
     );
   }
 }
+AddButton.propTypes = {
+  afterAdd: React.PropTypes.func,
+};

@@ -39,11 +39,10 @@ export default class DepCont extends React.Component {
       QueryString: '',   // 当前的搜索字符
     };
     this.getQuery = this.getQuery.bind(this);
+    this.resetPage = this.resetPage.bind(this);
     this.onShowSizeChange = this.onShowSizeChange.bind(this);
     this.onChange = this.onChange.bind(this);
-    this.PageChange = this.PageChange.bind(this);
-    this.AfterDelete = this.AfterDelete.bind(this);
-    this.AfterAdd = this.AfterAdd.bind(this);
+    this.AfterAddAndDelete = this.AfterAddAndDelete.bind(this);
     this.AfterEditAndState = this.AfterEditAndState.bind(this);
   }
 
@@ -102,6 +101,7 @@ export default class DepCont extends React.Component {
       },
     });
   }
+
   onChange(PageNumbers) {
     $.ajax({
       'type': 'POST',
@@ -211,66 +211,44 @@ export default class DepCont extends React.Component {
       },
     });
   }
-  PageChange(page) {
-    this.setState({
-      PageNumber: page,
-    });
+  resetPage() {
     $.ajax({
       'type': 'POST',
       'url': AjaxFunction.DepartmentQuery,
       'dataType': 'json',
       'data': {
-        'PageNumber': this.state.PageNumber,
+        'PageNumber': '1',
         'PageSize': this.state.PageSize,
-        'QueryString': this.state.QueryString,
+        'QueryString': '',
       },
       'success': (data) => {
         this.setState(
           {
             DataTable: data,
+            PageNumber: '1',
+            PageSize: this.state.PageSize,
+            QueryString: '',
           }
         );
       },
       'error': () => {
         openNotificationWithIcon('error', '请求错误', '无法完成刷新列表，请检查网络情况');
-        this.setState(
-          {
-            DataTable: [],
-          }
-        );
-      },
-    });
-  }
-  AfterDelete() {
-    $.ajax({
-      'type': 'POST',
-      'url': AjaxFunction.DepartmentQuery,
-      'dataType': 'json',
-      'data': {
-        'PageNumber': this.state.PageNumber,
-        'PageSize': this.state.PageSize,
-        'QueryString': this.state.QueryString,
-      },
-      'success': (data) => {
-        this.setState(
-          {
-            DataTable: data,
-          }
-        );
-      },
-      'error': () => {
-        openNotificationWithIcon('error', '请求错误', '无法完成刷新列表，请检查网络情况');
-        this.setState(
-          {
-            DataTable: [],
-          }
-        );
+        // this.setState(
+        //   {
+        //     DataTable: tableDat, // 这里暂时用演示数据
+        //   }
+        // );
       },
     });
     $.ajax({
       'type': 'POST',
       'url': AjaxFunction.DepartmentTotalCount,
       'dataType': 'text',
+      'data': {
+        'PageNumber': '1',
+        'PageSize': '10',
+        'QueryString': '',
+      },
       'success': (data) => {
         this.setState(
           {
@@ -288,7 +266,7 @@ export default class DepCont extends React.Component {
       },
     });
   }
-  AfterAdd() {
+  AfterAddAndDelete() {
     $.ajax({
       'type': 'POST',
       'url': AjaxFunction.DepartmentQuery,
@@ -301,7 +279,9 @@ export default class DepCont extends React.Component {
       'success': (data) => {
         this.setState(
           {
+            PageNumber: '1',
             DataTable: data,
+            QueryString: '',
           }
         );
       },
@@ -317,11 +297,18 @@ export default class DepCont extends React.Component {
     $.ajax({
       'type': 'POST',
       'url': AjaxFunction.DepartmentTotalCount,
-      'dataType': 'json',
+      'dataType': 'text',
+      'data': {
+        'PageNumber': '1',
+        'PageSize': this.state.PageSize,
+        'QueryString': '',
+      },
       'success': (data) => {
         this.setState(
           {
             DataCount: data,
+            PageNumber: '1',
+            QueryString: '',
           }
         );
       },
@@ -339,7 +326,7 @@ export default class DepCont extends React.Component {
   AfterEditAndState() {
     $.ajax({
       'type': 'POST',
-      'url': AjaxFunction.DepartmentPaginate,
+      'url': AjaxFunction.DepartmentQuery,
       'dataType': 'json',
       'data': {
         'PageNumber': this.state.PageNumber,
@@ -368,8 +355,8 @@ export default class DepCont extends React.Component {
     return (
       <div>
         <Row type="flex" justify="start">
-          <Col span={12}><AddButton /></Col>
-          <Col span={12}><DataSearch setQuery={this.getQuery} /></Col>
+          <Col span={12}><AddButton afterAdd={this.AfterAddAndDelete} QueryString={this.state.QueryString} /></Col>
+          <Col span={12}><DataSearch setQuery={this.getQuery} resetPage={this.resetPage} /></Col>
         </Row>
         <Row>
           <span style={{ 'font-size': '5px' }}>&nbsp;&nbsp;&nbsp;</span>
