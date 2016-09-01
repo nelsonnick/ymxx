@@ -47,6 +47,7 @@ export default class DepCont extends React.Component {
   }
 
   componentWillMount() {
+    console.log('1');
     $.ajax({
       'type': 'POST',
       'url': AjaxFunction.DepartmentQuery,
@@ -362,7 +363,7 @@ export default class DepCont extends React.Component {
           <span style={{ 'font-size': '5px' }}>&nbsp;&nbsp;&nbsp;</span>
         </Row>
         <Row>
-          <DataTable tableData={this.state.DataTable} />
+          <DataTable tableData={this.state.DataTable} afterState={this.AfterEditAndState} afterDelete={this.AfterAddAndDelete} />
         </Row>
         <Row>
           <span style={{ 'font-size': '20px' }}>&nbsp;&nbsp;&nbsp;</span>

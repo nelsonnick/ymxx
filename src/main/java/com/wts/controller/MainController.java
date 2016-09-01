@@ -8,7 +8,7 @@ public class MainController extends Controller {
 	/**
 	 * 主界面
 	 * */
-    public void main() {
+    public void index() {
         render("dist/index.html");
     }
 

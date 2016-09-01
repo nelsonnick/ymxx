@@ -21,13 +21,13 @@ class EditFrom extends React.Component {
       $.ajax({
         'type': 'POST',
         'url': AjaxFunction.DepartmentName,
-        'dataType': 'json',
+        'dataType': 'text',
         'data': { 'name': value },
         'success': (data) => {
-          if (data === '正常') {
+          if (data.toString() === 'OK') {
             callback();
           } else {
-            callback(new Error(data));
+            callback(new Error(data.toString()));
           }
         },
         'error': () => {
@@ -43,13 +43,13 @@ class EditFrom extends React.Component {
       $.ajax({
         'type': 'POST',
         'url': AjaxFunction.DepartmentPhone,
-        'dataType': 'json',
+        'dataType': 'text',
         'data': { 'phone': value },
         'success': (data) => {
-          if (data === '正常') {
+          if (data.toString() === 'OK') {
             callback();
           } else {
-            callback(new Error(data));
+            callback(new Error(data.toString()));
           }
         },
         'error': () => {
@@ -65,13 +65,13 @@ class EditFrom extends React.Component {
       $.ajax({
         'type': 'POST',
         'url': AjaxFunction.DepartmentAddress,
-        'dataType': 'json',
+        'dataType': 'text',
         'data': { 'address': value },
         'success': (data) => {
-          if (data === '正常') {
+          if (data.toString() === '正常') {
             callback();
           } else {
-            callback(new Error(data));
+            callback(new Error(data.toString()));
           }
         },
         'error': () => {
@@ -82,11 +82,14 @@ class EditFrom extends React.Component {
   }
   render() {
     const { getFieldProps, getFieldError, isFieldValidating } = this.props.form;
-    const { departmentName, departmentPhone, departmentAddress, departmentState, departmentOther } = this.props;
+    const { departmentId, departmentName, departmentPhone, departmentAddress, departmentState, departmentOther } = this.props;
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 14 },
     };
+    const departmentIdProps = getFieldProps('departmentId', {
+      initialValue: departmentId,
+    });
     const departmentNameProps = getFieldProps('departmentName', {
       rules: [
         { required: true, whitespace: true, message: '必填项' },
@@ -108,8 +111,20 @@ class EditFrom extends React.Component {
       ],
       initialValue: departmentAddress,
     });
+    const departmentStateProps = getFieldProps('departmentState', {
+      initialValue: departmentState,
+    });
+    const departmentOtherProps = getFieldProps('departmentOther', {
+      initialValue: departmentOther,
+    });
     return (
       <Form horizontal>
+        <FormItem
+          label=""
+          {...formItemLayout}
+        >
+          <Input type="hidden" {...departmentIdProps} />
+        </FormItem>
         <FormItem
           label="部门名称"
           {...formItemLayout}
@@ -142,9 +157,9 @@ class EditFrom extends React.Component {
           {...formItemLayout}
           required
         >
-          <Select size="large" defaultValue={departmentState} >
-            <Option value="1">激活</Option>
-            <Option value="0">注销</Option>
+          <Select size="large" {...departmentStateProps} >
+            <Option value="注销">激活</Option>
+            <Option value="激活">注销</Option>
           </Select>
         </FormItem>
         <FormItem
@@ -152,7 +167,7 @@ class EditFrom extends React.Component {
           {...formItemLayout}
           hasFeedback
         >
-          <Input type="textarea" rows="3" placeholder="其他需要填写的信息" defaultValue={departmentOther} />
+          <Input type="textarea" rows="3" placeholder="其他需要填写的信息" {...departmentOtherProps} />
         </FormItem>
       </Form>
     );

@@ -33,7 +33,7 @@ public class DepartmentController extends Controller {
      *@param: QueryString
      */
     public void totalCount() {
-        String totalCount = Db.queryLong("select count(*) from department where name like '%"+ getPara("QueryString") +"%'").toString();
+        String totalCount = Db.queryLong("select count(*) from department where name like '%"+ getPara("QueryString") +"%' and state<>'删除'").toString();
         renderText(totalCount);
     }
 
@@ -106,15 +106,61 @@ public class DepartmentController extends Controller {
             }
         }
     }
+
     /**
      * 注销部门
      */
     public void abandon(){
-
+        Department department = Department.dao.findById(getPara("id"));
+        if (department == null) {
+            renderText("要注销的部门不存在，请刷新页面后再试！");
+        }else if (department.get("state").equals("注销")){
+            renderText("该部门已注销！");
+        }else{
+            if (Department.dao.findById(getPara("id")).set("state", "注销").update()){
+                renderText("OK");
+            } else {
+                renderText("发生未知错误，请检查数据库！");
+            }
+        }
     }
 
+    /**
+     * 激活部门
+     */
+    public void active(){
+        Department department = Department.dao.findById(getPara("id"));
+        System.out.println(getPara("id"));
+        if (department == null) {
+            renderText("要激活的部门不存在，请刷新页面后再试！");
+        }else if (department.get("state").equals("激活")){
+            renderText("该部门已激活！");
+        }else{
+            if (department.set("state", "激活").update()){
+                renderText("OK");
+            } else {
+                renderText("发生未知错误，请检查数据库！");
+            }
+        }
+    }
 
-
+    /**
+     * 删除部门
+     */
+    public void delete(){
+        Department department = Department.dao.findById(getPara("id"));
+        if (department == null) {
+            renderText("要删除的部门不存在，请刷新页面后再试！");
+        }else if (department.get("state").equals("删除")){
+            renderText("该部门已删除！");
+        }else{
+            if (Department.dao.findById(getPara("id")).set("state", "删除").update()){
+                renderText("OK");
+            } else {
+                renderText("发生未知错误，请检查数据库！");
+            }
+        }
+    }
 }
 
 

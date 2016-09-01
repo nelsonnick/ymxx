@@ -19,21 +19,23 @@ export default class DataTable extends React.Component {
     this.active = this.active.bind(this);
     this.delete = this.delete.bind(this);
     this.cancel = this.cancel.bind(this);
+    this.afterEdit = this.afterEdit.bind(this);
   }
 
   active(DepartmentId) {
     $.ajax({
       'type': 'POST',
       'url': AjaxFunction.DepartmentActive,
-      'dataType': 'json',
+      'dataType': 'text',
       'data': {
         'id': DepartmentId,
       },
       'success': (data) => {
-        if (data === 'Active Success') {
+        if (data.toString() === 'OK') {
+          this.props.afterState();
           openNotificationWithIcon('success', '激活成功', '激活成功，请进行后续操作');
         } else {
-          openNotificationWithIcon('error', '激活失败', '无法进行激活操作，请刷新页面');
+          openNotificationWithIcon('error', '激活失败', data.toString());
         }
       },
       'error': () => {
@@ -51,10 +53,11 @@ export default class DataTable extends React.Component {
         'id': DepartmentId,
       },
       'success': (data) => {
-        if (data === 'Active Success') {
+        if (data.toString() === 'OK') {
+          this.props.afterState();
           openNotificationWithIcon('success', '注销成功', '注销成功，请进行后续操作');
         } else {
-          openNotificationWithIcon('error', '注销失败', '无法进行注销操作，请刷新页面');
+          openNotificationWithIcon('error', '注销失败', data.toString());
         }
       },
       'error': () => {
@@ -66,15 +69,16 @@ export default class DataTable extends React.Component {
     $.ajax({
       'type': 'POST',
       'url': AjaxFunction.DepartmentDelete,
-      'dataType': 'json',
+      'dataType': 'text',
       'data': {
         'id': DepartmentId,
       },
       'success': (data) => {
-        if (data === 'Delete Success') {
+        if (data.toString() === 'OK') {
+          this.props.afterDelete();
           openNotificationWithIcon('success', '删除成功', '删除成功，请进行后续操作');
         } else {
-          openNotificationWithIcon('error', '删除失败', '无法进行删除操作，请刷新页面');
+          openNotificationWithIcon('error', '删除失败', data.toString());
         }
       },
       'error': () => {
@@ -82,7 +86,9 @@ export default class DataTable extends React.Component {
       },
     });
   }
-
+  afterEdit() {
+    this.props.afterState();
+  }
   cancel() {
     message.error('点击了取消');
   }
@@ -110,7 +116,7 @@ export default class DataTable extends React.Component {
         const operate = [];
         operate.push(
           <LookLink
-            departmentId={record.key}
+            departmentId={record.id}
             departmentName={record.name}
             departmentAddress={record.address}
             departmentPhone={record.phone}
@@ -121,29 +127,30 @@ export default class DataTable extends React.Component {
         operate.push(<span className="ant-divider" />);
         operate.push(
           <EditLink
-            departmentId={record.key}
+            departmentId={record.id}
             departmentName={record.name}
             departmentAddress={record.address}
             departmentPhone={record.phone}
             departmentState={record.state}
             departmentOther={record.other}
+            afterEdit={this.afterEdit}
           />
         );
         operate.push(<span className="ant-divider" />);
         if (record.state.toString() === '激活') {
-          operate.push(<Popconfirm title={`确定要注销<${record.name}>`} okText="注销" onConfirm={this.abandon.bind(this, record.key)} onCancel={this.cancel}>
+          operate.push(<Popconfirm title={`确定要注销<${record.name}>`} okText="注销" onConfirm={this.abandon.bind(this, record.id)} onCancel={this.cancel}>
             <a href="#">注销</a>
           </Popconfirm>);
           operate.push(<span className="ant-divider" />);
         } else if (record.state.toString() === '注销') {
-          operate.push(<Popconfirm title={`确定要激活<${record.name}>`} okText="激活" onConfirm={this.active.bind(this, record.key)} onCancel={this.cancel}>
+          operate.push(<Popconfirm title={`确定要激活<${record.name}>`} okText="激活" onConfirm={this.active.bind(this, record.id)} onCancel={this.cancel}>
             <a href="#">激活</a>
           </Popconfirm>);
           operate.push(<span className="ant-divider" />);
         } else {
           operate.push(<span className="ant-divider" />);
         }
-        operate.push(<Popconfirm title={`确定要删除<${record.name}>`} okText="删除" onConfirm={this.delete.bind(this, record.key)} onCancel={this.cancel}>
+        operate.push(<Popconfirm title={`确定要删除<${record.name}>`} okText="删除" onConfirm={this.delete.bind(this, record.id)} onCancel={this.cancel}>
           <a href="#">删除</a>
         </Popconfirm>);
         operate.push(<span className="ant-divider" />);
@@ -168,4 +175,7 @@ export default class DataTable extends React.Component {
 
 DataTable.propTypes = {
   tableData: React.PropTypes.array,
+  afterState: React.PropTypes.func,
+  afterEdit: React.PropTypes.func,
+  afterDelete: React.PropTypes.func,
 };

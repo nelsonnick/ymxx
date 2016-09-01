@@ -44,7 +44,7 @@ export default class EditLink extends React.Component {
       $.ajax({
         'type': 'POST',
         'url': AjaxFunction.DepartmentEdit,
-        'dataType': 'json',
+        'dataType': 'text',
         'data': {
           'id': values.departmentId,
           'name': values.departmentName,
@@ -54,15 +54,16 @@ export default class EditLink extends React.Component {
           'other': values.departmentOther,
         },
         'success': (data) => {
-          if (data === 'Edit Success') {
+          if (data.toString() === 'OK') {
             this.setState({
               visible: false,
               confirmLoading: false,
             });
+            this.props.afterEdit();
             this.refs.EditForm.resetFields();
             openNotificationWithIcon('success', '修改成功', '修改成功，请进行后续操作');
           } else {
-            openNotificationWithIcon('error', '修改失败', '无法进行修改操作，请检查输入的内容');
+            openNotificationWithIcon('error', '修改失败', data.toString());
             this.setState({
               confirmLoading: false,
             });
@@ -124,10 +125,11 @@ export default class EditLink extends React.Component {
   }
 }
 EditLink.propTypes = {
-  departmentId: React.PropTypes.number,
+  departmentId: React.PropTypes.string,
   departmentName: React.PropTypes.string,
   departmentAddress: React.PropTypes.string,
   departmentPhone: React.PropTypes.string,
   departmentState: React.PropTypes.string,
   departmentOther: React.PropTypes.string,
+  afterEdit: React.PropTypes.func,
 };
