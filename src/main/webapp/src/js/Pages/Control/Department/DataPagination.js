@@ -13,7 +13,7 @@ export default class DataPagination extends React.Component {
           onChange={onChange}
           defaultCurrent={1}
           total={DataCount}
-          PageNow={PageNumber}
+          current={PageNumber}
           showTotal={total => `共 ${total} 条`}
           selectComponentClass={Select}
         />

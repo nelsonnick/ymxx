@@ -33,7 +33,7 @@ public class DepartmentController extends Controller {
      */
     public void totalCount() {
         String totalCount = Db.queryLong("select count(*) from department where name like '%"+ getPara("QueryString") +"%'").toString();
-        System.out.println(totalCount);
+        System.out.println(getPara("QueryString"));
         System.out.println("select count(*) from department where name like '%"+ getPara("QueryString") +"%'");
         renderText(totalCount);
     }

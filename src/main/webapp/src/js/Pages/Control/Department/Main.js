@@ -159,7 +159,7 @@ export default class DepCont extends React.Component {
       },
     });
   }
-  getQuery(QueryStrings) {
+  getQuery(QueryStrings = '') {
     $.ajax({
       'type': 'POST',
       'url': AjaxFunction.DepartmentQuery,
@@ -187,13 +187,12 @@ export default class DepCont extends React.Component {
         );
       },
     });
+    console.log(this.state.DataCount);
     $.ajax({
       'type': 'POST',
       'url': AjaxFunction.DepartmentTotalCount,
       'dataType': 'json',
       'data': {
-        'PageNumber': this.state.PageNumber,
-        'PageSize': this.state.PageSize,
         'QueryString': this.state.QueryString,
       },
       'success': (data) => {
@@ -212,6 +211,7 @@ export default class DepCont extends React.Component {
         );
       },
     });
+    console.log(this.state.DataCount);
   }
   PageChange(page) {
     this.setState({

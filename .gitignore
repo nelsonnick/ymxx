@@ -5,3 +5,7 @@ src/main/webapp/dist/
 .idea/dataSources.local.xml
 .idea/workspace.xml
 target/
+.idea/dataSources/
+jfinal_demo.log
+src/main/webapp/WEB-INF/classes/
+src/main/webapp/WEB-INF/lib/
