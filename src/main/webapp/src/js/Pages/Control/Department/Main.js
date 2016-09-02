@@ -98,6 +98,7 @@ export default class DepCont extends React.Component {
         openNotificationWithIcon('error', '请求错误', '无法完成数据读取，请检查网络情况');
         this.setState(
           {
+            Loading: false,
             DataCount: '0',
           }
         );

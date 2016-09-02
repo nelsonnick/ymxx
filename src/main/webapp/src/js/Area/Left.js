@@ -55,9 +55,7 @@ export default class Left extends React.Component {
 
   render() {
     return (
-      <div>
-        <SystemMenu menuLabel={this.setMenuLabel} rolePower={rolePower} />
-      </div>
+      <SystemMenu menuLabel={this.setMenuLabel} rolePower={rolePower} />
     );
   }
 }

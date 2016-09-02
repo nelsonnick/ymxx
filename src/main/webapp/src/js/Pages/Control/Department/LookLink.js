@@ -29,7 +29,7 @@ export default class LookLink extends React.Component {
     const { departmentId, departmentName, departmentPhone, departmentAddress, departmentState, departmentOther } = this.props;
     return (
       <span>
-        <a onClick={this.showModal}>部门详情</a>
+        <a onClick={this.showModal}>详情</a>
         <Modal
           maskClosable={false}
           title="详情"

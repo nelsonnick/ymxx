@@ -168,15 +168,17 @@ export default class DataTable extends React.Component {
     }];
     const { tableData, loading } = this.props;
     return (
-      <Table
-        scroll={{ y: 480 }}
-        useFixedHeader="true"
-        rowKey={record => record.id}
-        columns={columns}
-        dataSource={tableData}
-        loading={loading}
-        pagination={false}
-      />
+      <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.3)' }}>
+        <Table
+          scroll={{ y: 480 }}
+          useFixedHeader="true"
+          rowKey={record => record.id}
+          columns={columns}
+          dataSource={tableData}
+          loading={loading}
+          pagination={false}
+        />
+      </div>
     );
   }
 }
