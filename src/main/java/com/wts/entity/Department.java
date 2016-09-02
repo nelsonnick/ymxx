@@ -20,7 +20,7 @@ import com.jfinal.plugin.activerecord.Page;
 public class Department extends Model<Department> {
     public static final Department dao = new Department();
     public Page<Department> paginate(int pageNumber, int pageSize,String query) {
-        return paginate(pageNumber, pageSize, "select id,name,phone,address,state", "from department where name like '%"+query+"%' and state<>'删除' order by id desc");
+        return paginate(pageNumber, pageSize, "select *", "from department where name like '%"+query+"%' and state<>'删除' order by id desc");
     }
 
  }

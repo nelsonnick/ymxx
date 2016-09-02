@@ -32,9 +32,9 @@ public class DepartmentController extends Controller {
      * 查询部门数量
      *@param: QueryString
      */
-    public void totalCount() {
-        String totalCount = Db.queryLong("select count(*) from department where name like '%"+ getPara("QueryString") +"%' and state<>'删除'").toString();
-        renderText(totalCount);
+    public void count() {
+        String count = Db.queryLong("select count(*) from department where name like '%"+ getPara("QueryString") +"%' and state<>'删除'").toString();
+        renderText(count);
     }
 
     /**
@@ -54,7 +54,19 @@ public class DepartmentController extends Controller {
             renderText("OK");
         }
     }
-
+    /**
+     * 核查部门名称
+     *@param: names
+     */
+    public void names() {
+        if (!getPara("name").matches("[\u4e00-\u9fa5]+")) {
+            renderText("部门名称必须为汉字!");
+        } else if (getPara("name").length() < 3) {
+            renderText("部门名称必须超过3个汉字!");
+        } else {
+            renderText("OK");
+        }
+    }
     /**
      * 核查部门电话
      */
@@ -154,13 +166,44 @@ public class DepartmentController extends Controller {
         }else if (department.get("state").equals("删除")){
             renderText("该部门已删除！");
         }else{
-            if (Department.dao.findById(getPara("id")).set("state", "删除").update()){
+            if (department.set("state", "删除").update()){
                 renderText("OK");
             } else {
                 renderText("发生未知错误，请检查数据库！");
             }
         }
     }
+    /**
+     * 修改部门
+     */
+    public void edit(){
+        Department department = Department.dao.findById(getPara("id"));
+
+        if (department == null) {
+            renderText("要修改的部门不存在，请刷新页面后再试！");
+        } else {
+            if (department.get("name").equals(getPara("name"))
+                && department.get("phone").equals(getPara("phone"))
+                && department.get("address").equals(getPara("address"))
+                && department.get("other").equals(getPara("other"))
+                    ) {
+                renderText("未找到修改内容，请核实后再修改！");
+            } else if (!department.get("name").equals(getPara("name"))
+                    && Department.dao.find("select * from department where name=?", getPara("name")).size() > 0
+                    ){
+                renderText("该部门名称已存在，请重新修改！");
+            } else {
+                if (department
+                        .set("name",getPara("name"))
+                        .set("phone",getPara("phone"))
+                        .set("address",getPara("address"))
+                        .set("other",getPara("other"))
+                        .update()) {
+                    renderText("OK");
+                } else{
+                    renderText("发生未知错误，请检查数据库！");
+                }
+            }
+        }
+    }
 }
-
-

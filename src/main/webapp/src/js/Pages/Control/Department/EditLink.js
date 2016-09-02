@@ -1,4 +1,5 @@
 import { Modal, Button, notification } from 'antd';
+// import Btn from 'react-bootstrap/lib/Button';
 import React from 'react';
 import EditForm from './EditForm';
 import * as AjaxFunction from '../../../Util/AjaxFunction.js';
@@ -50,7 +51,6 @@ export default class EditLink extends React.Component {
           'name': values.departmentName,
           'phone': values.departmentPhone,
           'address': values.departmentAddress,
-          'state': values.departmentState,
           'other': values.departmentOther,
         },
         'success': (data) => {
@@ -96,7 +96,7 @@ export default class EditLink extends React.Component {
     const { departmentId, departmentName, departmentPhone, departmentAddress, departmentState, departmentOther } = this.props;
     return (
       <span>
-        <a onClick={this.showModal}>修改部门信息</a>
+        <a onClick={this.showModal}>修改</a>
         <Modal
           maskClosable={false}
           title="修改部门信息"

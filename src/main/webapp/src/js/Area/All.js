@@ -6,7 +6,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 
-
 class All extends React.Component {
   constructor(props) {
     super(props);
@@ -27,6 +26,9 @@ class All extends React.Component {
       <div>
         <Row>
           <Col span={24}><Top /></Col>
+        </Row>
+        <Row>
+          <span style={{ 'font-size': '10px' }}>&nbsp;&nbsp;&nbsp;</span>
         </Row>
         <Row type="flex" justify="start">
           <Col span={3}><Left menuLabel={this.setMenuLabel} /></Col>

@@ -38,9 +38,9 @@ class LookFrom extends React.Component {
           {...formItemLayout}
           required
         >
-          <Select size="large" disabled="true" value={departmentState} >
-            <Option value="1">激活</Option>
-            <Option value="0">注销</Option>
+          <Select size="large" disabled value={departmentState} >
+            <Option value="激活">激活</Option>
+            <Option value="注销">注销</Option>
           </Select>
         </FormItem>
         <FormItem

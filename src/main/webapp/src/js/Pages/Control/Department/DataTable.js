@@ -1,10 +1,10 @@
 import React from 'react';
 import { Table, Popconfirm, message, notification } from 'antd';
+// import { Button } from 'react-bootstrap';
 import $ from 'jquery';
 import EditLink from './EditLink.js';
 import LookLink from './LookLink.js';
 import * as AjaxFunction from '../../../Util/AjaxFunction.js';
-
 const openNotificationWithIcon = (type, msg, desc) => {
   notification[type]({
     message: msg,
@@ -97,21 +97,26 @@ export default class DataTable extends React.Component {
       title: '部门名称',
       dataIndex: 'name',
       key: 'name',
+      width: 150,
     }, {
       title: '办公电话',
       dataIndex: 'phone',
       key: 'phone',
+      width: 150,
     }, {
       title: '办公地点',
       dataIndex: 'address',
       key: 'address',
+      width: 200,
     }, {
       title: '当前状态',
       dataIndex: 'state',
       key: 'state',
+      width: 100,
     }, {
       title: '操作',
       key: 'operation',
+      width: 150,
       render: (text, record) => {
         const operate = [];
         operate.push(
@@ -138,19 +143,19 @@ export default class DataTable extends React.Component {
         );
         operate.push(<span className="ant-divider" />);
         if (record.state.toString() === '激活') {
-          operate.push(<Popconfirm title={`确定要注销<${record.name}>`} okText="注销" onConfirm={this.abandon.bind(this, record.id)} onCancel={this.cancel}>
+          operate.push(<Popconfirm title={`确定要注销部门<${record.name}>？`} okText="注销" onConfirm={this.abandon.bind(this, record.id)} onCancel={this.cancel}>
             <a href="#">注销</a>
           </Popconfirm>);
           operate.push(<span className="ant-divider" />);
         } else if (record.state.toString() === '注销') {
-          operate.push(<Popconfirm title={`确定要激活<${record.name}>`} okText="激活" onConfirm={this.active.bind(this, record.id)} onCancel={this.cancel}>
+          operate.push(<Popconfirm title={`确定要激活部门<${record.name}>？`} okText="激活" onConfirm={this.active.bind(this, record.id)} onCancel={this.cancel}>
             <a href="#">激活</a>
           </Popconfirm>);
           operate.push(<span className="ant-divider" />);
         } else {
           operate.push(<span className="ant-divider" />);
         }
-        operate.push(<Popconfirm title={`确定要删除<${record.name}>`} okText="删除" onConfirm={this.delete.bind(this, record.id)} onCancel={this.cancel}>
+        operate.push(<Popconfirm title={`确定要删除部门<${record.name}>？`} okText="删除" onConfirm={this.delete.bind(this, record.id)} onCancel={this.cancel}>
           <a href="#">删除</a>
         </Popconfirm>);
         operate.push(<span className="ant-divider" />);
@@ -161,12 +166,15 @@ export default class DataTable extends React.Component {
         );
       },
     }];
-    const { tableData } = this.props;
+    const { tableData, loading } = this.props;
     return (
       <Table
+        scroll={{ y: 480 }}
+        useFixedHeader="true"
         rowKey={record => record.id}
         columns={columns}
         dataSource={tableData}
+        loading={loading}
         pagination={false}
       />
     );
@@ -178,4 +186,5 @@ DataTable.propTypes = {
   afterState: React.PropTypes.func,
   afterEdit: React.PropTypes.func,
   afterDelete: React.PropTypes.func,
+  loading: React.PropTypes.bool,
 };

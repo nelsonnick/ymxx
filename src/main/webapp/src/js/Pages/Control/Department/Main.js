@@ -6,6 +6,7 @@ import DataPagination from './DataPagination.js';
 import AddButton from './AddButton.js';
 import * as AjaxFunction from '../../../Util/AjaxFunction.js';
 import $ from 'jquery';
+import QueueAnim from 'rc-queue-anim';
 // const tableDat = [
 //   { key: '1',
 //     name: '胡彦斌',
@@ -37,6 +38,7 @@ export default class DepCont extends React.Component {
       PageNumber: '1',   // 当前页的页码
       DataCount: '0',    // 当前数据的总数量
       QueryString: '',   // 当前的搜索字符
+      Loading: true,     // 数据加载情况
     };
     this.getQuery = this.getQuery.bind(this);
     this.resetPage = this.resetPage.bind(this);
@@ -47,7 +49,6 @@ export default class DepCont extends React.Component {
   }
 
   componentWillMount() {
-    console.log('1');
     $.ajax({
       'type': 'POST',
       'url': AjaxFunction.DepartmentQuery,
@@ -78,7 +79,7 @@ export default class DepCont extends React.Component {
     });
     $.ajax({
       'type': 'POST',
-      'url': AjaxFunction.DepartmentTotalCount,
+      'url': AjaxFunction.DepartmentCount,
       'dataType': 'text',
       'data': {
         'PageNumber': this.state.PageNumber,
@@ -88,6 +89,7 @@ export default class DepCont extends React.Component {
       'success': (data) => {
         this.setState(
           {
+            Loading: false,
             DataCount: data,
           }
         );
@@ -104,6 +106,11 @@ export default class DepCont extends React.Component {
   }
 
   onChange(PageNumbers) {
+    this.setState(
+      {
+        Loading: true,
+      }
+    );
     $.ajax({
       'type': 'POST',
       'url': AjaxFunction.DepartmentQuery,
@@ -116,6 +123,7 @@ export default class DepCont extends React.Component {
       'success': (data) => {
         this.setState(
           {
+            Loading: false,
             DataTable: data,
             PageNumber: PageNumbers,
           }
@@ -132,6 +140,11 @@ export default class DepCont extends React.Component {
     });
   }
   onShowSizeChange(PageNumbers, PageSizes) {
+    this.setState(
+      {
+        Loading: true,
+      }
+    );
     $.ajax({
       'type': 'POST',
       'url': AjaxFunction.DepartmentQuery,
@@ -144,6 +157,7 @@ export default class DepCont extends React.Component {
       'success': (data) => {
         this.setState(
           {
+            Loading: false,
             DataTable: data,
             PageNumber: PageNumbers,
             PageSize: PageSizes,
@@ -161,6 +175,11 @@ export default class DepCont extends React.Component {
     });
   }
   getQuery(QueryStrings = '') {
+    this.setState(
+      {
+        Loading: true,
+      }
+    );
     $.ajax({
       'type': 'POST',
       'url': AjaxFunction.DepartmentQuery,
@@ -190,7 +209,7 @@ export default class DepCont extends React.Component {
     });
     $.ajax({
       'type': 'POST',
-      'url': AjaxFunction.DepartmentTotalCount,
+      'url': AjaxFunction.DepartmentCount,
       'dataType': 'text',
       'data': {
         'QueryString': QueryStrings,
@@ -198,6 +217,7 @@ export default class DepCont extends React.Component {
       'success': (data) => {
         this.setState(
           {
+            Loading: false,
             DataCount: data,
           }
         );
@@ -213,6 +233,11 @@ export default class DepCont extends React.Component {
     });
   }
   resetPage() {
+    this.setState(
+      {
+        Loading: true,
+      }
+    );
     $.ajax({
       'type': 'POST',
       'url': AjaxFunction.DepartmentQuery,
@@ -243,7 +268,7 @@ export default class DepCont extends React.Component {
     });
     $.ajax({
       'type': 'POST',
-      'url': AjaxFunction.DepartmentTotalCount,
+      'url': AjaxFunction.DepartmentCount,
       'dataType': 'text',
       'data': {
         'PageNumber': '1',
@@ -253,6 +278,7 @@ export default class DepCont extends React.Component {
       'success': (data) => {
         this.setState(
           {
+            Loading: false,
             DataCount: data,
           }
         );
@@ -268,6 +294,11 @@ export default class DepCont extends React.Component {
     });
   }
   AfterAddAndDelete() {
+    this.setState(
+      {
+        Loading: true,
+      }
+    );
     $.ajax({
       'type': 'POST',
       'url': AjaxFunction.DepartmentQuery,
@@ -297,7 +328,7 @@ export default class DepCont extends React.Component {
     });
     $.ajax({
       'type': 'POST',
-      'url': AjaxFunction.DepartmentTotalCount,
+      'url': AjaxFunction.DepartmentCount,
       'dataType': 'text',
       'data': {
         'PageNumber': '1',
@@ -307,6 +338,7 @@ export default class DepCont extends React.Component {
       'success': (data) => {
         this.setState(
           {
+            Loading: false,
             DataCount: data,
             PageNumber: '1',
             QueryString: '',
@@ -325,6 +357,11 @@ export default class DepCont extends React.Component {
   }
 
   AfterEditAndState() {
+    this.setState(
+      {
+        Loading: true,
+      }
+    );
     $.ajax({
       'type': 'POST',
       'url': AjaxFunction.DepartmentQuery,
@@ -337,6 +374,7 @@ export default class DepCont extends React.Component {
       'success': (data) => {
         this.setState(
           {
+            Loading: false,
             DataTable: data,
           }
         );
@@ -354,24 +392,26 @@ export default class DepCont extends React.Component {
 
   render() {
     return (
-      <div>
-        <Row type="flex" justify="start">
-          <Col span={12}><AddButton afterAdd={this.AfterAddAndDelete} QueryString={this.state.QueryString} /></Col>
-          <Col span={12}><DataSearch setQuery={this.getQuery} resetPage={this.resetPage} /></Col>
-        </Row>
-        <Row>
-          <span style={{ 'font-size': '5px' }}>&nbsp;&nbsp;&nbsp;</span>
-        </Row>
-        <Row>
-          <DataTable tableData={this.state.DataTable} afterState={this.AfterEditAndState} afterDelete={this.AfterAddAndDelete} />
-        </Row>
-        <Row>
-          <span style={{ 'font-size': '20px' }}>&nbsp;&nbsp;&nbsp;</span>
-        </Row>
-        <Row>
-          <DataPagination PageNumber={this.state.PageNumber} onShowSizeChange={this.onShowSizeChange} onChange={this.onChange} DataCount={this.state.DataCount} />
-        </Row>
-      </div>
+      <QueueAnim>
+        <div key="a">
+          <Row type="flex" justify="start">
+            <Col span={12}><AddButton afterAdd={this.AfterAddAndDelete} QueryString={this.state.QueryString} /></Col>
+            <Col span={12}><DataSearch setQuery={this.getQuery} resetPage={this.resetPage} /></Col>
+          </Row>
+          <Row>
+            <span style={{ 'font-size': '5px' }}>&nbsp;&nbsp;&nbsp;</span>
+          </Row>
+          <Row>
+            <DataTable tableData={this.state.DataTable} loading={this.state.Loading} afterState={this.AfterEditAndState} afterDelete={this.AfterAddAndDelete} />
+          </Row>
+          <Row>
+            <span style={{ 'font-size': '20px' }}>&nbsp;&nbsp;&nbsp;</span>
+          </Row>
+          <Row>
+            <DataPagination PageNumber={this.state.PageNumber} onShowSizeChange={this.onShowSizeChange} onChange={this.onChange} DataCount={this.state.DataCount} />
+          </Row>
+        </div>
+      </QueueAnim>
     );
   }
 }

@@ -11,16 +11,14 @@ class EditFrom extends React.Component {
     this.departmentPhoneCheck = this.departmentPhoneCheck.bind(this);
     this.departmentAddressCheck = this.departmentAddressCheck.bind(this);
   }
-  // componentDidMount() {
-  //   console.log(this.props.departmentId);
-  // }
+
   departmentNameCheck(rule, value, callback) {
     if (!value) {
       callback();
     } else {
       $.ajax({
         'type': 'POST',
-        'url': AjaxFunction.DepartmentName,
+        'url': AjaxFunction.DepartmentNames,
         'dataType': 'text',
         'data': { 'name': value },
         'success': (data) => {
@@ -68,7 +66,7 @@ class EditFrom extends React.Component {
         'dataType': 'text',
         'data': { 'address': value },
         'success': (data) => {
-          if (data.toString() === '正常') {
+          if (data.toString() === 'OK') {
             callback();
           } else {
             callback(new Error(data.toString()));
@@ -157,9 +155,9 @@ class EditFrom extends React.Component {
           {...formItemLayout}
           required
         >
-          <Select size="large" {...departmentStateProps} >
-            <Option value="注销">激活</Option>
-            <Option value="激活">注销</Option>
+          <Select size="large" {...departmentStateProps} disabled >
+            <Option value="激活">激活</Option>
+            <Option value="注销">注销</Option>
           </Select>
         </FormItem>
         <FormItem
