@@ -93,6 +93,8 @@ export default class DataTable extends React.Component {
     message.error('点击了取消');
   }
   render() {
+    const { tableData, loading, rolePower } = this.props;
+
     const columns = [{
       title: '部门名称',
       dataIndex: 'name',
@@ -119,17 +121,23 @@ export default class DataTable extends React.Component {
       width: 150,
       render: (text, record) => {
         const operate = [];
-        operate.push(
-          <LookLink
-            departmentId={record.id}
-            departmentName={record.name}
-            departmentAddress={record.address}
-            departmentPhone={record.phone}
-            departmentState={record.state}
-            departmentOther={record.other}
-          />
-        );
-        operate.push(<span className="ant-divider" />);
+        if (rolePower.indexOf('LokDept,') >= 0) {
+          operate.push(
+            <LookLink
+              departmentId={record.id}
+              departmentName={record.name}
+              departmentAddress={record.address}
+              departmentPhone={record.phone}
+              departmentState={record.state}
+              departmentOther={record.other}
+            />
+          );
+          operate.push(<span className="ant-divider" />);
+        } else {
+          operate.push(<span>&nbsp;</span>);
+        }
+
+
         operate.push(
           <EditLink
             departmentId={record.id}
@@ -166,7 +174,7 @@ export default class DataTable extends React.Component {
         );
       },
     }];
-    const { tableData, loading } = this.props;
+
     return (
       <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.3)' }}>
         <Table
@@ -189,4 +197,5 @@ DataTable.propTypes = {
   afterEdit: React.PropTypes.func,
   afterDelete: React.PropTypes.func,
   loading: React.PropTypes.bool,
+  rolePower: React.PropTypes.string,
 };

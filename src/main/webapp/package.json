@@ -12,7 +12,7 @@
   "author": "wts",
   "license": "ISC",
   "dependencies": {
-    "antd": "^1.10.0",
+    "antd": "^1.11.0",
     "bootstrap": "^3.3.7",
     "echarts": "^3.2.3",
     "jquery": "^1.12.4",

@@ -1,4 +1,4 @@
-var rrr = [
+const rolePower = [
   { 'Func': 'Document',
     'Name': '档案管理',
     'Type': 'file',
@@ -23,7 +23,7 @@ var rrr = [
     'Type': 'pie-chart',
     'Stat': true,
     'Data': [
-      { 'Func': 'DocAnal', 'Name': '档案分析', 'Stat': true, 'Type': 'Area-chart' },
+      { 'Func': 'DocAnal', 'Name': '档案分析', 'Stat': true, 'Type': 'area-chart' },
       { 'Func': 'PerAnal', 'Name': '人员分析', 'Stat': true, 'Type': 'bar-chart' },
       { 'Func': 'OpeAnal', 'Name': '业务分析', 'Stat': true, 'Type': 'line-chart' },
     ],
@@ -34,7 +34,20 @@ var rrr = [
     'Stat': true,
     'Data': [
       { 'Func': 'PasCont', 'Name': '密码管理', 'Stat': true, 'Type': 'ellipsis' },
-      { 'Func': 'DepCont', 'Name': '部门管理', 'Stat': true, 'Type': 'laptop' },
+      { 'Func': 'DepCont',
+        'Name': '部门管理',
+        'Stat': true,
+        'Type': 'laptop',
+        'Data': [
+          { 'Func': 'AddDept', 'Name': '新增部门', 'Stat': true },
+          { 'Func': 'QuyDept', 'Name': '查找部门', 'Stat': true },
+          { 'Func': 'QuyDept', 'Name': '部门详情', 'Stat': true },
+          { 'Func': 'EdiDept', 'Name': '部门修改', 'Stat': true },
+          { 'Func': 'AbdDept', 'Name': '部门注销', 'Stat': true },
+          { 'Func': 'ActDept', 'Name': '部门激活', 'Stat': true },
+          { 'Func': 'DelDept', 'Name': '部门删除', 'Stat': true },
+        ],
+      },
       { 'Func': 'UseCont', 'Name': '用户管理', 'Stat': true, 'Type': 'user' },
       { 'Func': 'RolCont', 'Name': '角色管理', 'Stat': true, 'Type': 'solution' },
     ],
@@ -64,3 +77,21 @@ for (var j = 0; j < rrr.length; j++) {
     }
   }
 }
+const rolePower = [
+  { 'Func': 'Documen', 'Name': '档案管理', 'Level': '1', 'Father': '' },
+  { 'Func': 'DocInfo', 'Name': '档案信息', 'Level': '2', 'Father': 'Documen' },
+  { 'Func': 'DocChan', 'Name': '档案变更', 'Level': '2', 'Father': 'Documen' },
+  { 'Func': 'DocFlow', 'Name': '档案流动', 'Level': '2', 'Father': 'Documen' },
+  { 'Func': 'Persons', 'Name': '人员管理', 'Level': '1', 'Father': '' },
+  { 'Func': 'PerInfo', 'Name': '人员信息', 'Level': '2', 'Father': 'Persons' },
+  { 'Func': 'PerChan', 'Name': '信息变更', 'Level': '2', 'Father': 'Persons' },
+  { 'Func': 'Analysi', 'Name': '分析统计', 'Level': '1', 'Father': '' },
+  { 'Func': 'DocAnal', 'Name': '档案分析', 'Level': '2', 'Father': 'Analysi' },
+  { 'Func': 'PerAnal', 'Name': '人员分析', 'Level': '2', 'Father': 'Analysi' },
+  { 'Func': 'OpeAnal', 'Name': '业务分析', 'Level': '2', 'Father': 'Analysi' },
+  { 'Func': 'Control', 'Name': '系统管理', 'Level': '1', 'Father': '' },
+  { 'Func': 'PasCont', 'Name': '密码管理', 'Level': '2', 'Father': 'Control' },
+  { 'Func': 'DepCont', 'Name': '部门管理', 'Level': '2', 'Father': 'Control' },
+  { 'Func': 'UseCont', 'Name': '用户管理', 'Level': '2', 'Father': 'Control' },
+  { 'Func': 'RolCont', 'Name': '角色管理', 'Level': '2', 'Father': 'Control' },
+];

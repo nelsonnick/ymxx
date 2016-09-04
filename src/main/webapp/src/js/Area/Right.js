@@ -17,43 +17,43 @@ export default class Right extends React.Component {
     let tableCase;
     switch (this.props.menuFunctionType) {
       case 'DocInfo':
-        tableCase = <DocInfo />;
+        tableCase = <DocInfo rolePower={this.props.rolePower} />;
         break;
       case 'DocChan':
-        tableCase = <DocChan />;
+        tableCase = <DocChan rolePower={this.props.rolePower} />;
         break;
       case 'DocFlow':
-        tableCase = <DocFlow />;
+        tableCase = <DocFlow rolePower={this.props.rolePower} />;
         break;
       case 'PerInfo':
-        tableCase = <PerInfo />;
+        tableCase = <PerInfo rolePower={this.props.rolePower} />;
         break;
       case 'PerChan':
-        tableCase = <PerChan />;
+        tableCase = <PerChan rolePower={this.props.rolePower} />;
         break;
       case 'DocAnal':
-        tableCase = <DocAnal />;
+        tableCase = <DocAnal rolePower={this.props.rolePower} />;
         break;
       case 'PerAnal':
-        tableCase = <PerAnal />;
+        tableCase = <PerAnal rolePower={this.props.rolePower} />;
         break;
       case 'OpeAnal':
-        tableCase = <OpeAnal />;
+        tableCase = <OpeAnal rolePower={this.props.rolePower} />;
         break;
       case 'PasCont':
-        tableCase = <PasCont />;
+        tableCase = <PasCont rolePower={this.props.rolePower} />;
         break;
       case 'DepCont':
-        tableCase = <DepCont />;
+        tableCase = <DepCont rolePower={this.props.rolePower} />;
         break;
       case 'UseCont':
-        tableCase = <UseCont />;
+        tableCase = <UseCont rolePower={this.props.rolePower} />;
         break;
       case 'RolCont':
-        tableCase = <RolCont />;
+        tableCase = <RolCont rolePower={this.props.rolePower} />;
         break;
       default:
-        tableCase = <Blank />;
+        tableCase = <Blank rolePower={this.props.rolePower} />;
     }
 
     return (
@@ -65,4 +65,5 @@ export default class Right extends React.Component {
 }
 Right.propTypes = {
   menuFunctionType: React.PropTypes.string,
+  rolePower: React.PropTypes.string,
 };

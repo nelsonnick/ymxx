@@ -393,18 +393,32 @@ export default class DepCont extends React.Component {
   }
 
   render() {
+    const { rolePower } = this.props;
+    let QuyDept;
+    let AddDept;
+    if (rolePower.indexOf('AddDept,') >= 0) {
+      AddDept = <Col span={12}><AddButton afterAdd={this.AfterAddAndDelete} QueryString={this.state.QueryString} /></Col>;
+    } else {
+      AddDept = <p></p>;
+    }
+    if (rolePower.indexOf('QuyDept,') >= 0) {
+      QuyDept = <Col span={12}><DataSearch setQuery={this.getQuery} resetPage={this.resetPage} /></Col>;
+    } else {
+      QuyDept = <p></p>;
+    }
+
     return (
       <QueueAnim>
         <div key="a">
           <Row type="flex" justify="start">
-            <Col span={12}><AddButton afterAdd={this.AfterAddAndDelete} QueryString={this.state.QueryString} /></Col>
-            <Col span={12}><DataSearch setQuery={this.getQuery} resetPage={this.resetPage} /></Col>
+            {AddDept}
+            {QuyDept}
           </Row>
           <Row>
             <span style={{ 'font-size': '5px' }}>&nbsp;&nbsp;&nbsp;</span>
           </Row>
           <Row>
-            <DataTable tableData={this.state.DataTable} loading={this.state.Loading} afterState={this.AfterEditAndState} afterDelete={this.AfterAddAndDelete} />
+            <DataTable tableData={this.state.DataTable} loading={this.state.Loading} afterState={this.AfterEditAndState} afterDelete={this.AfterAddAndDelete} rolePower={this.props.rolePower} />
           </Row>
           <Row>
             <span style={{ 'font-size': '20px' }}>&nbsp;&nbsp;&nbsp;</span>
@@ -417,3 +431,6 @@ export default class DepCont extends React.Component {
     );
   }
 }
+DepCont.propTypes = {
+  rolePower: React.PropTypes.string,
+};
