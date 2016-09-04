@@ -1,5 +1,6 @@
 import { Menu, Icon } from 'antd';
 import React from 'react';
+import QueueAnim from 'rc-queue-anim';
 const SubMenu = Menu.SubMenu;
 
 export default class SystemMenu extends React.Component {
@@ -46,17 +47,21 @@ export default class SystemMenu extends React.Component {
       }
     }
     return (
-      <Menu
-        onClick={this.handleClick}
-        style={{ width: 160 }}
-        openKeys={this.state.openKeys}
-        onOpen={this.onToggle}
-        onClose={this.onToggle}
-        selectedKeys={[this.state.current]}
-        mode="inline"
-      >
-        {getMenu}
-      </Menu>
+      <QueueAnim type="left">
+        <div key="sys">
+          <Menu
+            onClick={this.handleClick}
+            style={{ width: 160 }}
+            openKeys={this.state.openKeys}
+            onOpen={this.onToggle}
+            onClose={this.onToggle}
+            selectedKeys={[this.state.current]}
+            mode="inline"
+          >
+            {getMenu}
+          </Menu>
+        </div>
+      </QueueAnim>
     );
   }
 }

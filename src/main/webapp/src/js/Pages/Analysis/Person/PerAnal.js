@@ -40,7 +40,11 @@ export default class PerAnal extends React.Component {
   render() {
     return (
       <div>
-        <Table columns={columns} dataSource={data} pagination={pagination} />
+        <Table
+          columns={columns}
+          dataSource={data}
+          pagination={pagination}
+        />
       </div>
     );
   }

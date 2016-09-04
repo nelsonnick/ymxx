@@ -1,6 +1,7 @@
 import React from 'react';
 import { Table, Popconfirm, message, notification } from 'antd';
 // import { Button } from 'react-bootstrap';
+import { Button } from 'amazeui-react';
 import $ from 'jquery';
 import EditLink from './EditLink.js';
 import LookLink from './LookLink.js';
@@ -11,7 +12,6 @@ const openNotificationWithIcon = (type, msg, desc) => {
     description: desc,
   });
 };
-
 export default class DataTable extends React.Component {
   constructor(props) {
     super(props);
@@ -144,7 +144,7 @@ export default class DataTable extends React.Component {
         operate.push(<span className="ant-divider" />);
         if (record.state.toString() === '激活') {
           operate.push(<Popconfirm title={`确定要注销部门<${record.name}>？`} okText="注销" onConfirm={this.abandon.bind(this, record.id)} onCancel={this.cancel}>
-            <a href="#">注销</a>
+            <Button className="am-btn am-btn-success am-round am-btn-xs">注销</Button>
           </Popconfirm>);
           operate.push(<span className="ant-divider" />);
         } else if (record.state.toString() === '注销') {
