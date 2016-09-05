@@ -35,6 +35,7 @@ export default class AddButton extends React.Component {
     });
     this.refs.AddForm.validateFields((errors, values) => {
       if (!!errors) {
+        console.log(values.departmentFather);
         openNotificationWithIcon('error', '录入错误', '录入的信息中有错误，请核实后再更新');
         this.setState({
           confirmLoading: false,
@@ -49,6 +50,7 @@ export default class AddButton extends React.Component {
           'name': values.departmentName,
           'phone': values.departmentPhone,
           'address': values.departmentAddress,
+          'father': values.departmentFather,
           'state': values.departmentState,
           'other': values.departmentOther,
         },
@@ -66,7 +68,7 @@ export default class AddButton extends React.Component {
             this.setState({
               confirmLoading: false,
             });
-            return;
+
           }
         },
         'error': () => {
@@ -74,7 +76,7 @@ export default class AddButton extends React.Component {
           this.setState({
             confirmLoading: false,
           });
-          return;
+
         },
       });
     });

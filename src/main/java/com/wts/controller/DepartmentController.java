@@ -4,6 +4,7 @@ import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.wts.entity.Department;
+import org.apache.poi.util.StringUtil;
 import org.apache.poi.util.SystemOutLogger;
 
 import java.util.List;
@@ -202,6 +203,25 @@ public class DepartmentController extends Controller {
                     renderText("OK");
                 } else{
                     renderText("发生未知错误，请检查数据库！");
+                }
+            }
+        }
+    }
+    /**
+     * 部门级联
+     */
+    public void cascade() {
+        String cascadeString="";
+        List<Department> department1 = Department.dao.find("select * from department where father=?", '0');
+        for(int i = 0; i < department1 .size(); i++) {
+            List<Department> department2 = Department.dao.find("select * from department where father=?", department1 .get(i).get("id"));
+            if (department2.size()==0) {break;}
+            for(int j = 0; j < department2 .size(); j++) {
+                List<Department> department3 = Department.dao.find("select * from department where father=?", department2 .get(j).get("id"));
+                if (department3.size()==0) {break;}
+                for(int k = 0; k < department3 .size(); k++) {
+                    cascadeString = cascadeString +
+                            "children: [{value: '" + department3.get(k).get("id").toString()+"',label: '"+department3.get(k).get("name").toString()+",'}],";
                 }
             }
         }

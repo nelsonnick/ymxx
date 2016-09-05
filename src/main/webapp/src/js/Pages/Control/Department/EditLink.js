@@ -67,7 +67,7 @@ export default class EditLink extends React.Component {
             this.setState({
               confirmLoading: false,
             });
-            return;
+
           }
         },
         'error': () => {
@@ -75,7 +75,7 @@ export default class EditLink extends React.Component {
           this.setState({
             confirmLoading: false,
           });
-          return;
+
         },
       });
     });
@@ -96,7 +96,7 @@ export default class EditLink extends React.Component {
     const { departmentId, departmentName, departmentPhone, departmentAddress, departmentState, departmentOther } = this.props;
     return (
       <span>
-        <a onClick={this.showModal} className="btn btn-info btn-xs" >修改</a>
+        <a onClick={this.showModal} className="btn btn-primary btn-xs" >修改</a>
         <Modal
           maskClosable={false}
           title="修改部门信息"

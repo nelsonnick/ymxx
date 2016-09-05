@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pagination, Select, Row } from 'antd';
+import { Pagination, Row } from 'antd';
 
 export default class DataPagination extends React.Component {
   render() {
@@ -11,11 +11,10 @@ export default class DataPagination extends React.Component {
           showSizeChanger
           onShowSizeChange={onShowSizeChange}
           onChange={onChange}
-          defaultCurrent={1}
+          defaultCurrent={PageNumber}
           total={DataCount}
           current={PageNumber}
           showTotal={total => `共 ${total} 条`}
-          selectComponentClass={Select}
           defaultPageSize={9}
           pageSizeOptions={['9', '18', '27', '36']}
         />

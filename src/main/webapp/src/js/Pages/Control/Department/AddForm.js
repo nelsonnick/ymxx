@@ -1,9 +1,10 @@
 import React from 'react';
-import { Form, Input, Select } from 'antd';
+import { Form, Input, Select, Cascader } from 'antd';
 import $ from 'jquery';
 const FormItem = Form.Item;
 const Option = Select.Option;
 import * as AjaxFunction from '../../../Util/AjaxFunction.js';
+let options;
 class AddFrom extends React.Component {
   constructor(props) {
     super(props);
@@ -11,7 +12,31 @@ class AddFrom extends React.Component {
     this.departmentPhoneCheck = this.departmentPhoneCheck.bind(this);
     this.departmentAddressCheck = this.departmentAddressCheck.bind(this);
   }
-
+  componentWillMount() {
+    options = [{
+      value: 'zhejiang',
+      label: '浙江',
+      children: [{
+        value: 'hangzhou',
+        label: '杭州',
+        children: [{
+          value: 'xihu',
+          label: '西湖',
+        }],
+      }],
+    }, {
+      value: 'jiangsu',
+      label: '江苏',
+      children: [{
+        value: 'nanjing',
+        label: '南京',
+        children: [{
+          value: 'zhonghuamen',
+          label: '中华门',
+        }],
+      }],
+    }];
+  }
   departmentNameCheck(rule, value, callback) {
     if (!value) {
       callback();
@@ -103,6 +128,8 @@ class AddFrom extends React.Component {
         { validator: this.departmentAddressCheck },
       ],
     });
+    const departmentFatherProps = getFieldProps('departmentFather', {
+    });
     const departmentStateProps = getFieldProps('departmentState', {
       initialValue: '激活',
     });
@@ -136,6 +163,13 @@ class AddFrom extends React.Component {
           help={isFieldValidating('departmentAddress') ? '校验中...' : (getFieldError('departmentAddress') || [])}
         >
           <Input placeholder="请输入详细地址" {...departmentAddressProps} />
+        </FormItem>
+        <FormItem
+          label="上级部门"
+          {...formItemLayout}
+          required
+        >
+          <Cascader options={options} changeOnSelect placeholder="请选择上级部门" {...departmentFatherProps} />
         </FormItem>
         <FormItem
           label="部门状态"
