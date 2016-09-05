@@ -7,14 +7,17 @@ var path = require('path');
 module.exports = {
   entry: {// 入口文件，单入口 app.js 文件
     //app: './src/js/tt.js'
-    all: './src/js/Area/All.js'
     //app: './src/test/App.js'
+    all: './src/js/Area/All.js'
   },
   output: {
     path:__dirname + '/dist/',
     filename: "[name].js"
   },
   plugins: [
+    // 提供公共代码
+    // 默认会把所有入口节点的公共代码提取出来,生成一个common.js
+    // new webpack.optimize.CommonsChunkPlugin('common.js'),
     //检测相似的文件或冗余，并消除
     new webpack.optimize.DedupePlugin(),
     //安装引用频度排序
@@ -38,11 +41,11 @@ module.exports = {
       url:'http://localhost:9000'
     }),
     //压缩打包的文件、代码混淆
-    //new webpack.optimize.UglifyJsPlugin({
-    //  compress: {
-    //    warnings: false
-    //  }
-    //}),
+    new webpack.optimize.UglifyJsPlugin({
+     compress: {
+       warnings: false
+     }
+    }),
     //第三方库自动注入
     new webpack.ProvidePlugin({
       'React':'react',

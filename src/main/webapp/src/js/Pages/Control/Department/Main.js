@@ -35,7 +35,7 @@ export default class DepCont extends React.Component {
     super(props);
     this.state = {
       DataTable: [],     // 当前页的具体数据
-      PageSize: '10',    // 当前每页的条数
+      PageSize: '9',    // 当前每页的条数
       PageNumber: '1',   // 当前页的页码
       DataCount: '0',    // 当前数据的总数量
       QueryString: '',   // 当前的搜索字符
@@ -56,7 +56,7 @@ export default class DepCont extends React.Component {
       'dataType': 'json',
       'data': {
         'PageNumber': '1',
-        'PageSize': '10',
+        'PageSize': '9',
         'QueryString': '',
       },
       'success': (data) => {
@@ -64,7 +64,7 @@ export default class DepCont extends React.Component {
           {
             DataTable: data,
             PageNumber: '1',
-            PageSize: '10',
+            PageSize: '9',
             QueryString: '',
           }
         );
@@ -274,7 +274,7 @@ export default class DepCont extends React.Component {
       'dataType': 'text',
       'data': {
         'PageNumber': '1',
-        'PageSize': '10',
+        'PageSize': '9',
         'QueryString': '',
       },
       'success': (data) => {
@@ -393,20 +393,28 @@ export default class DepCont extends React.Component {
   }
 
   render() {
-    const { rolePower } = this.props;
-    let QuyDept;
+    const rolePowers = window.rolePower;
     let AddDept;
-    if (rolePower.indexOf('AddDept,') >= 0) {
+    if (rolePowers.indexOf('AddDept,') >= 0) {
       AddDept = <Col span={12}><AddButton afterAdd={this.AfterAddAndDelete} QueryString={this.state.QueryString} /></Col>;
     } else {
       AddDept = <p></p>;
     }
-    if (rolePower.indexOf('QuyDept,') >= 0) {
+    let QuyDept;
+    if (rolePowers.indexOf('QuyDept,') >= 0) {
       QuyDept = <Col span={12}><DataSearch setQuery={this.getQuery} resetPage={this.resetPage} /></Col>;
     } else {
       QuyDept = <p></p>;
     }
-
+    let GetDept1;
+    let GetDept2;
+    if (rolePowers.indexOf('GetDept,') >= 0) {
+      GetDept1 = <DataTable tableData={this.state.DataTable} loading={this.state.Loading} afterState={this.AfterEditAndState} afterDelete={this.AfterAddAndDelete} />;
+      GetDept2 = <DataPagination PageNumber={this.state.PageNumber} onShowSizeChange={this.onShowSizeChange} onChange={this.onChange} DataCount={this.state.DataCount} />;
+    } else {
+      GetDept1 = <p></p>;
+      GetDept2 = <p></p>;
+    }
     return (
       <QueueAnim>
         <div key="a">
@@ -418,19 +426,16 @@ export default class DepCont extends React.Component {
             <span style={{ 'font-size': '5px' }}>&nbsp;&nbsp;&nbsp;</span>
           </Row>
           <Row>
-            <DataTable tableData={this.state.DataTable} loading={this.state.Loading} afterState={this.AfterEditAndState} afterDelete={this.AfterAddAndDelete} rolePower={this.props.rolePower} />
+            {GetDept1}
           </Row>
           <Row>
             <span style={{ 'font-size': '20px' }}>&nbsp;&nbsp;&nbsp;</span>
           </Row>
           <Row>
-            <DataPagination PageNumber={this.state.PageNumber} onShowSizeChange={this.onShowSizeChange} onChange={this.onChange} DataCount={this.state.DataCount} />
+            {GetDept2}
           </Row>
         </div>
       </QueueAnim>
     );
   }
 }
-DepCont.propTypes = {
-  rolePower: React.PropTypes.string,
-};

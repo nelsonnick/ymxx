@@ -14,11 +14,10 @@ export default class Left extends React.Component {
 
   render() {
     return (
-      <SystemMenu menuLabel={this.setMenuLabel} rolePower={this.props.rolePower} />
+      <SystemMenu menuLabel={this.setMenuLabel} />
     );
   }
 }
 Left.propTypes = {
   menuLabel: React.PropTypes.func,
-  rolePower: React.PropTypes.string,
 };

@@ -16,8 +16,8 @@ export default class DataPagination extends React.Component {
           current={PageNumber}
           showTotal={total => `共 ${total} 条`}
           selectComponentClass={Select}
-          defaultPageSize={8}
-          pageSizeOptions={['8', '16', '24', '32']}
+          defaultPageSize={9}
+          pageSizeOptions={['9', '18', '27', '36']}
         />
       </Row>
     );

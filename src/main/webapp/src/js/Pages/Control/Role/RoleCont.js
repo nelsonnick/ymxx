@@ -1,5 +1,5 @@
 import React from 'react';
-export default class RoleCont extends React.Component {
+export default class RolCont extends React.Component {
   render() {
     return (
       <div>

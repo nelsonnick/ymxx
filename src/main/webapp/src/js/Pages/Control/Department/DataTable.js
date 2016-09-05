@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table, Popconfirm, message, notification } from 'antd';
-// import { Button } from 'react-bootstrap';
-import { Button } from 'amazeui-react';
+import { Button } from 'react-bootstrap';
+// import { Button } from 'amazeui-react';
 import $ from 'jquery';
 import EditLink from './EditLink.js';
 import LookLink from './LookLink.js';
@@ -93,7 +93,7 @@ export default class DataTable extends React.Component {
     message.error('点击了取消');
   }
   render() {
-    const { tableData, loading, rolePower } = this.props;
+    const { tableData, loading } = this.props;
 
     const columns = [{
       title: '部门名称',
@@ -121,7 +121,8 @@ export default class DataTable extends React.Component {
       width: 150,
       render: (text, record) => {
         const operate = [];
-        if (rolePower.indexOf('LokDept,') >= 0) {
+        const rolePowers = window.rolePower;
+        if (rolePowers.indexOf('LokDept,') >= 0) {
           operate.push(
             <LookLink
               departmentId={record.id}
@@ -136,37 +137,51 @@ export default class DataTable extends React.Component {
         } else {
           operate.push(<span>&nbsp;</span>);
         }
-// xiamianyaojixu
-// kjkhk
-        operate.push(
-          <EditLink
-            departmentId={record.id}
-            departmentName={record.name}
-            departmentAddress={record.address}
-            departmentPhone={record.phone}
-            departmentState={record.state}
-            departmentOther={record.other}
-            afterEdit={this.afterEdit}
-          />
-        );
-        operate.push(<span className="ant-divider" />);
+        if (rolePowers.indexOf('EdiDept,') >= 0) {
+          operate.push(
+            <EditLink
+              departmentId={record.id}
+              departmentName={record.name}
+              departmentAddress={record.address}
+              departmentPhone={record.phone}
+              departmentState={record.state}
+              departmentOther={record.other}
+              afterEdit={this.afterEdit}
+            />
+          );
+          operate.push(<span className="ant-divider" />);
+        } else {
+          operate.push(<span>&nbsp;</span>);
+        }
         if (record.state.toString() === '激活') {
-          operate.push(<Popconfirm title={`确定要注销部门<${record.name}>？`} okText="注销" onConfirm={this.abandon.bind(this, record.id)} onCancel={this.cancel}>
-            <Button className="am-btn am-btn-success am-round am-btn-xs">注销</Button>
-          </Popconfirm>);
-          operate.push(<span className="ant-divider" />);
+          if (rolePowers.indexOf('AbdDept,') >= 0) {
+            operate.push(<Popconfirm title={`确定要注销部门<${record.name}>？`} okText="注销" onConfirm={this.abandon.bind(this, record.id)} onCancel={this.cancel}>
+              <Button className="btn btn-warning btn-xs">注销</Button>
+            </Popconfirm>);
+            operate.push(<span className="ant-divider" />);
+          } else {
+            operate.push(<span>&nbsp;</span>);
+          }
         } else if (record.state.toString() === '注销') {
-          operate.push(<Popconfirm title={`确定要激活部门<${record.name}>？`} okText="激活" onConfirm={this.active.bind(this, record.id)} onCancel={this.cancel}>
-            <a href="#">激活</a>
-          </Popconfirm>);
-          operate.push(<span className="ant-divider" />);
+          if (rolePowers.indexOf('ActDept,') >= 0) {
+            operate.push(<Popconfirm title={`确定要激活部门<${record.name}>？`} okText="激活" onConfirm={this.active.bind(this, record.id)} onCancel={this.cancel}>
+              <Button className="btn btn-success btn-xs">激活</Button>
+            </Popconfirm>);
+            operate.push(<span className="ant-divider" />);
+          } else {
+            operate.push(<span>&nbsp;</span>);
+          }
         } else {
           operate.push(<span className="ant-divider" />);
         }
-        operate.push(<Popconfirm title={`确定要删除部门<${record.name}>？`} okText="删除" onConfirm={this.delete.bind(this, record.id)} onCancel={this.cancel}>
-          <a href="#">删除</a>
-        </Popconfirm>);
-        operate.push(<span className="ant-divider" />);
+        if (rolePowers.indexOf('DelDept,') >= 0) {
+          operate.push(<Popconfirm title={`确定要删除部门<${record.name}>？`} okText="删除" onConfirm={this.delete.bind(this, record.id)} onCancel={this.cancel}>
+            <Button className="btn btn-danger btn-xs">删除</Button>
+          </Popconfirm>);
+          operate.push(<span className="ant-divider" />);
+        } else {
+          operate.push(<span>&nbsp;</span>);
+        }
         return (
           <span>
             {operate}
@@ -197,5 +212,4 @@ DataTable.propTypes = {
   afterEdit: React.PropTypes.func,
   afterDelete: React.PropTypes.func,
   loading: React.PropTypes.bool,
-  rolePower: React.PropTypes.string,
 };

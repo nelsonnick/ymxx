@@ -5,7 +5,7 @@ import Right from './Right.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
-const rolePower = 'Document,DocInfo,DocChan,DocFlow,Person,PerInfo,PerChan,Analysis,DocAnal,PerAnal,OpeAnal,Control,PasCont,DepCont,UseCont,RolCont,LokDept,';
+window.rolePower = 'Document,DocInfo,DocChan,DocFlow,Person,PerInfo,PerChan,Analysis,DocAnal,PerAnal,OpeAnal,Control,PasCont,DepCont,UseCont,RolCont,LokDept,AddDept,QuyDept,LokDept,GetDept,EdiDept,ActDept,AbdDept,DelDept,';
 class All extends React.Component {
   constructor(props) {
     super(props);
@@ -31,8 +31,8 @@ class All extends React.Component {
           <span style={{ 'font-size': '10px' }}>&nbsp;&nbsp;&nbsp;</span>
         </Row>
         <Row type="flex" justify="start">
-          <Col span={3}><Left menuLabel={this.setMenuLabel} rolePower={rolePower} /></Col>
-          <Col span={20}><Right menuFunctionType={this.state.menuFunctionType} rolePower={rolePower} /></Col>
+          <Col span={3}><Left menuLabel={this.setMenuLabel} /></Col>
+          <Col span={20}><Right menuFunctionType={this.state.menuFunctionType} /></Col>
         </Row>
       </div>
     );
