@@ -211,19 +211,29 @@ public class DepartmentController extends Controller {
      * 部门级联
      */
     public void cascade() {
-        String cascadeString="";
+        String cascadeString1="";
+        String cascadeString2="";
+        String cascadeString3="";
         List<Department> department1 = Department.dao.find("select * from department where father=?", '0');
         for(int i = 0; i < department1 .size(); i++) {
+            cascadeString1 = cascadeString1 +
+                    "children: [{value: '" + department1.get(i).get("id").toString()+"',label: '"+department1.get(i).get("name").toString()+"',";
+            System.out.println(cascadeString1);
             List<Department> department2 = Department.dao.find("select * from department where father=?", department1 .get(i).get("id"));
             if (department2.size()==0) {break;}
             for(int j = 0; j < department2 .size(); j++) {
+                cascadeString2 = cascadeString2 +
+                        "children: [{value: '" + department2.get(j).get("id").toString()+"',label: '"+department2.get(j).get("name").toString()+"',";
                 List<Department> department3 = Department.dao.find("select * from department where father=?", department2 .get(j).get("id"));
                 if (department3.size()==0) {break;}
                 for(int k = 0; k < department3 .size(); k++) {
-                    cascadeString = cascadeString +
-                            "children: [{value: '" + department3.get(k).get("id").toString()+"',label: '"+department3.get(k).get("name").toString()+",'}],";
+                    cascadeString3 = cascadeString3 +
+                            "children: [{value: '" + department3.get(k).get("id").toString()+"',label: '"+department3.get(k).get("name").toString()+"',}],";
                 }
+                cascadeString2 = cascadeString2 + cascadeString3 + "}],";
             }
+            cascadeString1 = cascadeString1 + cascadeString2 + "}],";
         }
+        renderNull();
     }
 }
