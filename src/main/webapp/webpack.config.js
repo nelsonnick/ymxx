@@ -41,11 +41,11 @@ module.exports = {
       url:'http://localhost:9000'
     }),
     //压缩打包的文件、代码混淆
-    new webpack.optimize.UglifyJsPlugin({
-     compress: {
-       warnings: false
-     }
-    }),
+    // new webpack.optimize.UglifyJsPlugin({
+    //  compress: {
+    //    warnings: false
+    //  }
+    // }),
     //第三方库自动注入
     new webpack.ProvidePlugin({
       'React':'react',
@@ -109,4 +109,4 @@ module.exports = {
       }
     ]
   }
-}
+};

@@ -1,41 +1,47 @@
 import React from 'react';
-import { Form, Input, Select, Cascader } from 'antd';
+import { Form, Input, Select, Cascader, notification } from 'antd';
 import $ from 'jquery';
 const FormItem = Form.Item;
 const Option = Select.Option;
 import * as AjaxFunction from '../../../Util/AjaxFunction.js';
-let options;
+const openNotificationWithIcon = (type, msg, desc) => {
+  notification[type]({
+    message: msg,
+    description: desc,
+  });
+};
 class AddFrom extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      options: '',
+    };
     this.departmentNameCheck = this.departmentNameCheck.bind(this);
     this.departmentPhoneCheck = this.departmentPhoneCheck.bind(this);
     this.departmentAddressCheck = this.departmentAddressCheck.bind(this);
   }
   componentWillMount() {
-    options = [{
-      value: 'zhejiang',
-      label: '浙江',
-      children: [{
-        value: 'hangzhou',
-        label: '杭州',
-        children: [{
-          value: 'xihu',
-          label: '西湖',
-        }],
-      }],
-    }, {
-      value: 'jiangsu',
-      label: '江苏',
-      children: [{
-        value: 'nanjing',
-        label: '南京',
-        children: [{
-          value: 'zhonghuamen',
-          label: '中华门',
-        }],
-      }],
-    }];
+    $.ajax({
+      'type': 'POST',
+      'url': AjaxFunction.DepartmentCascade,
+      'dataType': 'text',
+      'success': (data) => {
+        this.setState(
+          {
+            options: data,
+          }
+        );
+        console.log(this.state.options);
+      },
+      'error': () => {
+        openNotificationWithIcon('error', '请求错误', '无法完成刷新列表，请检查网络情况');
+        this.setState(
+          {
+            options: '',
+          }
+        );
+      },
+    });
   }
   departmentNameCheck(rule, value, callback) {
     if (!value) {
@@ -169,7 +175,7 @@ class AddFrom extends React.Component {
           {...formItemLayout}
           required
         >
-          <Cascader options={options} changeOnSelect placeholder="请选择上级部门" {...departmentFatherProps} />
+          <Cascader options={this.state.options} changeOnSelect placeholder="请选择上级部门" {...departmentFatherProps} />
         </FormItem>
         <FormItem
           label="部门状态"

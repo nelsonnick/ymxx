@@ -68,7 +68,6 @@ export default class AddButton extends React.Component {
             this.setState({
               confirmLoading: false,
             });
-
           }
         },
         'error': () => {
@@ -76,7 +75,6 @@ export default class AddButton extends React.Component {
           this.setState({
             confirmLoading: false,
           });
-
         },
       });
     });

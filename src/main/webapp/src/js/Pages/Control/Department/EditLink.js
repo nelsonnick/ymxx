@@ -67,7 +67,6 @@ export default class EditLink extends React.Component {
             this.setState({
               confirmLoading: false,
             });
-
           }
         },
         'error': () => {
@@ -75,7 +74,6 @@ export default class EditLink extends React.Component {
           this.setState({
             confirmLoading: false,
           });
-
         },
       });
     });
