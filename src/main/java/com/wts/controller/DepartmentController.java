@@ -211,6 +211,7 @@ public class DepartmentController extends Controller {
      * 部门级联
      */
     public void cascade() {
+        String a="";
         String cascadeString="";
         String cascadeString1="";
         String cascadeString2="";
@@ -219,24 +220,29 @@ public class DepartmentController extends Controller {
         String cascadeString5="";
         List<Department> department1 = Department.dao.find("select * from department where father=?", '0');
         for(int i = 0; i < department1 .size(); i++) {
-            cascadeString1 = "{value: '" + department1.get(i).get("id").toString()+"',label: '"+department1.get(i).get("name").toString()+"',";
+            cascadeString1 = "{ value: '" + department1.get(i).get("id").toString()+"', label: '"+department1.get(i).get("name").toString()+"',";
             if (Department.dao.find("select * from department where father=?", department1 .get(i).get("id")).size()!=0){
+                cascadeString2 = " children: [";
                 List<Department> department2 = Department.dao.find("select * from department where father=?", department1 .get(i).get("id"));
-                cascadeString2="";
                 for(int j = 0; j < department2 .size(); j++) {
-                    cascadeString3 = "children: [{value: '" + department2.get(j).get("id").toString()+"',label: '"+department2.get(j).get("name").toString()+"',";
+                    cascadeString3 = "{ value: '" + department2.get(j).get("id").toString()+"', label: '"+department2.get(j).get("name").toString()+"',";
                     if (Department.dao.find("select * from department where father=?", department2 .get(j).get("id")).size()!=0) {
+                        cascadeString4 = " children: [";
                         List<Department> department3 = Department.dao.find("select * from department where father=?", department2 .get(j).get("id"));
-                        cascadeString4="";
                         for(int k = 0; k < department3 .size(); k++) {
-                            cascadeString5 = "children: [{value: '" + department3.get(k).get("id").toString()+"',label: '"+department3.get(k).get("name").toString()+"',}],";
+                            cascadeString5 = "{ value: '" + department3.get(k).get("id").toString()+"', label: '"+department3.get(k).get("name").toString()+"',";
+                            cascadeString4 = cascadeString4 + cascadeString5+ "}, ";
                         }
-                        cascadeString4 = cascadeString4 + cascadeString5 + "}],";
+                        cascadeString3 = cascadeString3 + cascadeString4 + "}, ";
                     }
-                    cascadeString2 = cascadeString2 + cascadeString3 + cascadeString4 + "}],";
+                    cascadeString2 = cascadeString2 + cascadeString3 + " }, ";
+                    cascadeString4 = "";
                 }
+                a = cascadeString2 + "],";
             }
-            cascadeString = cascadeString + cascadeString1 + cascadeString2 + "},";
+            cascadeString = cascadeString + cascadeString1 + a + " },";
+            cascadeString2 = "";
+            a="";
         }
         renderText("["+cascadeString+"]");
     }

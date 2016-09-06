@@ -10,6 +10,8 @@
     "react/jsx-no-bind":0,
     "react/prefer-stateless-function":0,
     "no-class-assign":0,
+    "no-dupe-keys": 0,
+    "comma-dangle":1,
     "quote-props": ["error", "as-needed", { "keywords": true, "unnecessary": false }]
   }
 }
