@@ -1,15 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Popconfirm, message } from 'antd';
-function confirm(test) {
-  console.log(test);
-}
+import { Cascader } from 'antd';
 
-function cancel() {
-  confirm('c');
-  message.error('点击了取消');
-}
-
-ReactDOM.render(<Popconfirm title="确定要删除这个任务吗？" onCancel={cancel}>
-  <a href="#">删除</a>
-</Popconfirm>, document.body);
+const options = [{ value: '1', label: '无上级部门' }, { value: '2', label: '槐荫区职业介绍中心', children: [{ value: '3', label: '西市场人社中心', }, { value: '4', label: '五里沟人社中心', }, { value: '5', label: '道德街人社中心', }, { value: '6', label: '营市街人社中心', }, { value: '7', label: '青年公园人社中心', }, { value: '8', label: '中大槐树人社中心', }, { value: '9', label: '振兴街人社中心', }, { value: '10', label: '南辛庄人社中心', }, { value: '11', label: '段店北路人社中心', }, { value: '12', label: '匡山人社中心', }, { value: '13', label: '张庄人社中心', }, { value: '14', label: '美里湖人社中心', }, { value: '15', label: '吴家堡人社中心', }, { value: '16', label: '腊山人社中心', }, { value: '17', label: '玉清湖人社中心', }, { value: '18', label: '兴福人社中心', }, ], },{ value: '19', label: '市中区就业办', children: [{ value: '20', label: '四里村人社中心', }, { value: '21', label: '大观园人社中心', }, { value: '22', label: '杆石桥人社中心', }, { value: '23', label: '魏家庄人社中心', }, { value: '24', label: '泺源人社中心', }, { value: '25', label: '六里山人社中心', }, { value: '26', label: '二七新村人社中心', }, { value: '27', label: '七里山人社中心', }, { value: '28', label: '舜玉人社中心', }, { value: '29', label: '舜耕人社中心', }, { value: '30', label: '王官庄人社中心', }, { value: '31', label: '白马山人社中心', }, { value: '32', label: '七贤人社中心', }, { value: '33', label: '十六里河人社中心', }, { value: '34', label: '兴隆人社中心', }, { value: '35', label: '党家人社中心', }, { value: '36', label: '陡沟人社中心', }, ], },{ value: '37', label: '天桥区就业办', children: [{ value: '38', label: '堤口路人社中心', }, { value: '39', label: '制锦市人社中心', }, { value: '40', label: '纬北路人社中心', }, { value: '41', label: '工人新村北村人社', }, { value: '42', label: '工人新村南村人社', }, { value: '43', label: '官扎营人社中心', }, { value: '44', label: '宝华街人社中心', }, { value: '45', label: '北坦街人社中心', }, { value: '46', label: '天桥东街人社中心', }, { value: '47', label: '无影山人社中心', }, { value: '48', label: '药山人社中心', }, { value: '49', label: '北园人社中心', }, { value: '50', label: '泺口人社中心', }, { value: '51', label: '桑梓店人社中心', }, { value: '52', label: '大桥人社中心', }, ], },{ value: '53', label: '槐荫区人才交流中心', }];
+ReactDOM.render(
+  <Cascader options={options} changeOnSelect />
+  , document.body);

@@ -93,13 +93,16 @@ public class DepartmentController extends Controller {
      * 核查父级部门
      */
     public void father() {
-        if(!getPara("father").toString().equals("0")){
-            if(Integer.parseInt(Department.dao.findById(getPara("father")).get("level").toString())>2){
-                renderText("上级部门不得超过两级！");
+        if (!getPara("father").toString().equals("")){
+            if(!getPara("father").toString().equals("0")){
+                if(Integer.parseInt(Department.dao.findById(getPara("father")).get("level").toString())>2){
+                    renderText("上级部门不得超过两级！");
+                }
+                renderText("OK");
             }
             renderText("OK");
-        }
-        renderText("OK");
+            }
+        renderText("未选择上级部门！");
     }
     /**
      * 新增部门
@@ -256,6 +259,7 @@ public class DepartmentController extends Controller {
             cascadeString2 = "";
             a="";
         }
-        renderText("[{ value:'1'， label：'无上级部门' }，"+cascadeString+"]");
+
+        renderText("[{ value: '1', label: '无上级部门' }, "+cascadeString.substring(0,cascadeString.length()-1)+"]");
     }
 }
