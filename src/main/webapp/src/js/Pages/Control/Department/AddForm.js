@@ -31,12 +31,15 @@ class AddFrom extends React.Component {
       'success': (data) => {
         this.setState(
           {
-            options: data,
+            options: eval(`(${data})`),
           }
         );
       },
-      'error': () => {
-        openNotificationWithIcon('error', '请求错误', '无法完成刷新列表，请检查网络情况');
+      'error': (XMLHttpRequest, textStatus) => {
+        openNotificationWithIcon('error', '请求错误', '无法获取部门信息，请检查网络情况');
+        console.log(XMLHttpRequest.status);
+        console.log(XMLHttpRequest.readyState);
+        console.log(textStatus);
         this.setState(
           {
             options: '',
@@ -113,10 +116,12 @@ class AddFrom extends React.Component {
   }
   departmentFatherCheck(rule, value, callback) {
     let a;
-    if (value.length === 1) {
+    if (typeof (value)!=="undefined" && value.toString() !== '' && value.length === 1) {
       a = value[0];
-    } else if (value.length === 2) {
+    } else if (typeof (value)!=="undefined" && value.toString() !== '' && value.length === 2) {
       a = value[1];
+    } else if (typeof (value)!=="undefined" && value.toString() !== '' && value.length === 3) {
+      a = value[2];
     } else {
       a = '';
     }
@@ -136,7 +141,6 @@ class AddFrom extends React.Component {
           }
         },
         'error': () => {
-          console.log(a);
           callback(new Error('无法执行后台验证，请重试'));
         },
       });
@@ -213,7 +217,7 @@ class AddFrom extends React.Component {
           {...formItemLayout}
           required
         >
-          <Cascader options={this.state.o} changeOnSelect placeholder="请选择上级部门" {...departmentFatherProps} />
+          <Cascader options={this.state.options} changeOnSelect placeholder="请选择上级部门" {...departmentFatherProps} />
         </FormItem>
         <FormItem
           label="部门状态"

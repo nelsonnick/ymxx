@@ -4,8 +4,6 @@ import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.wts.entity.Department;
-import org.apache.poi.util.StringUtil;
-import org.apache.poi.util.SystemOutLogger;
 
 import java.util.List;
 
@@ -94,15 +92,18 @@ public class DepartmentController extends Controller {
      */
     public void father() {
         if (!getPara("father").toString().equals("")){
-            if(!getPara("father").toString().equals("0")){
-                if(Integer.parseInt(Department.dao.findById(getPara("father")).get("level").toString())>2){
+            if (!getPara("father").toString().equals("0")){
+                if (Integer.parseInt(Department.dao.findById(getPara("father")).get("level").toString())>3){
                     renderText("上级部门不得超过两级！");
+                } else {
+                    renderText("OK");
                 }
+            } else {
                 renderText("OK");
             }
-            renderText("OK");
-            }
-        renderText("未选择上级部门！");
+        } else {
+         renderText("未选择上级部门！");
+        }
     }
     /**
      * 新增部门
@@ -259,7 +260,6 @@ public class DepartmentController extends Controller {
             cascadeString2 = "";
             a="";
         }
-
         renderText("[{ value: '1', label: '无上级部门' }, "+cascadeString.substring(0,cascadeString.length()-1)+"]");
     }
 }

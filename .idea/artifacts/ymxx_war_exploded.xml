@@ -31,6 +31,7 @@
           <element id="library" level="project" name="Maven: org.freemarker:freemarker:2.3.23" />
           <element id="library" level="project" name="Maven: org.apache.poi:poi:3.9" />
           <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.5" />
+          <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.7" />
         </element>
       </element>
       <element id="directory" name="META-INF">
