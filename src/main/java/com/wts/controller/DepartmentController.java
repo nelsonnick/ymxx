@@ -34,7 +34,7 @@ public class DepartmentController extends Controller {
      *@param: QueryString
      */
     public void count() {
-        String count = Db.queryLong("select count(*) from department where name like '%"+ getPara("QueryString") +"%' and state<>'删除'").toString();
+        String count = Db.queryLong("select count(*) from department where name like '%"+ getPara("QueryString") +"%' and state<>'删除' and name<>'顶级部门'").toString();
         renderText(count);
     }
 
@@ -88,6 +88,18 @@ public class DepartmentController extends Controller {
         } else {
             renderText("OK");
         }
+    }
+    /**
+     * 核查父级部门
+     */
+    public void father() {
+        if(!getPara("father").toString().equals("0")){
+            if(Integer.parseInt(Department.dao.findById(getPara("father")).get("level").toString())>2){
+                renderText("上级部门不得超过两级！");
+            }
+            renderText("OK");
+        }
+        renderText("OK");
     }
     /**
      * 新增部门
@@ -218,17 +230,17 @@ public class DepartmentController extends Controller {
         String cascadeString3="";
         String cascadeString4="";
         String cascadeString5="";
-        List<Department> department1 = Department.dao.find("select * from department where father=?", '0');
+        List<Department> department1 = Department.dao.find("select * from department where father=? and state=?", "1","激活");
         for(int i = 0; i < department1 .size(); i++) {
             cascadeString1 = "{ value: '" + department1.get(i).get("id").toString()+"', label: '"+department1.get(i).get("name").toString()+"',";
             if (Department.dao.find("select * from department where father=?", department1 .get(i).get("id")).size()!=0){
                 cascadeString2 = " children: [";
-                List<Department> department2 = Department.dao.find("select * from department where father=?", department1 .get(i).get("id"));
+                List<Department> department2 = Department.dao.find("select * from department where father=? and state=?", department1 .get(i).get("id"),"激活");
                 for(int j = 0; j < department2 .size(); j++) {
                     cascadeString3 = "{ value: '" + department2.get(j).get("id").toString()+"', label: '"+department2.get(j).get("name").toString()+"',";
                     if (Department.dao.find("select * from department where father=?", department2 .get(j).get("id")).size()!=0) {
                         cascadeString4 = " children: [";
-                        List<Department> department3 = Department.dao.find("select * from department where father=?", department2 .get(j).get("id"));
+                        List<Department> department3 = Department.dao.find("select * from department where father=? and state=?", department2 .get(j).get("id"),"激活");
                         for(int k = 0; k < department3 .size(); k++) {
                             cascadeString5 = "{ value: '" + department3.get(k).get("id").toString()+"', label: '"+department3.get(k).get("name").toString()+"',";
                             cascadeString4 = cascadeString4 + cascadeString5+ "}, ";
@@ -244,6 +256,6 @@ public class DepartmentController extends Controller {
             cascadeString2 = "";
             a="";
         }
-        renderText("["+cascadeString+"]");
+        renderText("[{ value:'1'， label：'无上级部门' }，"+cascadeString+"]");
     }
 }

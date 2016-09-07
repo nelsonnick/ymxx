@@ -26,7 +26,7 @@ export default class LookLink extends React.Component {
   }
 
   render() {
-    const { departmentId, departmentName, departmentPhone, departmentAddress, departmentState, departmentOther } = this.props;
+    const { departmentId, departmentName, departmentPhone, departmentAddress, departmentState, departmentOther, departmentFather } = this.props;
     return (
       <span>
         <a onClick={this.showModal} className="btn btn-default btn-xs">详情</a>
@@ -49,6 +49,7 @@ export default class LookLink extends React.Component {
             departmentPhone={departmentPhone}
             departmentState={departmentState}
             departmentOther={departmentOther}
+            departmentFather={departmentFather}
           />
         </Modal>
       </span>
@@ -62,4 +63,5 @@ LookLink.propTypes = {
   departmentPhone: React.PropTypes.string,
   departmentState: React.PropTypes.string,
   departmentOther: React.PropTypes.string,
+  departmentFather: React.PropTypes.string,
 };

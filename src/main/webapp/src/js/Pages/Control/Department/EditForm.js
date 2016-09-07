@@ -1,9 +1,10 @@
 import React from 'react';
-import { Form, Input, Select } from 'antd';
+import { Form, Input, Select, Cascader } from 'antd';
 import $ from 'jquery';
 const FormItem = Form.Item;
 const Option = Select.Option;
 import * as AjaxFunction from '../../../Util/AjaxFunction.js';
+const op = [];
 class EditFrom extends React.Component {
   constructor(props) {
     super(props);
@@ -80,7 +81,7 @@ class EditFrom extends React.Component {
   }
   render() {
     const { getFieldProps, getFieldError, isFieldValidating } = this.props.form;
-    const { departmentId, departmentName, departmentPhone, departmentAddress, departmentState, departmentOther } = this.props;
+    const { departmentId, departmentName, departmentPhone, departmentAddress, departmentState, departmentOther, departmentFather } = this.props;
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 14 },
@@ -108,6 +109,9 @@ class EditFrom extends React.Component {
         { validator: this.departmentAddressCheck },
       ],
       initialValue: departmentAddress,
+    });
+    const departmentFatherProps = getFieldProps('departmentFather', {
+      initialValue: departmentFather,
     });
     const departmentStateProps = getFieldProps('departmentState', {
       initialValue: departmentState,
@@ -151,6 +155,13 @@ class EditFrom extends React.Component {
           <Input placeholder="请输入详细地址" {...departmentAddressProps} />
         </FormItem>
         <FormItem
+          label="上级部门"
+          {...formItemLayout}
+          required
+        >
+          <Cascader options={op} changeOnSelect placeholder="请选择上级部门" {...departmentFatherProps} />
+        </FormItem>
+        <FormItem
           label="部门状态"
           {...formItemLayout}
           required
@@ -179,6 +190,7 @@ EditFrom.propTypes = {
   departmentName: React.PropTypes.string,
   departmentAddress: React.PropTypes.string,
   departmentPhone: React.PropTypes.string,
+  departmentFather: React.PropTypes.string,
   departmentState: React.PropTypes.string,
   departmentOther: React.PropTypes.string,
 };
