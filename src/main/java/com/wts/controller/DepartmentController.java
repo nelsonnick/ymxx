@@ -93,7 +93,7 @@ public class DepartmentController extends Controller {
     public void father() {
         if (!getPara("father").toString().equals("")){
             if (!getPara("father").toString().equals("0")){
-                if (Integer.parseInt(Department.dao.findById(getPara("father")).get("level").toString())>3){
+                if (Integer.parseInt(Department.dao.findById(getPara("father")).get("level").toString())>2){
                     renderText("上级部门不得超过两级！");
                 } else {
                     renderText("OK");
@@ -121,12 +121,18 @@ public class DepartmentController extends Controller {
             renderText("部门电话必须为8位数字!");
         } else if (getPara("address").length() < 3) {
             renderText("部门地址必须超过3个字符!");
+        }else if (getPara("father").toString().equals("")) {
+            renderText("上级部门不能为空!");
+        }else if (Integer.parseInt(Department.dao.findById(getPara("father")).get("level").toString())>2) {
+            renderText("上级部门不得超过两级！");
         } else {
             Department department = new Department();
             department.set("name", getPara("name").trim())
                     .set("phone", getPara("phone").trim())
                     .set("address", getPara("address").trim())
                     .set("state", getPara("state").trim())
+                    .set("father", getPara("father").trim())
+                    .set("level", String.valueOf(Integer.parseInt(Department.dao.findById(getPara("father")).get("level").toString())+1).trim())
                     .set("other", getPara("other").trim());
             if (department.save()) {
                 renderText("OK");
@@ -135,7 +141,6 @@ public class DepartmentController extends Controller {
             }
         }
     }
-
     /**
      * 注销部门
      */
@@ -227,39 +232,78 @@ public class DepartmentController extends Controller {
      * 部门级联
      */
     public void cascade() {
-        String a="";
+        String children = " children: [";
         String cascadeString="";
-        String cascadeString1="";
-        String cascadeString2="";
-        String cascadeString3="";
+        String cascadeString1;
+        String cascadeString2;
+        String cascadeString3;
         String cascadeString4="";
-        String cascadeString5="";
+        String cascadeString5;
+        String cascadeString6="";
         List<Department> department1 = Department.dao.find("select * from department where father=? and state=?", "1","激活");
-        for(int i = 0; i < department1 .size(); i++) {
-            cascadeString1 = "{ value: '" + department1.get(i).get("id").toString()+"', label: '"+department1.get(i).get("name").toString()+"',";
-            if (Department.dao.find("select * from department where father=?", department1 .get(i).get("id")).size()!=0){
-                cascadeString2 = " children: [";
-                List<Department> department2 = Department.dao.find("select * from department where father=? and state=?", department1 .get(i).get("id"),"激活");
-                for(int j = 0; j < department2 .size(); j++) {
-                    cascadeString3 = "{ value: '" + department2.get(j).get("id").toString()+"', label: '"+department2.get(j).get("name").toString()+"',";
-                    if (Department.dao.find("select * from department where father=?", department2 .get(j).get("id")).size()!=0) {
-                        cascadeString4 = " children: [";
-                        List<Department> department3 = Department.dao.find("select * from department where father=? and state=?", department2 .get(j).get("id"),"激活");
-                        for(int k = 0; k < department3 .size(); k++) {
-                            cascadeString5 = "{ value: '" + department3.get(k).get("id").toString()+"', label: '"+department3.get(k).get("name").toString()+"',";
-                            cascadeString4 = cascadeString4 + cascadeString5+ "}, ";
+        if (department1.size()==0){
+            cascadeString = "";
+        } else {
+            for(int i = 0; i < department1.size(); i++) {
+                cascadeString1 = "{ value: '" + department1.get(i).get("id").toString()+"', label: '"+department1.get(i).get("name").toString()+"',";
+                if (Department.dao.find("select * from department where father=?", department1 .get(i).get("id")).size()==0){
+                    cascadeString2 = "";
+                } else {
+                    List<Department> department2 = Department.dao.find("select * from department where father=? and state=?", department1 .get(i).get("id"),"激活");
+                    for(int j = 0; j < department2 .size(); j++) {
+                        cascadeString3 = "{ value: '" + department2.get(j).get("id").toString()+"', label: '"+department2.get(j).get("name").toString()+"',";
+                        if (Department.dao.find("select * from department where father=?", department2 .get(j).get("id")).size()==0) {
+                            cascadeString5 = "";
+                        } else {
+                            List<Department> department3 = Department.dao.find("select * from department where father=? and state=?", department2 .get(j).get("id"),"激活");
+                            for(int k = 0; k < department3 .size(); k++) {
+                                cascadeString6 = cascadeString6 + "{ value: '" + department3.get(k).get("id").toString()+"', label: '"+department3.get(k).get("name").toString()+"' }, ";
+                            }
+                            cascadeString5 = children + cascadeString6 + "], ";
+                            cascadeString6="";
                         }
-                        cascadeString3 = cascadeString3 + cascadeString4 + "}, ";
+                        cascadeString4= cascadeString4 + cascadeString3 + cascadeString5 + "}, ";
                     }
-                    cascadeString2 = cascadeString2 + cascadeString3 + " }, ";
-                    cascadeString4 = "";
+                    cascadeString2 = children + cascadeString4 + "], ";
+                    cascadeString3="";
+                    cascadeString5="";
                 }
-                a = cascadeString2 + "],";
+                cascadeString = cascadeString + cascadeString1 + cascadeString2 +"}, ";
+                cascadeString1="";
+                cascadeString2="";
+                cascadeString3="";
+                cascadeString4="";
+                cascadeString5="";
+                cascadeString6="";
             }
-            cascadeString = cascadeString + cascadeString1 + a + " },";
-            cascadeString2 = "";
-            a="";
         }
+//
+//
+//
+//        for(int i = 0; i < department1 .size(); i++) {
+//            cascadeString1 = "{ value: '" + department1.get(i).get("id").toString()+"', label: '"+department1.get(i).get("name").toString()+"',";
+//            if (Department.dao.find("select * from department where father=?", department1 .get(i).get("id")).size()!=0){
+//                List<Department> department2 = Department.dao.find("select * from department where father=? and state=?", department1 .get(i).get("id"),"激活");
+//                for(int j = 0; j < department2 .size(); j++) {
+//                    cascadeString3 = "{ value: '" + department2.get(j).get("id").toString()+"', label: '"+department2.get(j).get("name").toString()+"',";
+//                    if (Department.dao.find("select * from department where father=?", department2 .get(j).get("id")).size()!=0) {
+//                        List<Department> department3 = Department.dao.find("select * from department where father=? and state=?", department2 .get(j).get("id"),"激活");
+//                        for(int k = 0; k < department3 .size(); k++) {
+//                            cascadeString6 = cascadeString6 + "{ value: '" + department3.get(k).get("id").toString()+"', label: '"+department3.get(k).get("name").toString()+"' }, ";
+//                        }
+//                        cascadeString3 = cascadeString3 + children + cascadeString6 + "] }, ";
+//                        cascadeString6 = "";
+//                    } else {
+//                        cascadeString3 = cascadeString3 + " }, ";
+//                    }
+//                    cascadeString7 = cascadeString7 + children + cascadeString3 + "], ";
+//                }
+//                cascadeString = cascadeString1 + children + cascadeString7 + "], ";
+//            } else {
+//                cascadeString = cascadeString + cascadeString1 + " },";
+//            }
+//            cascadeString7 = "";
+//        }
         renderText("[{ value: '1', label: '无上级部门' }, "+cascadeString.substring(0,cascadeString.length()-1)+"]");
     }
 }
