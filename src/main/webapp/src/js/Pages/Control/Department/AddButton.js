@@ -16,6 +16,7 @@ export default class AddButton extends React.Component {
     super(props);
     this.state = {
       visible: false,
+      options: [],
     };
     this.showModal = this.showModal.bind(this);
     this.handleOk = this.handleOk.bind(this);
@@ -24,11 +25,31 @@ export default class AddButton extends React.Component {
   }
 
   showModal() {
-    this.setState(
-      {
-        visible: true,
-      }
-    );
+    $.ajax({
+      'type': 'POST',
+      'url': AjaxFunction.DepartmentCascade,
+      'dataType': 'text',
+      'success': (data) => {
+        this.setState(
+          {
+            options: eval(`(${data})`),
+            visible: true,
+          }
+        );
+      },
+      'error': (XMLHttpRequest, textStatus) => {
+        openNotificationWithIcon('error', '请求错误', '无法获取部门信息，请检查网络情况');
+        console.log(XMLHttpRequest.status);
+        console.log(XMLHttpRequest.readyState);
+        console.log(textStatus);
+        this.setState(
+          {
+            options: '',
+            visible: false,
+          }
+        );
+      },
+    });
   }
 
   handleOk() {
@@ -37,12 +58,21 @@ export default class AddButton extends React.Component {
     });
     this.refs.AddForm.validateFields((errors, values) => {
       if (!!errors) {
-        console.log(values.departmentFather);
         openNotificationWithIcon('error', '录入错误', '录入的信息中有错误，请核实后再更新');
         this.setState({
           confirmLoading: false,
         });
         return;
+      }
+      let fatherId;
+      if (values.departmentFather.length === 1) {
+        fatherId = values.departmentFather[0];
+      } else if (values.departmentFather.length === 2) {
+        fatherId = values.departmentFather[1];
+      } else if (values.departmentFather.length === 3) {
+        fatherId = values.departmentFather[2];
+      } else {
+        fatherId = '';
       }
       $.ajax({
         'type': 'POST',
@@ -52,9 +82,9 @@ export default class AddButton extends React.Component {
           'name': values.departmentName,
           'phone': values.departmentPhone,
           'address': values.departmentAddress,
-          'father': values.departmentFather,
+          'father': fatherId,
           'state': values.departmentState,
-          'other': values.departmentOther,
+          'other': values.departmentOther || '',
         },
         'success': (data) => {
           if (data.toString() === 'OK') {
@@ -111,7 +141,7 @@ export default class AddButton extends React.Component {
             <Button key="submit" type="primary" size="large" loading={this.state.loading} onClick={this.handleOk}>提 交</Button>,
           ]}
         >
-          <AddForm ref="AddForm" />
+          <AddForm ref="AddForm" options={this.state.options} />
         </Modal>
       </Row>
     );

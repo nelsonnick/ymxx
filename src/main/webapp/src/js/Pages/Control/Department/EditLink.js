@@ -17,6 +17,8 @@ export default class EditLink extends React.Component {
     super(props);
     this.state = {
       visible: false,
+      grand: '',
+      options: [],
     };
     this.showModal = this.showModal.bind(this);
     this.handleOk = this.handleOk.bind(this);
@@ -25,8 +27,46 @@ export default class EditLink extends React.Component {
   }
 
   showModal() {
-    this.setState({
-      visible: true,
+    $.ajax({
+      'type': 'POST',
+      'url': AjaxFunction.DepartmentCascade,
+      'dataType': 'text',
+      'success': (data) => {
+        this.setState(
+          {
+            options: eval(`(${data})`),
+          }
+        );
+        $.ajax({
+          'type': 'POST',
+          'url': AjaxFunction.DepartmentFatherGet,
+          'dataType': 'text',
+          'data': { 'father': this.props.departmentFather },
+          'success': (msg) => {
+            this.setState(
+              {
+                visible: true,
+                grand: msg,
+              }
+            );
+          },
+          'error': () => {
+            openNotificationWithIcon('error', '请求错误', '无法获取上级部门信息，请检查网络情况');
+          },
+        });
+      },
+      'error': (XMLHttpRequest, textStatus) => {
+        openNotificationWithIcon('error', '请求错误', '无法获取部门信息，请检查网络情况');
+        console.log(XMLHttpRequest.status);
+        console.log(XMLHttpRequest.readyState);
+        console.log(textStatus);
+        this.setState(
+          {
+            options: '',
+            visible: false,
+          }
+        );
+      },
     });
   }
 
@@ -42,6 +82,16 @@ export default class EditLink extends React.Component {
         });
         return;
       }
+      let fatherId;
+      if (values.departmentFather.length === 1) {
+        fatherId = values.departmentFather[0];
+      } else if (values.departmentFather.length === 2) {
+        fatherId = values.departmentFather[1];
+      } else if (values.departmentFather.length === 3) {
+        fatherId = values.departmentFather[2];
+      } else {
+        fatherId = '';
+      }
       $.ajax({
         'type': 'POST',
         'url': AjaxFunction.DepartmentEdit,
@@ -51,8 +101,8 @@ export default class EditLink extends React.Component {
           'name': values.departmentName,
           'phone': values.departmentPhone,
           'address': values.departmentAddress,
-          'other': values.departmentOther,
-          'father': values.departmentFather,
+          'other': values.departmentOther || '',
+          'father': fatherId,
         },
         'success': (data) => {
           if (data.toString() === 'OK') {
@@ -92,7 +142,7 @@ export default class EditLink extends React.Component {
   }
 
   render() {
-    const { departmentId, departmentName, departmentPhone, departmentAddress, departmentState, departmentOther, departmentFather } = this.props;
+    const { departmentId, departmentName, departmentPhone, departmentAddress, departmentState, departmentOther, departmentFather, departmentLevel } = this.props;
     return (
       <span>
         <a onClick={this.showModal} className="btn btn-primary btn-xs" >修改</a>
@@ -111,13 +161,16 @@ export default class EditLink extends React.Component {
         >
           <EditForm
             ref="EditForm"
-            departmentId={departmentId}
+            departmentId={departmentId.toString()}
             departmentName={departmentName}
             departmentAddress={departmentAddress}
             departmentPhone={departmentPhone}
             departmentState={departmentState}
             departmentOther={departmentOther}
-            departmentFather={departmentFather}
+            departmentFather={departmentFather.toString()}
+            departmentLevel={departmentLevel.toString()}
+            departmentGrand={this.state.grand}
+            options={this.state.options}
           />
         </Modal>
       </span>
@@ -132,5 +185,6 @@ EditLink.propTypes = {
   departmentState: React.PropTypes.string,
   departmentOther: React.PropTypes.string,
   departmentFather: React.PropTypes.string,
+  departmentLevel: React.PropTypes.string,
   afterEdit: React.PropTypes.func,
 };

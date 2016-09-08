@@ -109,11 +109,16 @@ export default class DataTable extends React.Component {
       title: '办公地点',
       dataIndex: 'address',
       key: 'address',
-      width: 200,
+      width: 150,
     }, {
       title: '当前状态',
       dataIndex: 'state',
       key: 'state',
+      width: 50,
+    }, {
+      title: '部门级别',
+      dataIndex: 'level',
+      key: 'level',
       width: 50,
     }, {
       title: '上级部门',
@@ -137,6 +142,7 @@ export default class DataTable extends React.Component {
               departmentState={record.state}
               departmentOther={record.other}
               departmentFather={record.father}
+              departmentLevel={record.level}
             />
           );
           operate.push(<span className="ant-divider" />);
@@ -153,6 +159,7 @@ export default class DataTable extends React.Component {
               departmentState={record.state}
               departmentOther={record.other}
               departmentFather={record.father}
+              departmentLevel={record.level}
               afterEdit={this.afterEdit}
             />
           );

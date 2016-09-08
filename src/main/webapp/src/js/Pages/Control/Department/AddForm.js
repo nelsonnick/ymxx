@@ -1,52 +1,19 @@
 import React from 'react';
-import { Form, Input, Select, Cascader, notification } from 'antd';
+import { Form, Input, Select, Cascader } from 'antd';
 import $ from 'jquery';
 const FormItem = Form.Item;
 const Option = Select.Option;
 import * as AjaxFunction from '../../../Util/AjaxFunction.js';
-const openNotificationWithIcon = (type, msg, desc) => {
-  notification[type]({
-    message: msg,
-    description: desc,
-  });
-};
 
 class AddFrom extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      options: '',
-    };
     this.departmentNameCheck = this.departmentNameCheck.bind(this);
     this.departmentPhoneCheck = this.departmentPhoneCheck.bind(this);
     this.departmentAddressCheck = this.departmentAddressCheck.bind(this);
     this.departmentFatherCheck = this.departmentFatherCheck.bind(this);
   }
-  componentWillMount() {
-    $.ajax({
-      'type': 'POST',
-      'url': AjaxFunction.DepartmentCascade,
-      'dataType': 'text',
-      'success': (data) => {
-        this.setState(
-          {
-            options: eval(`(${data})`),
-          }
-        );
-      },
-      'error': (XMLHttpRequest, textStatus) => {
-        openNotificationWithIcon('error', '请求错误', '无法获取部门信息，请检查网络情况');
-        console.log(XMLHttpRequest.status);
-        console.log(XMLHttpRequest.readyState);
-        console.log(textStatus);
-        this.setState(
-          {
-            options: '',
-          }
-        );
-      },
-    });
-  }
+
   departmentNameCheck(rule, value, callback) {
     if (!value) {
       callback();
@@ -148,7 +115,7 @@ class AddFrom extends React.Component {
 
   render() {
     const { getFieldProps, getFieldError, isFieldValidating } = this.props.form;
-
+    const { options } = this.props;
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 14 },
@@ -216,7 +183,7 @@ class AddFrom extends React.Component {
           {...formItemLayout}
           required
         >
-          <Cascader allowClear={false} options={this.state.options} changeOnSelect placeholder="请选择上级部门" {...departmentFatherProps} />
+          <Cascader allowClear={false} options={options} changeOnSelect placeholder="请选择上级部门" {...departmentFatherProps} />
         </FormItem>
         <FormItem
           label="部门状态"
@@ -243,4 +210,5 @@ AddFrom = Form.create({})(AddFrom);
 export default AddFrom;
 AddFrom.propTypes = {
   form: React.PropTypes.object,
+  options: React.PropTypes.object,
 };

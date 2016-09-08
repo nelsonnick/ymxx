@@ -91,18 +91,20 @@ public class DepartmentController extends Controller {
      * 核查父级部门
      */
     public void father() {
-        if (!getPara("father").toString().equals("")){
-            if (!getPara("father").toString().equals("0")){
-                if (Integer.parseInt(Department.dao.findById(getPara("father")).get("level").toString())>2){
-                    renderText("上级部门不得超过两级！");
-                } else {
-                    renderText("OK");
-                }
-            } else {
-                renderText("OK");
-            }
+        if (Integer.parseInt(Department.dao.findById(getPara("father")).get("level").toString())>2){
+            renderText("上级部门不得超过两级！");
         } else {
-         renderText("未选择上级部门！");
+            renderText("OK");
+        }
+    }
+    /**
+     * 获取父级部门
+     */
+    public void fatherGet() {
+        if (getPara("father").equals("1")) {
+            renderText("1");
+        } else {
+            renderText(Department.dao.findById(getPara("father")).get("father").toString());
         }
     }
     /**
@@ -121,8 +123,6 @@ public class DepartmentController extends Controller {
             renderText("部门电话必须为8位数字!");
         } else if (getPara("address").length() < 3) {
             renderText("部门地址必须超过3个字符!");
-        }else if (getPara("father").toString().equals("")) {
-            renderText("上级部门不能为空!");
         }else if (Integer.parseInt(Department.dao.findById(getPara("father")).get("level").toString())>2) {
             renderText("上级部门不得超过两级！");
         } else {
@@ -150,6 +150,8 @@ public class DepartmentController extends Controller {
             renderText("要注销的部门不存在，请刷新页面后再试！");
         }else if (department.get("state").equals("注销")){
             renderText("该部门已注销！");
+        }else if (Department.dao.find("select * from department where father=? and state=?", getPara("id"),"激活").size()>0){
+            renderText("该部门下尚有未注销的子部门！");
         }else{
             if (Department.dao.findById(getPara("id")).set("state", "注销").update()){
                 renderText("OK");
@@ -187,6 +189,8 @@ public class DepartmentController extends Controller {
             renderText("要删除的部门不存在，请刷新页面后再试！");
         }else if (department.get("state").equals("删除")){
             renderText("该部门已删除！");
+        }else if (Department.dao.find("select * from department where father=? and state=?", getPara("id"),"激活").size()>0){
+            renderText("该部门下尚有未删除的子部门！");
         }else{
             if (department.set("state", "删除").update()){
                 renderText("OK");
@@ -208,18 +212,31 @@ public class DepartmentController extends Controller {
                 && department.get("phone").equals(getPara("phone"))
                 && department.get("address").equals(getPara("address"))
                 && department.get("other").equals(getPara("other"))
+                && department.get("father").toString().equals(getPara("father"))
                     ) {
                 renderText("未找到修改内容，请核实后再修改！");
             } else if (!department.get("name").equals(getPara("name"))
                     && Department.dao.find("select * from department where name=?", getPara("name")).size() > 0
                     ){
                 renderText("该部门名称已存在，请重新修改！");
+            }else if (!getPara("name").matches("[\u4e00-\u9fa5]+")) {
+                renderText("部门名称必须为汉字!");
+            } else if (getPara("name").length() < 3) {
+                renderText("部门名称必须超过3个汉字!");
+            } else if (!getPara("phone").matches("\\d{8}")) {
+                renderText("部门电话必须为8位数字!");
+            } else if (getPara("address").length() < 3) {
+                renderText("部门地址必须超过3个字符!");
+            }else if (Integer.parseInt(Department.dao.findById(getPara("father")).get("level").toString())>2) {
+                renderText("上级部门不得超过两级！");
             } else {
                 if (department
                         .set("name",getPara("name"))
                         .set("phone",getPara("phone"))
                         .set("address",getPara("address"))
                         .set("other",getPara("other"))
+                        .set("father",getPara("father"))
+                        .set("level",String.valueOf(Integer.parseInt(Department.dao.findById(getPara("father")).get("level").toString())+1))
                         .update()) {
                     renderText("OK");
                 } else{
@@ -304,6 +321,6 @@ public class DepartmentController extends Controller {
 //            }
 //            cascadeString7 = "";
 //        }
-        renderText("[{ value: '1', label: '无上级部门' }, "+cascadeString.substring(0,cascadeString.length()-1)+"]");
+        renderText("[{ value: '1', label: '顶级部门' }, "+cascadeString.substring(0,cascadeString.length()-1)+"]");
     }
 }

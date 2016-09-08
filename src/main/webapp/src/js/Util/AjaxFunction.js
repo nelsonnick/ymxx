@@ -11,3 +11,4 @@ export const DepartmentAddress = '/department/address';      // 检测地址    
 export const DepartmentPhone = '/department/phone';          // 检测电话     --参数：phone
 export const DepartmentCascade = '/department/cascade';      // 获取级联     --参数：无
 export const DepartmentFather = '/department/father';        // 检测父级     --参数：father
+export const DepartmentFatherGet = '/department/fatherGet';  // 获取父级     --参数：father

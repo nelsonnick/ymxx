@@ -4,13 +4,13 @@ import $ from 'jquery';
 const FormItem = Form.Item;
 const Option = Select.Option;
 import * as AjaxFunction from '../../../Util/AjaxFunction.js';
-const op = [];
 class EditFrom extends React.Component {
   constructor(props) {
     super(props);
     this.departmentNameCheck = this.departmentNameCheck.bind(this);
     this.departmentPhoneCheck = this.departmentPhoneCheck.bind(this);
     this.departmentAddressCheck = this.departmentAddressCheck.bind(this);
+    this.departmentFatherCheck = this.departmentFatherCheck.bind(this);
   }
 
   departmentNameCheck(rule, value, callback) {
@@ -79,9 +79,50 @@ class EditFrom extends React.Component {
       });
     }
   }
+  departmentFatherCheck(rule, value, callback) {
+    let a;
+    if (typeof (value) !== 'undefined' && value.toString() !== '' && value.length === 1) {
+      a = value[0];
+    } else if (typeof (value) !== 'undefined' && value.toString() !== '' && value.length === 2) {
+      a = value[1];
+    } else if (typeof (value) !== 'undefined' && value.toString() !== '' && value.length === 3) {
+      a = value[2];
+    } else {
+      a = '';
+    }
+    if (!value) {
+      callback();
+    } else {
+      $.ajax({
+        'type': 'POST',
+        'url': AjaxFunction.DepartmentFather,
+        'dataType': 'text',
+        'data': { 'father': a },
+        'success': (data) => {
+          if (data.toString() === 'OK') {
+            callback();
+          } else {
+            callback(new Error(data.toString()));
+          }
+        },
+        'error': () => {
+          callback(new Error('无法执行后台验证，请重试'));
+        },
+      });
+    }
+  }
   render() {
     const { getFieldProps, getFieldError, isFieldValidating } = this.props.form;
-    const { departmentId, departmentName, departmentPhone, departmentAddress, departmentState, departmentOther, departmentFather } = this.props;
+    const { departmentId, departmentName, departmentPhone, departmentAddress, departmentState, departmentOther, departmentFather, departmentLevel, departmentGrand, options } = this.props;
+    const arr = [];
+    if (departmentLevel.toString() === '2') {
+      arr[0] = departmentFather;
+    } else if (departmentLevel.toString() === '3') {
+      arr[0] = departmentGrand;
+      arr[1] = departmentFather;
+    } else {
+      arr[0] = '1';
+    }
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 14 },
@@ -111,7 +152,10 @@ class EditFrom extends React.Component {
       initialValue: departmentAddress,
     });
     const departmentFatherProps = getFieldProps('departmentFather', {
-      initialValue: departmentFather,
+      rules: [
+        { validator: this.departmentFatherCheck },
+      ],
+      initialValue: arr,
     });
     const departmentStateProps = getFieldProps('departmentState', {
       initialValue: departmentState,
@@ -159,7 +203,7 @@ class EditFrom extends React.Component {
           {...formItemLayout}
           required
         >
-          <Cascader options={op} changeOnSelect placeholder="请选择上级部门" {...departmentFatherProps} />
+          <Cascader allowClear={false} options={options} changeOnSelect placeholder="请选择上级部门" {...departmentFatherProps} />
         </FormItem>
         <FormItem
           label="部门状态"
@@ -193,4 +237,7 @@ EditFrom.propTypes = {
   departmentFather: React.PropTypes.string,
   departmentState: React.PropTypes.string,
   departmentOther: React.PropTypes.string,
+  departmentGrand: React.PropTypes.string,
+  departmentLevel: React.PropTypes.string,
+  options: React.PropTypes.object,
 };
