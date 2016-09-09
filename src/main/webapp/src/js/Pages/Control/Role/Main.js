@@ -368,45 +368,45 @@ export default class RoleCont extends React.Component {
 
   render() {
     const rolePowers = window.rolePower;
-    let AddDept;
-    if (rolePowers.indexOf('AddDept,') >= 0) {
-      AddDept = <Col span={12}><AddButton afterAdd={this.AfterAddAndDelete} QueryString={this.state.QueryString} /></Col>;
+    let AddRole;
+    if (rolePowers.indexOf('AddRole,') >= 0) {
+      AddRole = <Col span={12}><AddButton afterAdd={this.AfterAddAndDelete} QueryString={this.state.QueryString} /></Col>;
     } else {
-      AddDept = <p></p>;
+      AddRole = <p></p>;
     }
-    let QuyDept;
-    if (rolePowers.indexOf('QuyDept,') >= 0) {
-      QuyDept = <Col span={12}><DataSearch setQuery={this.getQuery} resetPage={this.resetPage} /></Col>;
+    let QuyRole;
+    if (rolePowers.indexOf('QuyRole,') >= 0) {
+      QuyRole = <Col span={12}><DataSearch setQuery={this.getQuery} resetPage={this.resetPage} /></Col>;
     } else {
-      QuyDept = <p></p>;
+      QuyRole = <p></p>;
     }
-    let GetDept1;
-    let GetDept2;
-    if (rolePowers.indexOf('GetDept,') >= 0) {
-      GetDept1 = <DataTable tableData={this.state.DataTable} loading={this.state.Loading} afterState={this.AfterEditAndState} afterDelete={this.AfterAddAndDelete} />;
-      GetDept2 = <DataPagination PageNumber={this.state.PageNumber} onShowSizeChange={this.onShowSizeChange} onChange={this.onChange} DataCount={this.state.DataCount} />;
+    let GetRole1;
+    let GetRole2;
+    if (rolePowers.indexOf('GetRole,') >= 0) {
+      GetRole1 = <DataTable tableData={this.state.DataTable} loading={this.state.Loading} afterState={this.AfterEditAndState} afterDelete={this.AfterAddAndDelete} />;
+      GetRole2 = <DataPagination PageNumber={this.state.PageNumber} onShowSizeChange={this.onShowSizeChange} onChange={this.onChange} DataCount={this.state.DataCount} />;
     } else {
-      GetDept1 = <p></p>;
-      GetDept2 = <p></p>;
+      GetRole1 = <p></p>;
+      GetRole2 = <p></p>;
     }
     return (
       <QueueAnim>
         <div key="a">
           <Row type="flex" justify="start">
-            {AddDept}
-            {QuyDept}
+            {AddRole}
+            {QuyRole}
           </Row>
           <Row>
             <span style={{ 'font-size': '5px' }}>&nbsp;&nbsp;&nbsp;</span>
           </Row>
           <Row>
-            {GetDept1}
+            {GetRole1}
           </Row>
           <Row>
             <span style={{ 'font-size': '20px' }}>&nbsp;&nbsp;&nbsp;</span>
           </Row>
           <Row>
-            {GetDept2}
+            {GetRole2}
           </Row>
         </div>
       </QueueAnim>

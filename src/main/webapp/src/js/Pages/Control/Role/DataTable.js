@@ -90,7 +90,7 @@ export default class DataTable extends React.Component {
         } else {
           operate.push(<span>&nbsp;</span>);
         }
-        if (rolePowers.indexOf('RolDept,') >= 0) {
+        if (rolePowers.indexOf('DelRole,') >= 0) {
           operate.push(<Popconfirm title={`确定要删除角色<${record.name}>？`} okText="删除" onConfirm={this.delete.bind(this, record.id)} onCancel={this.cancel}>
             <Button className="btn btn-danger btn-xs">删除</Button>
           </Popconfirm>);
