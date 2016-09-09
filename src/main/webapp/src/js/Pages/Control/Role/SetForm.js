@@ -1,65 +1,97 @@
 import React from 'react';
-import { TreeSelect } from 'antd';
-const treeData = [{
-  label: '节点一',
-  value: '1',
-  key: '0-0',
-  children: [{
-    label: '子节点一',
-    value: '3',
-    key: '0-0-0',
-  }],
-}, {
-  label: '节点二',
-  value: '2',
-  key: '0-1',
-  children: [{
-    label: '子节点三',
-    value: '4',
-    key: '0-1-0',
-  }, {
-    label: '子节点四',
-    value: '5',
-    key: '0-1-1',
-  }, {
-    label: '子节点五',
-    value: '6',
-    key: '0-1-2',
-    children: [{
-      label: '子节点五一',
-      value: '6',
-      key: '0-0-0',
-    }],
-  }],
-}];
+import { Form, Input, TreeSelect } from 'antd';
+const FormItem = Form.Item;
+
 export default class SetFrom extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: ['5'],
+      value: [],
+      rolePowers: [],
     };
     this.onChange = this.onChange.bind(this);
   }
+
+  componentWillMount() {
+    this.setState(
+      {
+        rolePowers: [],
+      }
+    );
+  }
+
   onChange(value) {
     console.log('onChange ', value);
     this.setState({ value });
   }
   render() {
+    const { getFieldProps } = this.props.form;
+    const { roleId, roleName, roleOther, tree } = this.props;
+    const formItemLayout = {
+      labelCol: { span: 6 },
+      wrapperCol: { span: 14 },
+    };
+    const roleIdProps = getFieldProps('roleId', {
+      initialValue: roleId,
+    });
+    const roleNameProps = getFieldProps('roleName', {
+      initialValue: roleName,
+    });
+    const roleOtherProps = getFieldProps('roleOther', {
+      initialValue: roleOther,
+    });
+    const rolePowersProps = getFieldProps('rolePowers', {
+      initialValue: this.state.rolePowers,
+    });
     return (
-      <TreeSelect
-        treeData={treeData}
-        value={this.state.value}
-        onChange={this.onChange}
-        multiple
-        treeCheckable
-        showCheckedStrategy={TreeSelect.SHOW_ALL}
-        searchPlaceholder={"请选择"}
-        style={{ width: 300 }}
-      />
+      <Form horizontal>
+        <FormItem
+          label=""
+          {...formItemLayout}
+        >
+          <Input type="hidden" {...roleIdProps} />
+        </FormItem>
+        <FormItem
+          label="角色名称"
+          {...formItemLayout}
+          hasFeedback
+          required
+        >
+          <Input placeholder="请输入角色名称" disabled {...roleNameProps} />
+        </FormItem>
+        <FormItem
+          label="其他信息"
+          {...formItemLayout}
+          hasFeedback
+        >
+          <Input type="textarea" rows="3" placeholder="其他需要填写的信息" disabled {...roleOtherProps} />
+        </FormItem>
+        <FormItem
+          label="所选权限"
+          {...formItemLayout}
+          hasFeedback
+          required
+        >
+          <TreeSelect
+            {...rolePowersProps}
+            treeData={tree}
+            value={this.state.value}
+            onChange={this.onChange}
+            multiple
+            treeCheckable
+            showCheckedStrategy={TreeSelect.SHOW_ALL}
+            searchPlaceholder={"请选择"}
+            style={{ width: 300 }}
+          />
+        </FormItem>
+      </Form>
     );
   }
 }
 SetFrom.propTypes = {
+  form: React.PropTypes.object,
   roleId: React.PropTypes.string,
-  trees: React.PropTypes.object,
+  roleName: React.PropTypes.string,
+  roleOther: React.PropTypes.string,
+  tree: React.PropTypes.object,
 };

@@ -15,7 +15,7 @@ export default class SetLink extends React.Component {
     super(props);
     this.state = {
       visible: false,
-      trees: [],
+      tree: [],
     };
     this.showModal = this.showModal.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
@@ -29,17 +29,16 @@ export default class SetLink extends React.Component {
       'success': (data) => {
         this.setState(
           {
-            trees: eval(`(${data})`),
+            tree: eval(`(${data})`),
             visible: true,
           }
         );
-
       },
       'error': () => {
         openNotificationWithIcon('error', '请求错误', '无法获取部门信息，请检查网络情况');
         this.setState(
           {
-            trees: '',
+            tree: '',
             visible: false,
           }
         );
@@ -55,7 +54,7 @@ export default class SetLink extends React.Component {
   }
 
   render() {
-    const { roleId } = this.props;
+    const { roleId, roleName, roleOther } = this.props;
     return (
       <span>
         <a onClick={this.showModal} className="btn btn-default btn-xs">权限设置</a>
@@ -73,7 +72,9 @@ export default class SetLink extends React.Component {
           <SetForm
             ref="SetForm"
             roleId={roleId.toString()}
-            trees={this.state.trees}
+            roleName={roleName}
+            roleOther={roleOther}
+            tree={this.state.tree}
           />
         </Modal>
       </span>
@@ -82,4 +83,6 @@ export default class SetLink extends React.Component {
 }
 SetLink.propTypes = {
   roleId: React.PropTypes.string,
+  roleName: React.PropTypes.string,
+  roleOther: React.PropTypes.string,
 };
