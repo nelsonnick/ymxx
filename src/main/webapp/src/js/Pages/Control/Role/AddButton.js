@@ -25,31 +25,11 @@ export default class AddButton extends React.Component {
   }
 
   showModal() {
-    $.ajax({
-      'type': 'POST',
-      'url': AjaxFunction.DepartmentCascade,
-      'dataType': 'text',
-      'success': (data) => {
-        this.setState(
-          {
-            options: eval(`(${data})`),
-            visible: true,
-          }
-        );
-      },
-      'error': (XMLHttpRequest, textStatus) => {
-        openNotificationWithIcon('error', '请求错误', '无法获取部门信息，请检查网络情况');
-        console.log(XMLHttpRequest.status);
-        console.log(XMLHttpRequest.readyState);
-        console.log(textStatus);
-        this.setState(
-          {
-            options: '',
-            visible: false,
-          }
-        );
-      },
-    });
+    this.setState(
+      {
+        visible: true,
+      }
+    );
   }
 
   handleOk() {
@@ -64,27 +44,13 @@ export default class AddButton extends React.Component {
         });
         return;
       }
-      let fatherId;
-      if (values.departmentFather.length === 1) {
-        fatherId = values.departmentFather[0];
-      } else if (values.departmentFather.length === 2) {
-        fatherId = values.departmentFather[1];
-      } else if (values.departmentFather.length === 3) {
-        fatherId = values.departmentFather[2];
-      } else {
-        fatherId = '';
-      }
       $.ajax({
         'type': 'POST',
-        'url': AjaxFunction.DepartmentAdd,
+        'url': AjaxFunction.RoleAdd,
         'dataType': 'text',
         'data': {
-          'name': values.departmentName,
-          'phone': values.departmentPhone,
-          'address': values.departmentAddress,
-          'father': fatherId,
-          'state': values.departmentState,
-          'other': values.departmentOther || '',
+          'name': values.roleName,
+          'other': values.roleOther || '',
         },
         'success': (data) => {
           if (data.toString() === 'OK') {
@@ -93,7 +59,7 @@ export default class AddButton extends React.Component {
               confirmLoading: false,
             });
             this.refs.AddForm.resetFields();
-            openNotificationWithIcon('success', '保存成功', `${values.departmentName}保存成功，请进行后续操作`);
+            openNotificationWithIcon('success', '保存成功', `${values.roleName}保存成功，请进行后续操作`);
             this.props.afterAdd();
           } else {
             openNotificationWithIcon('error', '保存失败', `无法进行保存操作： ${data.toString()}`);
@@ -127,10 +93,10 @@ export default class AddButton extends React.Component {
   render() {
     return (
       <Row type="flex" justify="start">
-        <Button type="primary" size="large" onClick={this.showModal} >新增部门</Button>
+        <Button type="primary" size="large" onClick={this.showModal} >新增角色</Button>
         <Modal
           maskClosable={false}
-          title="新增部门"
+          title="新增角色"
           visible={this.state.visible}
           onOk={this.handleOk}
           confirmLoading={this.state.confirmLoading}
@@ -141,7 +107,7 @@ export default class AddButton extends React.Component {
             <Button key="submit" type="primary" size="large" loading={this.state.loading} onClick={this.handleOk}>提 交</Button>,
           ]}
         >
-          <AddForm ref="AddForm" options={this.state.options} />
+          <AddForm ref="AddForm" />
         </Modal>
       </Row>
     );

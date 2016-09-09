@@ -9,13 +9,6 @@ import java.util.List;
 
 public class DepartmentController extends Controller {
 
-	/**
-	 * 主界面
-	 * */
-    public void g() {
-        render("dist/index.html");
-    }
-
     /**
      * 查询部门
      *@param: PageNumber

@@ -12,3 +12,11 @@ export const DepartmentPhone = '/department/phone';          // 检测电话    
 export const DepartmentCascade = '/department/cascade';      // 获取级联     --参数：无
 export const DepartmentFather = '/department/father';        // 检测父级     --参数：father
 export const DepartmentFatherGet = '/department/fatherGet';  // 获取父级     --参数：father
+
+
+export const RoleName = '/role/name';                        // 检测名称     --参数：name
+export const RoleNames = '/role/names';                       // 检测名称     --参数：name
+export const RoleAdd = '/role/add';                          // 添加角色     --参数：name,other
+export const RoleDelete = '/role/delete';                    // 删除角色     --参数：id
+export const RoleEdit = '/role/edit';                        // 修改角色     --参数：id,name,other
+

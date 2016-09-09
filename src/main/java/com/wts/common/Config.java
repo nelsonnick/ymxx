@@ -9,7 +9,9 @@ import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.c3p0.C3p0Plugin;
 import com.wts.controller.DepartmentController;
 import com.wts.controller.MainController;
+import com.wts.controller.RoleController;
 import com.wts.entity.Department;
+import com.wts.entity.Role;
 
 /**
  * API引导式配置
@@ -31,6 +33,7 @@ public class Config extends JFinalConfig {
     public void configRoute(Routes me) {
         me.add("/", MainController.class);
         me.add("/department", DepartmentController.class);
+        me.add("/role", RoleController.class);
     }
 
     /**
@@ -45,6 +48,7 @@ public class Config extends JFinalConfig {
         ActiveRecordPlugin arp = new ActiveRecordPlugin(c3p0Plugin);
         me.add(arp);
         arp.addMapping("department", Department.class);
+        arp.addMapping("role", Role.class);
     }
 
     /**
