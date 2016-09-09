@@ -22,7 +22,7 @@ public class Power extends Model<Power> {
     public static final Power dao = new Power();
     public Page<Power> paginate(int pageNumber, int pageSize) {
         return paginate(pageNumber, pageSize, "SELECT *",
-                "FROM power ORDER BY power.id DESC");
+                "FROM power ORDER BY id DESC");
     }
 
  }

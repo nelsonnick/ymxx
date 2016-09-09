@@ -20,7 +20,7 @@ public class Role extends Model<Role> {
     public static final Role dao = new Role();
     public Page<Role> paginate(int pageNumber, int pageSize, String query) {
         return paginate(pageNumber, pageSize, "SELECT *",
-                "FROM role WHERE role.name LIKE '%"+query+"%' ORDER BY role.id DESC");
+                "FROM role WHERE name LIKE '%"+query+"%' ORDER BY id DESC");
     }
 
  }

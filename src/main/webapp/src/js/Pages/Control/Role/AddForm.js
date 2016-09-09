@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input } from 'antd';
+import { Form, Input, TreeSelect } from 'antd';
 import $ from 'jquery';
 const FormItem = Form.Item;
 import * as AjaxFunction from '../../../Util/AjaxFunction.js';
@@ -7,7 +7,17 @@ import * as AjaxFunction from '../../../Util/AjaxFunction.js';
 class AddFrom extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      value: [],
+      tree: [],
+    };
     this.roleNameCheck = this.roleNameCheck.bind(this);
+    this.onChange = this.onChange.bind(this);
+  }
+  onChange(value) {
+    this.props.getRolePower(value);
+    // console.log('onChange ', value);
+    this.setState({ value });
   }
 
   roleNameCheck(rule, value, callback) {
@@ -36,6 +46,7 @@ class AddFrom extends React.Component {
 
   render() {
     const { getFieldProps, getFieldError, isFieldValidating } = this.props.form;
+    const { tree } = this.props;
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 14 },
@@ -47,6 +58,8 @@ class AddFrom extends React.Component {
       ],
     });
     const roleOtherProps = getFieldProps('roleOther', {
+    });
+    const rolePowersProps = getFieldProps('rolePowers', {
     });
     return (
       <Form horizontal>
@@ -66,6 +79,22 @@ class AddFrom extends React.Component {
         >
           <Input type="textarea" rows="3" placeholder="其他需要填写的信息" {...roleOtherProps} />
         </FormItem>
+        <FormItem
+          label="所选权限"
+          {...formItemLayout}
+          required
+        >
+          <TreeSelect
+            {...rolePowersProps}
+            value={this.state.value}
+            treeData={tree}
+            onChange={this.onChange}
+            multiple
+            treeCheckable
+            showCheckedStrategy={TreeSelect.SHOW_ALL}
+            searchPlaceholder={"请选择"}
+          />
+        </FormItem>
       </Form>
     );
   }
@@ -74,4 +103,6 @@ AddFrom = Form.create({})(AddFrom);
 export default AddFrom;
 AddFrom.propTypes = {
   form: React.PropTypes.object,
+  tree: React.PropTypes.object,
+  getRolePower: React.PropTypes.func,
 };

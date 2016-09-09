@@ -85,7 +85,7 @@ EditFrom = Form.create({})(EditFrom);
 export default EditFrom;
 EditFrom.propTypes = {
   form: React.PropTypes.object,
-  roleId: React.PropTypes.number,
+  roleId: React.PropTypes.string,
   roleName: React.PropTypes.string,
   roleOther: React.PropTypes.string,
 };

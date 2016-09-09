@@ -41,6 +41,8 @@ public class RoleController extends Controller {
      * 新增角色
      */
     public void add() {
+        String[] array = getParaValues("power[]");// 这个数组可能为空
+        System.out.println(getParaMap());
         List<Role> roles = Role.dao.find(
                 "select * from role where name=?", getPara("name"));
         if (!getPara("name").matches("[\u4e00-\u9fa5]+")) {
@@ -99,7 +101,6 @@ public class RoleController extends Controller {
      */
     public void edit(){
         Role role = Role.dao.findById(getPara("id"));
-
         if (role == null) {
             renderText("要修改的角色不存在，请刷新页面后再试！");
         } else {
@@ -137,24 +138,24 @@ public class RoleController extends Controller {
         String cascadeString4 = "";
         String cascadeString5;
         String cascadeString6 = "";
-        List<Power> power1 = Power.dao.find("select * from power where father=?", "0");
+        List<Power> power1 = Power.dao.find("select * from power where father=0");
         if (power1.size() == 0) {
             cascadeString = "";
         } else {
             for (int i = 0; i < power1.size(); i++) {
-                cascadeString1 = "{ value: '" + power1.get(i).get("id").toString() + "', label: '" + power1.get(i).get("name").toString() + "', key: '" + power1.get(i).get("id").toString() + "',";
-                if (Department.dao.find("select * from department where father=?", power1.get(i).get("id")).size() == 0) {
+                cascadeString1 = "{ value: '" + power1.get(i).get("id").toString() + "', label: '" + power1.get(i).get("cname").toString() + "', key: '" + power1.get(i).get("ename").toString() + "',";
+                if (Power.dao.find("select * from power where father=?", power1.get(i).get("id")).size() == 0) {
                     cascadeString2 = "";
                 } else {
                     List<Power> power2 = Power.dao.find("select * from power where father=?", power1.get(i).get("id"));
                     for (int j = 0; j < power2.size(); j++) {
-                        cascadeString3 = "{ value: '" + power2.get(j).get("id").toString() + "', label: '" + power2.get(j).get("name").toString() + "', key: '" + power2.get(i).get("id").toString() + "',";
+                        cascadeString3 = "{ value: '" + power2.get(j).get("id").toString() + "', label: '" + power2.get(j).get("cname").toString() + "', key: '" + power2.get(j).get("ename").toString() + "',";
                         if (Power.dao.find("select * from power where father=?", power2.get(j).get("id")).size() == 0) {
                             cascadeString5 = "";
                         } else {
                             List<Power> power3 = Power.dao.find("select * from power where father=?", power2.get(j).get("id"));
                             for (int k = 0; k < power3.size(); k++) {
-                                cascadeString6 = cascadeString6 + "{ value: '" + power3.get(k).get("id").toString() + "', label: '" + power3.get(k).get("name").toString() + "', key: '" + power3.get(i).get("id").toString() + "' }, ";
+                                cascadeString6 = cascadeString6 + "{ value: '" + power3.get(k).get("id").toString() + "', label: '" + power3.get(k).get("cname").toString() + "', key: '" + power3.get(k).get("ename").toString() + "', }, ";
                             }
                             cascadeString5 = children + cascadeString6 + "], ";
                             cascadeString6 = "";
@@ -174,6 +175,7 @@ public class RoleController extends Controller {
                 cascadeString6 = "";
             }
         }
+        renderText("["+cascadeString.substring(0,cascadeString.length()-2)+"]");
     }
 }
 

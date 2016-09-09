@@ -15,37 +15,55 @@ export default class SetLink extends React.Component {
     super(props);
     this.state = {
       visible: false,
-      tree: [],
     };
     this.showModal = this.showModal.bind(this);
+    this.handleOk = this.handleOk.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
+    this.handleReset = this.handleReset.bind(this);
   }
 
   showModal() {
+    this.setState(
+      {
+        visible: true,
+      }
+    );
+  }
+  handleOk() {
     $.ajax({
       'type': 'POST',
-      'url': AjaxFunction.RoleTree,
+      'url': AjaxFunction.RoleSet,
       'dataType': 'text',
+      'data': {
+        'other': '',
+      },
       'success': (data) => {
-        this.setState(
-          {
-            tree: eval(`(${data})`),
-            visible: true,
-          }
-        );
+        if (data.toString() === 'OK') {
+          this.setState({
+            visible: false,
+            confirmLoading: false,
+          });
+          // this.props.afterEdit();
+          this.refs.SetForm.resetFields();
+          openNotificationWithIcon('success', '修改成功', '修改成功，请进行后续操作');
+        } else {
+          openNotificationWithIcon('error', '修改失败', data.toString());
+          this.setState({
+            confirmLoading: false,
+          });
+        }
       },
       'error': () => {
-        openNotificationWithIcon('error', '请求错误', '无法获取部门信息，请检查网络情况');
-        this.setState(
-          {
-            tree: '',
-            visible: false,
-          }
-        );
+        openNotificationWithIcon('error', '请求错误', '无法完成修改操作，请检查网络情况');
+        this.setState({
+          confirmLoading: false,
+        });
       },
     });
   }
-
+  handleReset() {
+    this.refs.SetForm.resetFields();
+  }
   handleCancel() {
     this.refs.SetForm.resetFields();
     this.setState({
@@ -66,7 +84,9 @@ export default class SetLink extends React.Component {
           confirmLoading={this.state.confirmLoading}
           onCancel={this.handleCancel}
           footer={[
-            <Button key="submit" type="primary" loading={this.state.loading} onClick={this.handleCancel}>返 回</Button>,
+            <Button key="back" onClick={this.handleCancel}>返 回</Button>,
+            <Button key="reset" type="ghost" size="large" onClick={this.handleReset}>重 置</Button>,
+            <Button key="submit" type="primary" size="large" loading={this.state.loading} onClick={this.handleOk}>提 交</Button>,
           ]}
         >
           <SetForm
@@ -74,7 +94,6 @@ export default class SetLink extends React.Component {
             roleId={roleId.toString()}
             roleName={roleName}
             roleOther={roleOther}
-            tree={this.state.tree}
           />
         </Modal>
       </span>

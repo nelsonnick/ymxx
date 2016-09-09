@@ -230,7 +230,7 @@ EditFrom = Form.create({})(EditFrom);
 export default EditFrom;
 EditFrom.propTypes = {
   form: React.PropTypes.object,
-  departmentId: React.PropTypes.number,
+  departmentId: React.PropTypes.string,
   departmentName: React.PropTypes.string,
   departmentAddress: React.PropTypes.string,
   departmentPhone: React.PropTypes.string,

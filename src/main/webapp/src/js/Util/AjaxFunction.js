@@ -21,4 +21,4 @@ export const RoleAdd = '/role/add';                          // 添加角色    
 export const RoleDelete = '/role/delete';                    // 删除角色     --参数：id
 export const RoleEdit = '/role/edit';                        // 修改角色     --参数：id,name,other
 export const RoleTree = '/role/tree';                        // 获取权限     --参数：无
-
+export const RoleSet = '/role/set';                          // 修改权限     --参数：rolePower[]

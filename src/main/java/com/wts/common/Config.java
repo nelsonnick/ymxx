@@ -11,6 +11,7 @@ import com.wts.controller.DepartmentController;
 import com.wts.controller.MainController;
 import com.wts.controller.RoleController;
 import com.wts.entity.Department;
+import com.wts.entity.Power;
 import com.wts.entity.Role;
 
 /**
@@ -49,6 +50,7 @@ public class Config extends JFinalConfig {
         me.add(arp);
         arp.addMapping("department", Department.class);
         arp.addMapping("role", Role.class);
+        arp.addMapping("power", Power.class);
     }
 
     /**

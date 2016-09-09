@@ -16,20 +16,40 @@ export default class AddButton extends React.Component {
     super(props);
     this.state = {
       visible: false,
-      options: [],
+      tree: [],
     };
     this.showModal = this.showModal.bind(this);
     this.handleOk = this.handleOk.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
     this.handleReset = this.handleReset.bind(this);
+    this.getRolePower = this.getRolePower.bind(this);
   }
-
+  getRolePower(value) {
+    this.setState({ value });
+  }
   showModal() {
-    this.setState(
-      {
-        visible: true,
-      }
-    );
+    $.ajax({
+      'type': 'POST',
+      'url': AjaxFunction.RoleTree,
+      'dataType': 'text',
+      'success': (data) => {
+        this.setState(
+          {
+            tree: eval(`(${data})`),
+            visible: true,
+          }
+        );
+      },
+      'error': () => {
+        openNotificationWithIcon('error', '请求错误', '无法获取部门信息，请检查网络情况');
+        this.setState(
+          {
+            tree: '',
+            visible: false,
+          }
+        );
+      },
+    });
   }
 
   handleOk() {
@@ -51,8 +71,10 @@ export default class AddButton extends React.Component {
         'data': {
           'name': values.roleName,
           'other': values.roleOther || '',
+          'power': this.state.value || '',
         },
         'success': (data) => {
+          console.log(this.state.value);
           if (data.toString() === 'OK') {
             this.setState({
               visible: false,
@@ -107,7 +129,7 @@ export default class AddButton extends React.Component {
             <Button key="submit" type="primary" size="large" loading={this.state.loading} onClick={this.handleOk}>提 交</Button>,
           ]}
         >
-          <AddForm ref="AddForm" />
+          <AddForm ref="AddForm" tree={this.state.tree} getRolePower={this.getRolePower} />
         </Modal>
       </Row>
     );

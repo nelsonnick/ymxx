@@ -70,7 +70,9 @@ export default class DataTable extends React.Component {
         if (rolePowers.indexOf('SetRole,') >= 0) {
           operate.push(
             <SetLink
-              departmentId={record.id}
+              roleId={record.id}
+              roleName={record.name}
+              roleOther={record.other}
             />
           );
           operate.push(<span className="ant-divider" />);
@@ -80,9 +82,9 @@ export default class DataTable extends React.Component {
         if (rolePowers.indexOf('EdiRole,') >= 0) {
           operate.push(
             <EditLink
-              departmentId={record.id}
-              departmentName={record.name}
-              departmentOther={record.other}
+              roleId={record.id}
+              roleName={record.name}
+              roleOther={record.other}
               afterEdit={this.afterEdit}
             />
           );
