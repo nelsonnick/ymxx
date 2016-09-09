@@ -3,8 +3,9 @@ import { Table, Popconfirm, message, notification } from 'antd';
 import { Button } from 'react-bootstrap';
 import $ from 'jquery';
 import EditLink from './EditLink.js';
-import LookLink from './LookLink.js';
+import SetLink from './SetLink.js';
 import * as AjaxFunction from '../../../Util/AjaxFunction.js';
+
 const openNotificationWithIcon = (type, msg, desc) => {
   notification[type]({
     message: msg,
@@ -68,7 +69,7 @@ export default class DataTable extends React.Component {
         const rolePowers = window.rolePower;
         if (rolePowers.indexOf('SetRole,') >= 0) {
           operate.push(
-            <LookLink
+            <SetLink
               departmentId={record.id}
             />
           );
