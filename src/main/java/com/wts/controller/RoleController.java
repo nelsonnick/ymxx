@@ -41,19 +41,24 @@ public class RoleController extends Controller {
      * 新增角色
      */
     public void add() {
-        String[] array = getParaValues("power[]");// 这个数组可能为空
-        System.out.println(getParaMap());
+        String[] powers = getParaValues("power[]");
+        String[] departments = getParaValues("department[]");
         List<Role> roles = Role.dao.find(
                 "select * from role where name=?", getPara("name"));
         if (!getPara("name").matches("[\u4e00-\u9fa5]+")) {
-            renderText("部门名称必须为汉字!");
+            renderText("角色名称必须为汉字!");
         } else if (roles.size() != 0) {
-            renderText("该部门名称数据库中已存在，请使用其他名称!");
+            renderText("该角色名称数据库中已存在，请使用其他名称!");
+        } else if (powers.length== 0){
+            renderText("未选择权限，请选择！");
+        } else if (departments.length== 0){
+            renderText("未选择部门，请选择！");
         } else {
             Role role = new Role();
             role.set("name", getPara("name").trim())
                     .set("other", getPara("other").trim());
             if (role.save()) {
+                System.out.println(role.getInt("id"));
                 renderText("OK");
             } else {
                 renderText("发生未知错误，请检查数据库！");
@@ -129,7 +134,7 @@ public class RoleController extends Controller {
     /**
      * 权限树
      */
-    public void tree() {
+    public void power() {
         String children = " children: [";
         String cascadeString = "";
         String cascadeString1;
@@ -156,6 +161,58 @@ public class RoleController extends Controller {
                             List<Power> power3 = Power.dao.find("select * from power where father=?", power2.get(j).get("id"));
                             for (int k = 0; k < power3.size(); k++) {
                                 cascadeString6 = cascadeString6 + "{ value: '" + power3.get(k).get("id").toString() + "', label: '" + power3.get(k).get("cname").toString() + "', key: '" + power3.get(k).get("ename").toString() + "', }, ";
+                            }
+                            cascadeString5 = children + cascadeString6 + "], ";
+                            cascadeString6 = "";
+                        }
+                        cascadeString4 = cascadeString4 + cascadeString3 + cascadeString5 + "}, ";
+                    }
+                    cascadeString2 = children + cascadeString4 + "], ";
+                    cascadeString3 = "";
+                    cascadeString5 = "";
+                }
+                cascadeString = cascadeString + cascadeString1 + cascadeString2 + "}, ";
+                cascadeString1 = "";
+                cascadeString2 = "";
+                cascadeString3 = "";
+                cascadeString4 = "";
+                cascadeString5 = "";
+                cascadeString6 = "";
+            }
+        }
+        renderText("["+cascadeString.substring(0,cascadeString.length()-2)+"]");
+    }
+
+    /**
+     * 部门树
+     */
+    public void department() {
+        String children = " children: [";
+        String cascadeString = "";
+        String cascadeString1;
+        String cascadeString2;
+        String cascadeString3;
+        String cascadeString4 = "";
+        String cascadeString5;
+        String cascadeString6 = "";
+        List<Department> department1 = Department.dao.find("select * from department where father=1");
+        if (department1.size() == 0) {
+            cascadeString = "";
+        } else {
+            for (int i = 0; i < department1.size(); i++) {
+                cascadeString1 = "{ value: '" + department1.get(i).get("id").toString() + "', label: '" + department1.get(i).get("name").toString() + "', key: '" + department1.get(i).get("name").toString() + "',";
+                if (Department.dao.find("select * from department where father=?", department1.get(i).get("id")).size() == 0) {
+                    cascadeString2 = "";
+                } else {
+                    List<Department> department2 = Department.dao.find("select * from department where father=?", department1.get(i).get("id"));
+                    for (int j = 0; j < department2.size(); j++) {
+                        cascadeString3 = "{ value: '" + department2.get(j).get("id").toString() + "', label: '" + department2.get(j).get("name").toString() + "', key: '" + department2.get(j).get("name").toString() + "',";
+                        if (Department.dao.find("select * from department where father=?", department2.get(j).get("id")).size() == 0) {
+                            cascadeString5 = "";
+                        } else {
+                            List<Department> department3 = Department.dao.find("select * from department where father=?", department2.get(j).get("id"));
+                            for (int k = 0; k < department3.size(); k++) {
+                                cascadeString6 = cascadeString6 + "{ value: '" + department3.get(k).get("id").toString() + "', label: '" + department3.get(k).get("name").toString() + "', key: '" + department3.get(k).get("name").toString() + "', }, ";
                             }
                             cascadeString5 = children + cascadeString6 + "], ";
                             cascadeString6 = "";

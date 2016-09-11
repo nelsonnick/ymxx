@@ -16,35 +16,59 @@ export default class AddButton extends React.Component {
     super(props);
     this.state = {
       visible: false,
-      tree: [],
+      powerValue: [],
+      deptValue: [],
+      powerTree: [],
+      deptTree: [],
     };
     this.showModal = this.showModal.bind(this);
     this.handleOk = this.handleOk.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
     this.handleReset = this.handleReset.bind(this);
-    this.getRolePower = this.getRolePower.bind(this);
+    this.getPower = this.getPower.bind(this);
+    this.getDept = this.getDept.bind(this);
   }
-  getRolePower(value) {
-    this.setState({ value });
+  getPower(powerValue) {
+    window.powerValues = powerValue;
+  }
+  getDept(deptValue) {
+    window.deptValues = deptValue;
   }
   showModal() {
     $.ajax({
       'type': 'POST',
-      'url': AjaxFunction.RoleTree,
+      'url': AjaxFunction.PowerTree,
       'dataType': 'text',
       'success': (data) => {
-        this.setState(
-          {
-            tree: eval(`(${data})`),
-            visible: true,
-          }
-        );
+        $.ajax({
+          'type': 'POST',
+          'url': AjaxFunction.DeptTree,
+          'dataType': 'text',
+          'success': (date) => {
+            this.setState(
+              {
+                deptTree: eval(`(${date})`),
+                powerTree: eval(`(${data})`),
+                visible: true,
+              }
+            );
+          },
+          'error': () => {
+            openNotificationWithIcon('error', '请求错误', '无法获取部门信息，请检查网络情况');
+            this.setState(
+              {
+                deptTree: '',
+                visible: false,
+              }
+            );
+          },
+        });
       },
       'error': () => {
-        openNotificationWithIcon('error', '请求错误', '无法获取部门信息，请检查网络情况');
+        openNotificationWithIcon('error', '请求错误', '无法获取权限信息，请检查网络情况');
         this.setState(
           {
-            tree: '',
+            powerTree: '',
             visible: false,
           }
         );
@@ -71,10 +95,10 @@ export default class AddButton extends React.Component {
         'data': {
           'name': values.roleName,
           'other': values.roleOther || '',
-          'power': this.state.value || '',
+          'power': window.powerValues || '',
+          'department': window.deptValues || '',
         },
         'success': (data) => {
-          console.log(this.state.value);
           if (data.toString() === 'OK') {
             this.setState({
               visible: false,
@@ -104,11 +128,17 @@ export default class AddButton extends React.Component {
     this.refs.AddForm.resetFields();
     this.setState({
       visible: false,
+      powerValue: [],
+      deptValue: [],
     });
   }
 
   handleReset() {
     this.refs.AddForm.resetFields();
+    this.setState({
+      powerValue: [],
+      deptValue: [],
+    });
   }
 
 
@@ -129,7 +159,15 @@ export default class AddButton extends React.Component {
             <Button key="submit" type="primary" size="large" loading={this.state.loading} onClick={this.handleOk}>提 交</Button>,
           ]}
         >
-          <AddForm ref="AddForm" tree={this.state.tree} getRolePower={this.getRolePower} />
+          <AddForm
+            ref="AddForm"
+            powerTree={this.state.powerTree}
+            deptTree={this.state.deptTree}
+            powerValue={this.state.powerValue}
+            deptValue={this.state.deptValue}
+            getPower={this.getPower}
+            getDept={this.getDept}
+          />
         </Modal>
       </Row>
     );

@@ -1,9 +1,7 @@
 import React from 'react';
 import { Table, Popconfirm, message, notification } from 'antd';
-import { Button } from 'react-bootstrap';
 import $ from 'jquery';
 import EditLink from './EditLink.js';
-import SetLink from './SetLink.js';
 import * as AjaxFunction from '../../../Util/AjaxFunction.js';
 
 const openNotificationWithIcon = (type, msg, desc) => {
@@ -67,18 +65,6 @@ export default class DataTable extends React.Component {
       render: (text, record) => {
         const operate = [];
         const rolePowers = window.rolePower;
-        if (rolePowers.indexOf('SetRole,') >= 0) {
-          operate.push(
-            <SetLink
-              roleId={record.id}
-              roleName={record.name}
-              roleOther={record.other}
-            />
-          );
-          operate.push(<span className="ant-divider" />);
-        } else {
-          operate.push(<span>&nbsp;</span>);
-        }
         if (rolePowers.indexOf('EdiRole,') >= 0) {
           operate.push(
             <EditLink
@@ -94,7 +80,7 @@ export default class DataTable extends React.Component {
         }
         if (rolePowers.indexOf('DelRole,') >= 0) {
           operate.push(<Popconfirm title={`确定要删除角色<${record.name}>？`} okText="删除" onConfirm={this.delete.bind(this, record.id)} onCancel={this.cancel}>
-            <Button className="btn btn-danger btn-xs">删除</Button>
+            <a className="btn btn-danger btn-xs">删除</a>
           </Popconfirm>);
           operate.push(<span className="ant-divider" />);
         } else {

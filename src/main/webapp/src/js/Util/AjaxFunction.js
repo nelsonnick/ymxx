@@ -20,5 +20,5 @@ export const RoleNames = '/role/names';                      // 检测名称    
 export const RoleAdd = '/role/add';                          // 添加角色     --参数：name,other
 export const RoleDelete = '/role/delete';                    // 删除角色     --参数：id
 export const RoleEdit = '/role/edit';                        // 修改角色     --参数：id,name,other
-export const RoleTree = '/role/tree';                        // 获取权限     --参数：无
-export const RoleSet = '/role/set';                          // 修改权限     --参数：rolePower[]
+export const PowerTree = '/role/power';                      // 获取权限     --参数：无
+export const DeptTree = '/role/department';                  // 获取部门     --参数：无
