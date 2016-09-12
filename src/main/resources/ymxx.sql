@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50713
 File Encoding         : 65001
 
-Date: 2016-09-09 16:11:54
+Date: 2016-09-12 16:22:16
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -30,7 +30,7 @@ CREATE TABLE `department` (
   `father` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `father_id` (`father`)
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of department
@@ -145,10 +145,24 @@ CREATE TABLE `role` (
   `name` varchar(255) DEFAULT NULL,
   `other` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of role
+-- ----------------------------
+INSERT INTO `role` VALUES ('1', '系统管理员', '系统管理员');
+
+-- ----------------------------
+-- Table structure for roledept
+-- ----------------------------
+DROP TABLE IF EXISTS `roledept`;
+CREATE TABLE `roledept` (
+  `rid` int(11) DEFAULT NULL,
+  `did` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of roledept
 -- ----------------------------
 
 -- ----------------------------
@@ -164,19 +178,4 @@ CREATE TABLE `rolepower` (
 
 -- ----------------------------
 -- Records of rolepower
--- ----------------------------
-
--- ----------------------------
--- Table structure for userdepartment
--- ----------------------------
-DROP TABLE IF EXISTS `userdepartment`;
-CREATE TABLE `userdepartment` (
-  `uid` int(11) DEFAULT NULL,
-  `did` int(11) DEFAULT NULL,
-  KEY `role_id` (`uid`),
-  KEY `power_id` (`did`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of userdepartment
 -- ----------------------------

@@ -2,6 +2,7 @@ import React from 'react';
 import { Table, Popconfirm, message, notification } from 'antd';
 import $ from 'jquery';
 import EditLink from './EditLink.js';
+import SetLink from './SetLink.js';
 import * as AjaxFunction from '../../../Util/AjaxFunction.js';
 
 const openNotificationWithIcon = (type, msg, desc) => {
@@ -65,6 +66,19 @@ export default class DataTable extends React.Component {
       render: (text, record) => {
         const operate = [];
         const rolePowers = window.rolePower;
+        if (rolePowers.indexOf('SetRole,') >= 0) {
+          operate.push(
+            <SetLink
+              roleId={record.id}
+              roleName={record.name}
+              roleOther={record.other}
+              afterSet={this.afterEdit}
+            />
+          );
+          operate.push(<span className="ant-divider" />);
+        } else {
+          operate.push(<span>&nbsp;</span>);
+        }
         if (rolePowers.indexOf('EdiRole,') >= 0) {
           operate.push(
             <EditLink

@@ -10,9 +10,7 @@ import com.jfinal.plugin.c3p0.C3p0Plugin;
 import com.wts.controller.DepartmentController;
 import com.wts.controller.MainController;
 import com.wts.controller.RoleController;
-import com.wts.entity.Department;
-import com.wts.entity.Power;
-import com.wts.entity.Role;
+import com.wts.entity.*;
 
 /**
  * API引导式配置
@@ -51,6 +49,8 @@ public class Config extends JFinalConfig {
         arp.addMapping("department", Department.class);
         arp.addMapping("role", Role.class);
         arp.addMapping("power", Power.class);
+        arp.addMapping("rolepower", RolePower.class);
+        arp.addMapping("roledept", RoleDept.class);
     }
 
     /**
