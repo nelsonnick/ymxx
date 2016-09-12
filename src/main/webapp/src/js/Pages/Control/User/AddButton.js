@@ -16,6 +16,7 @@ export default class AddButton extends React.Component {
     super(props);
     this.state = {
       visible: false,
+      options: [],
     };
     this.showModal = this.showModal.bind(this);
     this.handleOk = this.handleOk.bind(this);
@@ -23,11 +24,28 @@ export default class AddButton extends React.Component {
     this.handleReset = this.handleReset.bind(this);
   }
   showModal() {
-    this.setState(
-      {
-        visible: true,
-      }
-    );
+    $.ajax({
+      'type': 'POST',
+      'url': AjaxFunction.UserCascade,
+      'dataType': 'text',
+      'success': (data) => {
+        this.setState(
+          {
+            options: eval(`(${data})`),
+            visible: true,
+          }
+        );
+      },
+      'error': () => {
+        openNotificationWithIcon('error', '请求错误', '无法获取部门信息，请检查网络情况');
+        this.setState(
+          {
+            options: '',
+            visible: false,
+          }
+        );
+      },
+    });
   }
 
   handleOk() {
@@ -42,13 +60,28 @@ export default class AddButton extends React.Component {
         });
         return;
       }
+      let did;
+      if (values.userDept.length === 1) {
+        did = values.userDept[0];
+      } else if (values.userDept.length === 2) {
+        did = values.userDept[1];
+      } else if (values.userDept.length === 3) {
+        did = values.userDept[2];
+      } else {
+        did = '';
+      }
       $.ajax({
         'type': 'POST',
-        'url': AjaxFunction.RoleAdd,
+        'url': AjaxFunction.UserAdd,
         'dataType': 'text',
         'data': {
-          'name': values.roleName,
-          'other': values.roleOther || '',
+          'name': values.userName,
+          'number': values.userNumber,
+          'phone': values.userPhone,
+          'login': values.userLogin,
+          'state': values.userState,
+          'did': did,
+          'other': values.userOther || '',
         },
         'success': (data) => {
           if (data.toString() === 'OK') {
@@ -57,7 +90,7 @@ export default class AddButton extends React.Component {
               confirmLoading: false,
             });
             this.refs.AddForm.resetFields();
-            openNotificationWithIcon('success', '保存成功', `${values.roleName}保存成功，请进行后续操作`);
+            openNotificationWithIcon('success', '保存成功', `${values.userName}保存成功，请进行后续操作`);
             this.props.afterAdd();
           } else {
             openNotificationWithIcon('error', '保存失败', `无法进行保存操作： ${data.toString()}`);
@@ -91,10 +124,10 @@ export default class AddButton extends React.Component {
   render() {
     return (
       <Row type="flex" justify="start">
-        <Button type="primary" size="large" onClick={this.showModal} >新增角色</Button>
+        <Button type="primary" size="large" onClick={this.showModal} >新增用户</Button>
         <Modal
           maskClosable={false}
-          title="新增角色"
+          title="新增用户"
           visible={this.state.visible}
           onOk={this.handleOk}
           confirmLoading={this.state.confirmLoading}
@@ -107,6 +140,7 @@ export default class AddButton extends React.Component {
         >
           <AddForm
             ref="AddForm"
+            options={this.state.options}
           />
         </Modal>
       </Row>

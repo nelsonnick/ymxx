@@ -10,6 +10,7 @@ import com.jfinal.plugin.c3p0.C3p0Plugin;
 import com.wts.controller.DepartmentController;
 import com.wts.controller.MainController;
 import com.wts.controller.RoleController;
+import com.wts.controller.UserController;
 import com.wts.entity.*;
 
 /**
@@ -33,6 +34,7 @@ public class Config extends JFinalConfig {
         me.add("/", MainController.class);
         me.add("/department", DepartmentController.class);
         me.add("/role", RoleController.class);
+        me.add("/user", UserController.class);
     }
 
     /**
@@ -51,6 +53,7 @@ public class Config extends JFinalConfig {
         arp.addMapping("power", Power.class);
         arp.addMapping("rolepower", RolePower.class);
         arp.addMapping("roledept", RoleDept.class);
+        arp.addMapping("user", User.class);
     }
 
     /**

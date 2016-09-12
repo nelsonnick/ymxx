@@ -66,9 +66,9 @@ public class RoleController extends Controller {
         Role role = Role.dao.findById(getPara("id"));
         if (role == null) {
             renderText("要修改的角色不存在，请刷新页面后再试！");
-        } else if(getParaValues("power[]").toString().equals("")){
+        } else if(getParaValues("power[]")==null){
             renderText("权限未选择，请选择后再试！");
-        } else if(getParaValues("department[]").length==0){
+        } else if(getParaValues("department[]")==null){
             renderText("部门未选择，请选择后再试！");
         }  else {
             String[] powers = getParaValues("power[]");

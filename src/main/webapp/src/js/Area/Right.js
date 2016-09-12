@@ -10,7 +10,7 @@ import PerAnal from '../Pages/Analysis/Person/PerAnal.js';
 import OpeAnal from '../Pages/Analysis/Operation/OpeAnal.js';
 import PasCont from '../Pages/Control/Password/PassCont.js';
 import DepCont from '../Pages/Control/Department/Main.js';
-import UseCont from '../Pages/Control/User/UserCont.js';
+import UseCont from '../../test/UserCont.js';
 import RolCont from '../Pages/Control/Role/Main.js';
 export default class Right extends React.Component {
   render() {
