@@ -54,6 +54,7 @@ public class Config extends JFinalConfig {
         arp.addMapping("rolepower", RolePower.class);
         arp.addMapping("roledept", RoleDept.class);
         arp.addMapping("user", User.class);
+        arp.addMapping("userrole", UserRole.class);
     }
 
     /**

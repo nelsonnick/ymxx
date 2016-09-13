@@ -40,3 +40,6 @@ export const UserEdit = '/user/edit';                        // 修改用户    
 export const UserActive = '/user/active';                    // 激活用户     --参数：id
 export const UserAbandon = '/user/abandon';                  // 注销用户     --参数：id
 export const UserReset = '/user/reset';                      // 重置密码     --参数：id
+export const UserSet = '/user/set';                          // 设置角色     --参数：id
+export const RoleTree = '/user/tree';                        // 获取角色     --参数：id
+export const RoleNow = '/user/now';                          // 当前角色     --参数：id

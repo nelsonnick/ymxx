@@ -3,6 +3,7 @@ import { Table, Popconfirm, message, notification } from 'antd';
 import $ from 'jquery';
 import EditLink from './EditLink.js';
 import LookLink from './LookLink.js';
+import SetLink from './SetLink.js';
 import * as AjaxFunction from '../../../Util/AjaxFunction.js';
 
 const openNotificationWithIcon = (type, msg, desc) => {
@@ -183,6 +184,25 @@ export default class DataTable extends React.Component {
               userPhone={record.phone}
               userState={record.state}
               userOther={record.other}
+              userDid={record.did}
+              userLogin={record.login}
+              afterEdit={this.afterEdit}
+            />
+          );
+          operate.push(<span className="ant-divider" />);
+        } else {
+          operate.push(<span>&nbsp;</span>);
+        }
+        if (rolePowers.indexOf('SetUser,') >= 0) {
+          operate.push(
+            <SetLink
+              userId={record.id}
+              userName={record.name}
+              userNumber={record.number}
+              userPhone={record.phone}
+              userState={record.state}
+              userOther={record.other}
+              userDept={record.dname}
               userDid={record.did}
               userLogin={record.login}
               afterEdit={this.afterEdit}
