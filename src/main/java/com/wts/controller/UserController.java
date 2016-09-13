@@ -14,7 +14,7 @@ public class UserController extends Controller {
      *@param: QueryString
      */
     public void query() {
-        Page<User> users= User.dao.paginate(getParaToInt("PageNumber"),getParaToInt("PageSize"),getPara("id"));
+        Page<User> users= User.dao.paginate(getParaToInt("PageNumber"),getParaToInt("PageSize"),getPara("id该方法"));
         renderJson(users.getList());
     }
 }
