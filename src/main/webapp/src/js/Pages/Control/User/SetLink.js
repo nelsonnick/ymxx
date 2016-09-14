@@ -174,5 +174,6 @@ SetLink.propTypes = {
   userOther: React.PropTypes.string,
   userDid: React.PropTypes.string,
   userLogin: React.PropTypes.string,
+  userDept: React.PropTypes.string,
   afterSet: React.PropTypes.func,
 };

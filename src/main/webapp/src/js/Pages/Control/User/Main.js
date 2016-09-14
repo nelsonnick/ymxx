@@ -19,11 +19,13 @@ export default class UserCont extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      options: [],       // 当前页的具体数据
       DataTable: [],     // 当前页的具体数据
-      PageSize: '9',    // 当前每页的条数
+      PageSize: '9',     // 当前每页的条数
       PageNumber: '1',   // 当前页的页码
       DataCount: '0',    // 当前数据的总数量
-      QueryString: '',   // 当前的搜索字符
+      UserName: '',      // 当前搜索的用户姓名
+      UserDept: [],      // 当前搜索的用户部门
       Loading: true,     // 数据加载情况
     };
     this.getQuery = this.getQuery.bind(this);
@@ -37,49 +39,69 @@ export default class UserCont extends React.Component {
   componentWillMount() {
     $.ajax({
       'type': 'POST',
-      'url': AjaxFunction.UserQuery,
-      'dataType': 'json',
-      'data': {
-        'PageNumber': '1',
-        'PageSize': '9',
-        'QueryString': '',
-      },
-      'success': (data) => {
-        this.setState(
-          {
-            DataTable: data,
-            PageNumber: '1',
-            PageSize: '9',
-            QueryString: '',
-          }
-        );
-      },
-      'error': () => {
-      },
-    });
-    $.ajax({
-      'type': 'POST',
-      'url': AjaxFunction.UserCount,
+      'url': AjaxFunction.DeptTree,
       'dataType': 'text',
-      'data': {
-        'PageNumber': this.state.PageNumber,
-        'PageSize': this.state.PageSize,
-        'QueryString': this.state.QueryString,
-      },
-      'success': (data) => {
-        this.setState(
-          {
-            Loading: false,
-            DataCount: data,
-          }
-        );
+      'success': (options) => {
+        $.ajax({
+          'type': 'POST',
+          'url': AjaxFunction.UserQuery,
+          'dataType': 'json',
+          'data': {
+            'PageNumber': '1',
+            'PageSize': '9',
+            'UserName': '',
+            'UserDept': [],
+          },
+          'success': (dataTable) => {
+            $.ajax({
+              'type': 'POST',
+              'url': AjaxFunction.UserCount,
+              'dataType': 'text',
+              'data': {
+                'PageNumber': '1',
+                'PageSize': '9',
+                'UserName': '',
+                'UserDept': [],
+              },
+              'success': (DataCount) => {
+                this.setState(
+                  {
+                    Loading: false,
+                    DataCount,
+                    options: eval(`(${options})`),
+                    DataTable: dataTable,
+                    PageNumber: '1',
+                    PageSize: '9',
+                    UserName: '',
+                    UserDept: [],
+                  }
+                );
+              },
+              'error': () => {
+                openNotificationWithIcon('error', '请求错误', '无法读取数据总数，请检查网络情况');
+                this.setState(
+                  {
+                    Loading: false,
+                  }
+                );
+              },
+            });
+          },
+          'error': () => {
+            openNotificationWithIcon('error', '请求错误', '无法读取当前数据，请检查网络情况');
+            this.setState(
+              {
+                Loading: false,
+              }
+            );
+          },
+        });
       },
       'error': () => {
-        openNotificationWithIcon('error', '请求错误', '无法完成数据读取，请检查网络情况');
+        openNotificationWithIcon('error', '请求错误', '无法读取部门信息，请检查网络情况');
         this.setState(
           {
             Loading: false,
-            DataCount: '0',
           }
         );
       },
@@ -99,7 +121,8 @@ export default class UserCont extends React.Component {
       'data': {
         'PageNumber': PageNumbers,
         'PageSize': this.state.PageSize,
-        'QueryString': this.state.QueryString,
+        'UserName': this.state.UserName,
+        'UserDept': this.state.UserDept,
       },
       'success': (data) => {
         this.setState(
@@ -133,7 +156,8 @@ export default class UserCont extends React.Component {
       'data': {
         'PageNumber': PageNumbers,
         'PageSize': PageSizes,
-        'QueryString': this.state.QueryString,
+        'UserName': this.state.UserName,
+        'UserDept': this.state.UserDept,
       },
       'success': (data) => {
         this.setState(
@@ -155,7 +179,7 @@ export default class UserCont extends React.Component {
       },
     });
   }
-  getQuery(QueryStrings = '') {
+  getQuery(UserName = '', UserDept = []) {
     this.setState(
       {
         Loading: true,
@@ -168,14 +192,16 @@ export default class UserCont extends React.Component {
       'data': {
         'PageNumber': '1',
         'PageSize': this.state.PageSize,
-        'QueryString': QueryStrings,
+        UserName,
+        UserDept,
       },
       'success': (data) => {
         this.setState(
           {
             PageNumber: '1',
             DataTable: data,
-            QueryString: QueryStrings,
+            UserName,
+            UserDept,
           }
         );
       },
@@ -193,7 +219,8 @@ export default class UserCont extends React.Component {
       'url': AjaxFunction.UserCount,
       'dataType': 'text',
       'data': {
-        'QueryString': QueryStrings,
+        UserName,
+        UserDept,
       },
       'success': (data) => {
         this.setState(
@@ -226,7 +253,8 @@ export default class UserCont extends React.Component {
       'data': {
         'PageNumber': '1',
         'PageSize': this.state.PageSize,
-        'QueryString': '',
+        'UserName': '',
+        'UserDept': [],
       },
       'success': (data) => {
         this.setState(
@@ -234,7 +262,8 @@ export default class UserCont extends React.Component {
             DataTable: data,
             PageNumber: '1',
             PageSize: this.state.PageSize,
-            QueryString: '',
+            UserName: '',
+            UserDept: [],
           }
         );
       },
@@ -249,7 +278,8 @@ export default class UserCont extends React.Component {
       'data': {
         'PageNumber': '1',
         'PageSize': '9',
-        'QueryString': '',
+        'UserName': '',
+        'UserDept': [],
       },
       'success': (data) => {
         this.setState(
@@ -282,14 +312,16 @@ export default class UserCont extends React.Component {
       'data': {
         'PageNumber': '1',
         'PageSize': this.state.PageSize,
-        'QueryString': '',
+        'UserName': '',
+        'UserDept': [],
       },
       'success': (data) => {
         this.setState(
           {
             PageNumber: '1',
             DataTable: data,
-            QueryString: '',
+            UserName: '',
+            UserDept: [],
           }
         );
       },
@@ -309,7 +341,8 @@ export default class UserCont extends React.Component {
       'data': {
         'PageNumber': '1',
         'PageSize': this.state.PageSize,
-        'QueryString': '',
+        'UserName': '',
+        'UserDept': [],
       },
       'success': (data) => {
         this.setState(
@@ -317,7 +350,8 @@ export default class UserCont extends React.Component {
             Loading: false,
             DataCount: data,
             PageNumber: '1',
-            QueryString: '',
+            UserName: '',
+            UserDept: [],
           }
         );
       },
@@ -345,7 +379,8 @@ export default class UserCont extends React.Component {
       'data': {
         'PageNumber': this.state.PageNumber,
         'PageSize': this.state.PageSize,
-        'QueryString': this.state.QueryString,
+        'UserName': this.state.UserName,
+        'UserDept': this.state.UserDept,
       },
       'success': (data) => {
         this.setState(
@@ -370,13 +405,13 @@ export default class UserCont extends React.Component {
     const rolePowers = window.rolePower;
     let AddUser;
     if (rolePowers.indexOf('AddUser,') >= 0) {
-      AddUser = <Col span={12}><AddButton afterAdd={this.AfterAddAndDelete} QueryString={this.state.QueryString} /></Col>;
+      AddUser = <Col span={12}><AddButton afterAdd={this.AfterAddAndDelete} UserName={this.state.UserName} UserDept={this.state.UserDept} /></Col>;
     } else {
       AddUser = <p></p>;
     }
     let QuyUser;
     if (rolePowers.indexOf('QuyUser,') >= 0) {
-      QuyUser = <Col span={12}><DataSearch setQuery={this.getQuery} resetPage={this.resetPage} /></Col>;
+      QuyUser = <Col span={12}><DataSearch setQuery={this.getQuery} resetPage={this.resetPage} options={this.state.options} /></Col>;
     } else {
       QuyUser = <p></p>;
     }

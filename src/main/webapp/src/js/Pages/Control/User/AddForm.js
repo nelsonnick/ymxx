@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input } from 'antd';
+import { Form, Input, Cascader, Select } from 'antd';
 import $ from 'jquery';
 const FormItem = Form.Item;
 import * as AjaxFunction from '../../../Util/AjaxFunction.js';
@@ -183,7 +183,7 @@ class AddFrom extends React.Component {
           hasFeedback
           required
         >
-          <Input disable value="证件号码后8位"/>
+          <Input disabled="true" value="证件号码后8位" />
         </FormItem>
         <FormItem
           label="所属部门"

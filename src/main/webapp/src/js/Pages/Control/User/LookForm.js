@@ -53,7 +53,7 @@ class LookFrom extends React.Component {
           {...formItemLayout}
           required
         >
-          <Select size="large" disabled value={userState} >
+          <Select size="large" disabled="true" value={userState} >
             <Option value="激活">激活</Option>
             <Option value="注销">注销</Option>
           </Select>
@@ -74,6 +74,7 @@ LookFrom.propTypes = {
   form: React.PropTypes.object,
   userId: React.PropTypes.string,
   userName: React.PropTypes.string,
+  userNumber: React.PropTypes.string,
   userPhone: React.PropTypes.string,
   userLogin: React.PropTypes.string,
   userDept: React.PropTypes.string,

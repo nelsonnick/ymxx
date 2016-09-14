@@ -5,7 +5,7 @@ import Right from './Right.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
-window.rolePower = 'Document,DocInfo,DocChan,DocFlow,Person,PerInfo,PerChan,Analysis,DocAnal,PerAnal,OpeAnal,Control,PasCont,DepCont,UseCont,RolCont,LokDept,AddDept,QuyDept,GetDept,EdiDept,ActDept,AbdDept,DelDept,AddRole,QuyRole,GetRole,EdiRole,DelRole,SetRole,';
+window.rolePower = 'Document,DocInfo,DocChan,DocFlow,Person,PerInfo,PerChan,Analysis,DocAnal,PerAnal,OpeAnal,Control,PasCont,DepCont,UseCont,RolCont,LokDept,AddDept,QuyDept,GetDept,EdiDept,ActDept,AbdDept,DelDept,AddRole,QuyRole,GetRole,EdiRole,DelRole,SetRole,AddUser,QuyUser,GetUser,EdiUser,ActUser,AbdUser,DelUser,LokUser,';
 class All extends React.Component {
   constructor(props) {
     super(props);

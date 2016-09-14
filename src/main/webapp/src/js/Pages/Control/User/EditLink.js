@@ -100,7 +100,7 @@ export default class EditLink extends React.Component {
           'number': values.userNumber,
           'login': values.userLogin,
           'other': values.userOther || '',
-          'dept': dept,
+          dept,
         },
         'success': (data) => {
           if (data.toString() === 'OK') {
@@ -140,7 +140,7 @@ export default class EditLink extends React.Component {
   }
 
   render() {
-    const { userId, userName, userPhone, userNumber, userState, userOther, userDept, userLogin } = this.props;
+    const { userId, userName, userPhone, userNumber, userState, userOther, userLogin } = this.props;
     return (
       <span>
         <a onClick={this.showModal} className="btn btn-primary btn-xs" >修改</a>
@@ -183,5 +183,6 @@ EditLink.propTypes = {
   userOther: React.PropTypes.string,
   userDid: React.PropTypes.string,
   userLogin: React.PropTypes.string,
+  userDept: React.PropTypes.string,
   afterEdit: React.PropTypes.func,
 };

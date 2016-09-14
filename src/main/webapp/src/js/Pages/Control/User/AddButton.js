@@ -80,7 +80,7 @@ export default class AddButton extends React.Component {
           'phone': values.userPhone,
           'login': values.userLogin,
           'state': values.userState,
-          'did': did,
+          did,
           'other': values.userOther || '',
         },
         'success': (data) => {

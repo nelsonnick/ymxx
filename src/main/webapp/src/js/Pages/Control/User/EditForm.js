@@ -229,6 +229,7 @@ EditFrom.propTypes = {
   form: React.PropTypes.object,
   userId: React.PropTypes.string,
   userName: React.PropTypes.string,
+  userNumber: React.PropTypes.string,
   userPhone: React.PropTypes.string,
   userLogin: React.PropTypes.string,
   userDept: React.PropTypes.string,

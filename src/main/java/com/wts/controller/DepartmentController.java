@@ -287,33 +287,6 @@ public class DepartmentController extends Controller {
                 cascadeString6="";
             }
         }
-//
-//
-//
-//        for(int i = 0; i < department1 .size(); i++) {
-//            cascadeString1 = "{ value: '" + department1.get(i).get("id").toString()+"', label: '"+department1.get(i).get("name").toString()+"',";
-//            if (Department.dao.find("select * from department where father=?", department1 .get(i).get("id")).size()!=0){
-//                List<Department> department2 = Department.dao.find("select * from department where father=? and state=?", department1 .get(i).get("id"),"激活");
-//                for(int j = 0; j < department2 .size(); j++) {
-//                    cascadeString3 = "{ value: '" + department2.get(j).get("id").toString()+"', label: '"+department2.get(j).get("name").toString()+"',";
-//                    if (Department.dao.find("select * from department where father=?", department2 .get(j).get("id")).size()!=0) {
-//                        List<Department> department3 = Department.dao.find("select * from department where father=? and state=?", department2 .get(j).get("id"),"激活");
-//                        for(int k = 0; k < department3 .size(); k++) {
-//                            cascadeString6 = cascadeString6 + "{ value: '" + department3.get(k).get("id").toString()+"', label: '"+department3.get(k).get("name").toString()+"' }, ";
-//                        }
-//                        cascadeString3 = cascadeString3 + children + cascadeString6 + "] }, ";
-//                        cascadeString6 = "";
-//                    } else {
-//                        cascadeString3 = cascadeString3 + " }, ";
-//                    }
-//                    cascadeString7 = cascadeString7 + children + cascadeString3 + "], ";
-//                }
-//                cascadeString = cascadeString1 + children + cascadeString7 + "], ";
-//            } else {
-//                cascadeString = cascadeString + cascadeString1 + " },";
-//            }
-//            cascadeString7 = "";
-//        }
         renderText("[{ value: '1', label: '顶级部门' }, "+cascadeString.substring(0,cascadeString.length()-1)+"]");
     }
 }

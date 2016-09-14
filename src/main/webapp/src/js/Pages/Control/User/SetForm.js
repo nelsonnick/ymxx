@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, TreeSelect } from 'antd';
+import { Form, Input, TreeSelect, Select } from 'antd';
 const FormItem = Form.Item;
 
 class SetFrom extends React.Component {
@@ -143,6 +143,7 @@ SetFrom.propTypes = {
   form: React.PropTypes.object,
   userId: React.PropTypes.string,
   userName: React.PropTypes.string,
+  userNumber: React.PropTypes.string,
   userPhone: React.PropTypes.string,
   userLogin: React.PropTypes.string,
   userDept: React.PropTypes.string,

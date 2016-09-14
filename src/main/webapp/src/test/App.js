@@ -1,35 +1,48 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Cascader } from 'antd';
+import { TreeSelect } from 'antd';
 
-const options = [{
-  value: 'zhejiang',
-  label: '浙江',
+const treeData = [{
+  label: '节点一',
+  value: '0-0',
+  key: '0-0',
   children: [{
-    value: 'hangzhou',
-    label: '杭州',
-    children: [{
-      value: 'xihu',
-      label: '西湖',
-    }],
+    label: '子节点一',
+    value: '0-0-1',
+    key: '0-0-1',
+  }, {
+    label: '子节点二',
+    value: '0-0-2',
+    key: '0-0-2',
   }],
 }, {
-  value: 'jiangsu',
-  label: '江苏',
-  children: [{
-    value: 'nanjing',
-    label: '南京',
-    children: [{
-      value: 'zhonghuamen',
-      label: '中华门',
-    }],
-  }],
+  label: '节点二',
+  value: '0-1',
+  key: '0-1',
 }];
+const Demo = React.createClass({
+  getInitialState() {
+    return {
+      value: '',
+    };
+  },
+  onChange(value) {
+    console.log(arguments);
+    console.log('value: '+value);
+    this.setState({ value });
+  },
+  render() {
+    return (
+      <TreeSelect style={{ width: 300 }}
+                  value={this.state.value}
+                  dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                  treeData={treeData}
+                  placeholder="请选择"
+                  treeDefaultExpandAll
+                  onChange={this.onChange}
+      />
+    );
+  },
+});
 
-function onChange(value) {
-  console.log(value);
-}
-
-ReactDOM.render(
-  <Cascader options={options} onChange={onChange} changeOnSelect defaultValue={['jiangsu', 'nanjing', 'zhonghuamen']} />
-  , document.body);
+ReactDOM.render(<Demo />, document.body);
