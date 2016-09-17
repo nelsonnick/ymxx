@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 档案
-Source Server Version : 50713
+Source Server         : react
+Source Server Version : 50621
 Source Host           : localhost:3306
 Source Database       : ymxx
 
 Target Server Type    : MYSQL
-Target Server Version : 50713
+Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2016-09-12 16:22:16
+Date: 2016-09-17 23:40:11
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -145,12 +145,13 @@ CREATE TABLE `role` (
   `name` varchar(255) DEFAULT NULL,
   `other` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of role
 -- ----------------------------
 INSERT INTO `role` VALUES ('1', '系统管理员', '系统管理员');
+INSERT INTO `role` VALUES ('2', '槐荫职介', '');
 
 -- ----------------------------
 -- Table structure for roledept
@@ -158,7 +159,9 @@ INSERT INTO `role` VALUES ('1', '系统管理员', '系统管理员');
 DROP TABLE IF EXISTS `roledept`;
 CREATE TABLE `roledept` (
   `rid` int(11) DEFAULT NULL,
-  `did` int(11) DEFAULT NULL
+  `did` int(11) DEFAULT NULL,
+  KEY `role_id` (`rid`),
+  KEY `power_id` (`did`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -178,4 +181,40 @@ CREATE TABLE `rolepower` (
 
 -- ----------------------------
 -- Records of rolepower
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for user
+-- ----------------------------
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `number` varchar(255) DEFAULT NULL,
+  `login` varchar(255) DEFAULT NULL,
+  `pass` varchar(255) DEFAULT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  `did` int(11) DEFAULT NULL,
+  `state` varchar(255) DEFAULT NULL,
+  `other` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of user
+-- ----------------------------
+INSERT INTO `user` VALUES ('1', '王天硕', '370104198606282219', 'nelsonnick', '282219', '18653145531', '3', '激活', '超级管理员');
+INSERT INTO `user` VALUES ('2', '徐汉琪', '370103198903017546', 'xuhanqi', '017546', '18888888889', '41', '激活', '');
+
+-- ----------------------------
+-- Table structure for userrole
+-- ----------------------------
+DROP TABLE IF EXISTS `userrole`;
+CREATE TABLE `userrole` (
+  `uid` int(11) DEFAULT NULL,
+  `rid` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of userrole
 -- ----------------------------
