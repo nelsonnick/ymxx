@@ -15,7 +15,7 @@ export default class LookLink extends React.Component {
     super(props);
     this.state = {
       visible: false,
-      valueInit: '',
+      userDid: [],
       options: [],
     };
     this.showModal = this.showModal.bind(this);
@@ -25,7 +25,7 @@ export default class LookLink extends React.Component {
   showModal() {
     $.ajax({
       'type': 'POST',
-      'url': AjaxFunction.DepartmentCascade,
+      'url': AjaxFunction.UserCascade,
       'dataType': 'text',
       'success': (data) => {
         this.setState(
@@ -35,14 +35,14 @@ export default class LookLink extends React.Component {
         );
         $.ajax({
           'type': 'POST',
-          'url': AjaxFunction.DepartmentValueGet,
+          'url': AjaxFunction.DeptNows,
           'dataType': 'text',
           'data': { 'did': this.props.userDid },
           'success': (msg) => {
             this.setState(
               {
                 visible: true,
-                valueInit: msg,
+                userDid: eval(`(${msg})`),
               }
             );
           },
@@ -95,7 +95,7 @@ export default class LookLink extends React.Component {
             userState={userState}
             userOther={userOther}
             userLogin={userLogin}
-            userDept={this.state.valueInit}
+            userDept={this.state.userDid}
             options={this.state.options}
           />
         </Modal>

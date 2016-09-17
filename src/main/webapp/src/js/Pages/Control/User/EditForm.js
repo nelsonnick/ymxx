@@ -85,7 +85,7 @@ class EditFrom extends React.Component {
     } else {
       $.ajax({
         'type': 'POST',
-        'url': AjaxFunction.UserLogins,
+        'url': AjaxFunction.UserLogin,
         'dataType': 'text',
         'data': { 'login': value },
         'success': (data) => {
@@ -101,7 +101,6 @@ class EditFrom extends React.Component {
       });
     }
   }
-
 
   render() {
     const { getFieldProps, getFieldError, isFieldValidating } = this.props.form;

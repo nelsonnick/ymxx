@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, TreeSelect, Select } from 'antd';
+import { Form, Input, TreeSelect, Select, Cascader } from 'antd';
 const FormItem = Form.Item;
 
 class SetFrom extends React.Component {
@@ -26,7 +26,7 @@ class SetFrom extends React.Component {
 
   render() {
     const { getFieldProps } = this.props.form;
-    const { userId, userName, userPhone, userNumber, userState, userOther, userDept, userLogin, roleTree } = this.props;
+    const { userId, userName, userPhone, userNumber, userState, userOther, userDept, userLogin, options, roleTree } = this.props;
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 14 },
@@ -99,7 +99,7 @@ class SetFrom extends React.Component {
           {...formItemLayout}
           required
         >
-          <Input placeholder="请输入所属部门" disabled="true" {...userDeptProps} />
+          <Cascader allowClear={false} options={options} changeOnSelect placeholder="请选择所属部门" {...userDeptProps} disabled="true" />
         </FormItem>
         <FormItem
           label="用户状态"
@@ -149,6 +149,7 @@ SetFrom.propTypes = {
   userDept: React.PropTypes.string,
   userState: React.PropTypes.string,
   userOther: React.PropTypes.string,
+  options: React.PropTypes.object,
   roleTree: React.PropTypes.object,
   roleValue: React.PropTypes.string,
   getRole: React.PropTypes.func,

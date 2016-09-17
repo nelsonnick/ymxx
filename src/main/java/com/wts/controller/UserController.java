@@ -3,17 +3,15 @@ package com.wts.controller;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
-import com.wts.entity.Department;
-import com.wts.entity.Role;
-import com.wts.entity.RolePower;
-import com.wts.entity.User;
+import com.wts.entity.*;
 import com.wts.util.IDNumber;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserController extends Controller {
+import static com.wts.util.EncryptUtils.encodeMD5String;
 
+public class UserController extends Controller {
     /**
      * 查询用户
      *@param: PageNumber
@@ -148,7 +146,6 @@ public class UserController extends Controller {
         }
         renderText("["+cascadeString.substring(0,cascadeString.length()-1)+"]");
     }
-
     /**
      * 核查用户真实姓名
      *@param: name
@@ -207,6 +204,21 @@ public class UserController extends Controller {
         }
     }
     /**
+     * 核查用户所属部门
+     *@param: did
+     */
+    public void depts() {
+        Department department = Department.dao.findById(getPara("did"));
+        if (department.get("level").toString().equals("1")){
+            renderText("['"+getPara("did")+"']");
+        } else if (department.get("level").toString().equals("2")){
+            renderText("['"+department.get("father").toString()+"','"+getPara("did")+"']");
+        } else {
+            Department department1 = Department.dao.findById(department.get("father"));
+            renderText("['"+department1.get("id").toString()+"','"+department.get("father").toString()+"','"+getPara("did")+"']");
+        }
+    }
+    /**
      * 新增用户
      */
     public void add() {
@@ -236,13 +248,152 @@ public class UserController extends Controller {
                     .set("login", getPara("login").trim())
                     .set("did", getPara("did").trim())
                     .set("state", getPara("state").trim())
-                    .set("pass", getPara("number").substring(getPara("number").length()-6,getPara("number").length()).trim())
+                    .set("pass", encodeMD5String(getPara("number").substring(getPara("number").length()-6,getPara("number").length()).trim()))
                     .set("other", getPara("other").trim());
             if (user.save()) {
                 renderText("OK");
             } else {
                 renderText("发生未知错误，请检查数据库！");
             }
+        }
+    }
+    /**
+     * 修改用户
+     */
+    public void edit(){
+        User user = User.dao.findById(getPara("id"));
+        if (user == null) {
+            renderText("要修改的用户不存在，请刷新页面后再试！");
+        } else {
+            if (user.get("name").equals(getPara("name"))
+                    && user.get("other").equals(getPara("other"))
+                    && user.get("number").equals(getPara("number"))
+                    && user.get("phone").equals(getPara("phone"))
+                    && user.get("login").equals(getPara("login"))
+                    && user.get("state").equals(getPara("state"))
+                    && user.get("did").equals(getPara("did"))
+                    ) {
+                renderText("未找到修改内容，请核实后再修改！");
+            } else if (!user.get("number").equals(getPara("number"))
+                    && User.dao.find("select * from user where number=?", getPara("number")).size() > 0
+                    ){
+                renderText("该证件号码已绑定为其他工作人员，请重新修改！");
+            } else if (!getPara("name").matches("[\u4e00-\u9fa5]+")) {
+                renderText("用户真实姓名必须为汉字!");
+            } else if (getPara("name").length()<2) {
+                renderText("用户名称必须为两个以上汉字，请核实!");
+            } else if (!getPara("login").matches("[a-zA-Z0-9]{4,12}")) {
+                renderText("登录名称必须为4到12位的数字或字母组合!");
+            } else if (!getPara("phone").matches("\\d{11}")) {
+                renderText("联系电话必须为11位数字!");
+            } else if (!IDNumber.availableIDNumber(getPara("number"))){
+                renderText("证件号码错误，请核实！");
+            } else {
+                if (user
+                        .set("name",getPara("name"))
+                        .set("number",getPara("number"))
+                        .set("phone",getPara("phone"))
+                        .set("login",getPara("login"))
+                        .set("did",getPara("did"))
+                        .set("other",getPara("other"))
+                        .update()) {
+                    renderText("OK");
+                } else{
+                    renderText("发生未知错误，请检查数据库！");
+                }
+            }
+        }
+    }
+    /**
+     * 注销用户
+     */
+    public void abandon(){
+        User user = User.dao.findById(getPara("id"));
+        if (user == null) {
+            renderText("要注销的用户不存在，请刷新页面后再试！");
+        }else if (user.get("state").equals("注销")){
+            renderText("该用户已注销！");
+        }else{
+            if (User.dao.findById(getPara("id")).set("state", "注销").update()){
+                renderText("OK");
+            } else {
+                renderText("发生未知错误，请检查数据库！");
+            }
+        }
+    }
+    /**
+     * 激活用户
+     */
+    public void active(){
+        User user = User.dao.findById(getPara("id"));
+        if (user == null) {
+            renderText("要激活的用户不存在，请刷新页面后再试！");
+        }else if (user.get("state").equals("激活")){
+            renderText("该用户已激活！");
+        }else{
+            if (user.set("state", "激活").update()){
+                renderText("OK");
+            } else {
+                renderText("发生未知错误，请检查数据库！");
+            }
+        }
+    }
+    /**
+     * 删除用户
+     */
+    public void delete(){
+        User user = User.dao.findById(getPara("id"));
+        if (user == null) {
+            renderText("要删除的用户不存在，请刷新页面后再试！");
+        }else if (user.get("state").equals("删除")){
+            renderText("该用户已删除！");
+        }else{
+            if (user.set("state", "删除").update()){
+                renderText("OK");
+            } else {
+                renderText("发生未知错误，请检查数据库！");
+            }
+        }
+    }
+    /**
+     * 重置密码
+     */
+    public void reset(){
+        User user = User.dao.findById(getPara("id"));
+        if (user == null) {
+            renderText("要重置的用户不存在，请刷新页面后再试！");
+        }else{
+            if (user.set("pass", encodeMD5String(user.get("number").toString().substring(user.get("number").toString().length()-6,user.get("number").toString().length()).trim())).update()){
+                renderText("OK");
+            } else {
+                renderText("发生未知错误，请检查数据库！");
+            }
+        }
+    }
+    /**
+     * 角色树
+     */
+    public void roleTree(){
+        List<Role> roles = Role.dao.find("select * from role");
+        String cascadeString1 = "";
+        for(int i = 0; i < roles.size(); i++) {
+            cascadeString1 = cascadeString1 + "{ label: '" + roles.get(i).get("name").toString()+"', value: '"+roles.get(i).get("id").toString()+"',key: '"+roles.get(i).get("id").toString()+"' },";
+        }
+        renderText("["+cascadeString1.substring(0,cascadeString1.length()-1)+"]");
+    }
+    /**
+     * 当前角色
+     */
+    public void roleNow(){
+        List<UserRole> userRoles = UserRole.dao.find("select * from userrole where uid=?",getPara("id"));
+        String cascadeString1 = "";
+        if (userRoles.size()>0) {
+            for (int i = 0; i < userRoles.size(); i++) {
+                cascadeString1 = cascadeString1 + "'" + userRoles.get(i).get("id").toString() + "',";
+            }
+            renderText("[" + cascadeString1.substring(0, cascadeString1.length() - 1) + "]");
+        } else {
+            renderText("[]");
         }
     }
 }

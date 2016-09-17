@@ -18,7 +18,7 @@ export default class EditLink extends React.Component {
     this.state = {
       visible: false,
       options: [],
-      userDept: [],
+      userDid: [],
     };
     this.showModal = this.showModal.bind(this);
     this.handleOk = this.handleOk.bind(this);
@@ -32,11 +32,6 @@ export default class EditLink extends React.Component {
       'url': AjaxFunction.UserCascade,
       'dataType': 'text',
       'success': (data) => {
-        this.setState(
-          {
-            options: eval(`(${data})`),
-          }
-        );
         $.ajax({
           'type': 'POST',
           'url': AjaxFunction.DeptNows,
@@ -46,7 +41,8 @@ export default class EditLink extends React.Component {
             this.setState(
               {
                 visible: true,
-                userDept: msg,
+                options: eval(`(${data})`),
+                userDid: eval(`(${msg})`),
               }
             );
           },
@@ -79,15 +75,15 @@ export default class EditLink extends React.Component {
         });
         return;
       }
-      let dept;
+      let did;
       if (values.userDept.length === 1) {
-        dept = values.userDept[0];
+        did = values.userDept[0];
       } else if (values.userDept.length === 2) {
-        dept = values.userDept[1];
+        did = values.userDept[1];
       } else if (values.userDept.length === 3) {
-        dept = values.userDept[2];
+        did = values.userDept[2];
       } else {
-        dept = '';
+        did = '';
       }
       $.ajax({
         'type': 'POST',
@@ -100,7 +96,7 @@ export default class EditLink extends React.Component {
           'number': values.userNumber,
           'login': values.userLogin,
           'other': values.userOther || '',
-          dept,
+          did,
         },
         'success': (data) => {
           if (data.toString() === 'OK') {

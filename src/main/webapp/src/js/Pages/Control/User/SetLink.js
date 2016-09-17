@@ -15,8 +15,10 @@ export default class SetLink extends React.Component {
     super(props);
     this.state = {
       visible: false,
+      options: [],
       roleValue: [],
       roleTree: [],
+      userDid: [],
     };
     this.showModal = this.showModal.bind(this);
     this.handleOk = this.handleOk.bind(this);
@@ -30,27 +32,57 @@ export default class SetLink extends React.Component {
   showModal() {
     $.ajax({
       'type': 'POST',
-      'url': AjaxFunction.RoleTree,
+      'url': AjaxFunction.UserCascade,
       'dataType': 'text',
-      'success': (data) => {
+      'success': (datr) => {
         $.ajax({
           'type': 'POST',
-          'url': AjaxFunction.RoleNow,
+          'url': AjaxFunction.RoleTree,
           'dataType': 'text',
-          'success': (date) => {
-            this.setState(
-              {
-                roleTree: eval(`(${data})`),
-                roleValue: eval(`(${date})`),
-                visible: true,
-              }
-            );
+          'success': (data) => {
+            $.ajax({
+              'type': 'POST',
+              'url': AjaxFunction.RoleNow,
+              'dataType': 'text',
+              'data': { 'id': this.props.userId },
+              'success': (date) => {
+                $.ajax({
+                  'type': 'POST',
+                  'url': AjaxFunction.DeptNows,
+                  'dataType': 'text',
+                  'data': { 'did': this.props.userDid },
+                  'success': (msg) => {
+                    this.setState(
+                      {
+                        roleTree: eval(`(${data})`),
+                        roleValue: eval(`(${date})`),
+                        options: eval(`(${datr})`),
+                        userDid: eval(`(${msg})`),
+                        visible: true,
+                      }
+                    );
+                  },
+                  'error': () => {
+                    openNotificationWithIcon('error', '请求错误', '无法获取上级部门信息，请检查网络情况');
+                  },
+                });
+              },
+              'error': () => {
+                openNotificationWithIcon('error', '请求错误', '无法获取当前角色信息，请检查网络情况');
+                this.setState(
+                  {
+                    deptTree: '',
+                    visible: false,
+                  }
+                );
+              },
+            });
           },
           'error': () => {
-            openNotificationWithIcon('error', '请求错误', '无法获取当前角色信息，请检查网络情况');
+            openNotificationWithIcon('error', '请求错误', '无法获取角色信息，请检查网络情况');
             this.setState(
               {
-                deptTree: '',
+                powerTree: '',
                 visible: false,
               }
             );
@@ -58,10 +90,10 @@ export default class SetLink extends React.Component {
         });
       },
       'error': () => {
-        openNotificationWithIcon('error', '请求错误', '无法获取角色信息，请检查网络情况');
+        openNotificationWithIcon('error', '请求错误', '无法获取部门信息，请检查网络情况');
         this.setState(
           {
-            powerTree: '',
+            options: '',
             visible: false,
           }
         );
@@ -129,10 +161,10 @@ export default class SetLink extends React.Component {
   }
 
   render() {
-    const { userId, userName, userPhone, userNumber, userState, userOther, userDept, userLogin } = this.props;
+    const { userId, userName, userPhone, userNumber, userState, userOther, userLogin } = this.props;
     return (
       <span>
-        <a onClick={this.showModal} className="btn btn-default btn-xs">角色设置</a>
+        <a onClick={this.showModal} className="btn btn-info btn-xs">角色设置</a>
         <Modal
           maskClosable={false}
           title="角色设置"
@@ -155,7 +187,8 @@ export default class SetLink extends React.Component {
             userState={userState}
             userOther={userOther}
             userLogin={userLogin}
-            userDept={userDept}
+            userDept={this.state.userDid}
+            options={this.state.options}
             roleTree={this.state.roleTree}
             roleValue={this.state.roleValue}
             getRole={this.getRole}

@@ -159,7 +159,6 @@ public class DepartmentController extends Controller {
      */
     public void active(){
         Department department = Department.dao.findById(getPara("id"));
-        System.out.println(getPara("id"));
         if (department == null) {
             renderText("要激活的部门不存在，请刷新页面后再试！");
         }else if (department.get("state").equals("激活")){

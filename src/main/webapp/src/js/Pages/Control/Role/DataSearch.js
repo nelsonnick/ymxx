@@ -26,6 +26,7 @@ class DataSearch extends React.Component {
             <Input placeholder="请输入角色名称" initialValue={this.props.QueryString} {...getFieldProps('roleName')} />
           </FormItem>
           <Button type="primary" htmlType="submit">查找</Button>
+          <span>&nbsp;&nbsp;&nbsp;</span>
           <Button type="ghost" onClick={this.handleReset}>重置</Button>
         </Form>
       </Row>
