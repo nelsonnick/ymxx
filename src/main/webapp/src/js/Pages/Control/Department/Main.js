@@ -396,13 +396,13 @@ export default class DepCont extends React.Component {
     const rolePowers = window.rolePower;
     let AddDept;
     if (rolePowers.indexOf('AddDept,') >= 0) {
-      AddDept = <Col span={12}><AddButton afterAdd={this.AfterAddAndDelete} QueryString={this.state.QueryString} /></Col>;
+      AddDept = <Col span={6}><AddButton afterAdd={this.AfterAddAndDelete} QueryString={this.state.QueryString} /></Col>;
     } else {
       AddDept = <p></p>;
     }
     let QuyDept;
     if (rolePowers.indexOf('QuyDept,') >= 0) {
-      QuyDept = <Col span={12}><DataSearch setQuery={this.getQuery} resetPage={this.resetPage} /></Col>;
+      QuyDept = <Col span={18}><DataSearch setQuery={this.getQuery} resetPage={this.resetPage} /></Col>;
     } else {
       QuyDept = <p></p>;
     }

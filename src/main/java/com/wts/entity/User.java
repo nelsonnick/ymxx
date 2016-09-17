@@ -26,11 +26,11 @@ public class User extends Model<User> {
     public static final User dao = new User();
     public Page<User> paginate(int pageNumber, int pageSize, String userName) {
         return paginate(pageNumber, pageSize, "SELECT user.*,department.name AS dname",
-                "FROM user INNER JOIN department ON user.did=department.id WHERE user.name LIKE '%" + userName + "%' ORDER BY user.id DESC");
+                "FROM user INNER JOIN department ON user.did=department.id WHERE user.name LIKE '%" + userName + "%' AND user.state <> '删除' ORDER BY user.id DESC");
     }
     public Page<User> paginate2(int pageNumber, int pageSize, String userName, String userDept) {
         return paginate(pageNumber, pageSize, "SELECT user.*,department.name AS dname",
-                "FROM user INNER JOIN department ON user.did=department.id WHERE user.name LIKE '%" + userName + "%' AND user.did='" + userDept + "' ORDER BY user.id DESC");
+                "FROM user INNER JOIN department ON user.did=department.id WHERE user.name LIKE '%" + userName + "%' AND user.did='" + userDept + "' AND user.state <> '删除' ORDER BY user.id DESC");
 
     }
  }

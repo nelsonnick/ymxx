@@ -19,7 +19,7 @@ export default class UserCont extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      options: [],       // 当前页的具体数据
+      treeData: [],      // 部门列表
       DataTable: [],     // 当前页的具体数据
       PageSize: '9',     // 当前每页的条数
       PageNumber: '1',   // 当前页的页码
@@ -41,7 +41,7 @@ export default class UserCont extends React.Component {
       'type': 'POST',
       'url': AjaxFunction.DeptTree,
       'dataType': 'text',
-      'success': (options) => {
+      'success': (treeData) => {
         $.ajax({
           'type': 'POST',
           'url': AjaxFunction.UserQuery,
@@ -68,7 +68,7 @@ export default class UserCont extends React.Component {
                   {
                     Loading: false,
                     DataCount,
-                    options: eval(`(${options})`),
+                    treeData: eval(`(${treeData})`),
                     DataTable: dataTable,
                     PageNumber: '1',
                     PageSize: '9',
@@ -405,13 +405,13 @@ export default class UserCont extends React.Component {
     const rolePowers = window.rolePower;
     let AddUser;
     if (rolePowers.indexOf('AddUser,') >= 0) {
-      AddUser = <Col span={12}><AddButton afterAdd={this.AfterAddAndDelete} UserName={this.state.UserName} UserDept={this.state.UserDept} /></Col>;
+      AddUser = <Col span={6}><AddButton afterAdd={this.AfterAddAndDelete} UserName={this.state.UserName} UserDept={this.state.UserDept} /></Col>;
     } else {
       AddUser = <p></p>;
     }
     let QuyUser;
     if (rolePowers.indexOf('QuyUser,') >= 0) {
-      QuyUser = <Col span={12}><DataSearch setQuery={this.getQuery} resetPage={this.resetPage} options={this.state.options} /></Col>;
+      QuyUser = <Col span={18}><DataSearch setQuery={this.getQuery} resetPage={this.resetPage} treeData={this.state.treeData} /></Col>;
     } else {
       QuyUser = <p></p>;
     }

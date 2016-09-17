@@ -15,7 +15,7 @@ export default class LookLink extends React.Component {
     super(props);
     this.state = {
       visible: false,
-      grand: '',
+      valueInit: '',
       options: [],
     };
     this.showModal = this.showModal.bind(this);
@@ -35,14 +35,14 @@ export default class LookLink extends React.Component {
         );
         $.ajax({
           'type': 'POST',
-          'url': AjaxFunction.DepartmentFatherGet,
+          'url': AjaxFunction.DepartmentValueGet,
           'dataType': 'text',
-          'data': { 'father': this.props.departmentFather },
+          'data': { 'did': this.props.userDid },
           'success': (msg) => {
             this.setState(
               {
                 visible: true,
-                grand: msg,
+                valueInit: msg,
               }
             );
           },
@@ -51,11 +51,8 @@ export default class LookLink extends React.Component {
           },
         });
       },
-      'error': (XMLHttpRequest, textStatus) => {
+      'error': () => {
         openNotificationWithIcon('error', '请求错误', '无法获取部门信息，请检查网络情况');
-        console.log(XMLHttpRequest.status);
-        console.log(XMLHttpRequest.readyState);
-        console.log(textStatus);
         this.setState(
           {
             options: '',
@@ -74,7 +71,7 @@ export default class LookLink extends React.Component {
   }
 
   render() {
-    const { departmentId, departmentName, departmentPhone, departmentAddress, departmentState, departmentOther, departmentFather, departmentLevel } = this.props;
+    const { userId, userName, userPhone, userNumber, userState, userOther, userLogin } = this.props;
     return (
       <span>
         <a onClick={this.showModal} className="btn btn-default btn-xs">详情</a>
@@ -91,15 +88,14 @@ export default class LookLink extends React.Component {
         >
           <LookForm
             ref="LookForm"
-            departmentId={departmentId.toString()}
-            departmentName={departmentName}
-            departmentAddress={departmentAddress}
-            departmentPhone={departmentPhone}
-            departmentState={departmentState}
-            departmentOther={departmentOther}
-            departmentFather={departmentFather.toString()}
-            departmentLevel={departmentLevel.toString()}
-            departmentGrand={this.state.grand}
+            userId={userId.toString()}
+            userName={userName}
+            userNumber={userNumber}
+            userPhone={userPhone}
+            userState={userState}
+            userOther={userOther}
+            userLogin={userLogin}
+            userDept={this.state.valueInit}
             options={this.state.options}
           />
         </Modal>
@@ -108,12 +104,12 @@ export default class LookLink extends React.Component {
   }
 }
 LookLink.propTypes = {
-  departmentId: React.PropTypes.string,
-  departmentName: React.PropTypes.string,
-  departmentAddress: React.PropTypes.string,
-  departmentPhone: React.PropTypes.string,
-  departmentState: React.PropTypes.string,
-  departmentOther: React.PropTypes.string,
-  departmentFather: React.PropTypes.string,
-  departmentLevel: React.PropTypes.string,
+  userId: React.PropTypes.string,
+  userName: React.PropTypes.string,
+  userNumber: React.PropTypes.string,
+  userPhone: React.PropTypes.string,
+  userState: React.PropTypes.string,
+  userOther: React.PropTypes.string,
+  userLogin: React.PropTypes.string,
+  userDid: React.PropTypes.string,
 };

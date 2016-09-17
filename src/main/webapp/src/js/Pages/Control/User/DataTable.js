@@ -43,7 +43,6 @@ export default class DataTable extends React.Component {
       },
     });
   }
-
   abandon(UserId) {
     $.ajax({
       'type': 'POST',
@@ -115,7 +114,6 @@ export default class DataTable extends React.Component {
   }
   render() {
     const { tableData, loading } = this.props;
-
     const columns = [{
       title: '用户名称',
       dataIndex: 'name',

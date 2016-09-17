@@ -10,8 +10,8 @@ class AddFrom extends React.Component {
     this.userNumberCheck = this.userNumberCheck.bind(this);
     this.userPhoneCheck = this.userPhoneCheck.bind(this);
     this.userLoginCheck = this.userLoginCheck.bind(this);
+    this.userDeptCheck = this.userDeptCheck.bind(this);
   }
-
   userNameCheck(rule, value, callback) {
     if (!value) {
       callback();
@@ -100,6 +100,38 @@ class AddFrom extends React.Component {
       });
     }
   }
+  userDeptCheck(rule, value, callback) {
+    let did;
+    if (value.length === 1) {
+      did = value[0];
+    } else if (value.length === 2) {
+      did = value[1];
+    } else if (value.length === 3) {
+      did = value[2];
+    } else {
+      did = '';
+    }
+    if (!value) {
+      callback();
+    } else {
+      $.ajax({
+        'type': 'POST',
+        'url': AjaxFunction.UserDept,
+        'dataType': 'text',
+        'data': { 'dept': did },
+        'success': (data) => {
+          if (data.toString() === 'OK') {
+            callback();
+          } else {
+            callback(new Error(data.toString()));
+          }
+        },
+        'error': () => {
+          callback(new Error('无法执行后台验证，请重试'));
+        },
+      });
+    }
+  }
 
   render() {
     const { getFieldProps, getFieldError, isFieldValidating } = this.props.form;
@@ -133,6 +165,9 @@ class AddFrom extends React.Component {
       ],
     });
     const userDeptProps = getFieldProps('userDept', {
+      rules: [
+        { validator: this.userDeptCheck },
+      ],
     });
     const userStateProps = getFieldProps('userState', {
       initialValue: '激活',
@@ -157,7 +192,7 @@ class AddFrom extends React.Component {
           required
           help={isFieldValidating('userNumber') ? '校验中...' : (getFieldError('userNumber') || [])}
         >
-          <Input placeholder="请输入用户证件号码" {...userNumberProps} />
+          <Input placeholder="请输入用户证件号码" {...userNumberProps} maxlength="18" />
         </FormItem>
         <FormItem
           label="联系电话"
@@ -166,7 +201,7 @@ class AddFrom extends React.Component {
           required
           help={isFieldValidating('userPhone') ? '校验中...' : (getFieldError('userPhone') || [])}
         >
-          <Input placeholder="请输入用户手机号码" {...userPhoneProps} />
+          <Input placeholder="请输入用户手机号码" {...userPhoneProps} maxlength="11" />
         </FormItem>
         <FormItem
           label="登录名称"

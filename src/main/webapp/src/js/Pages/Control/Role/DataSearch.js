@@ -22,7 +22,7 @@ class DataSearch extends React.Component {
     return (
       <Row type="flex" justify="end">
         <Form inline onSubmit={this.handleSubmit}>
-          <FormItem label="角色名称" >
+          <FormItem label="角色名称：" >
             <Input placeholder="请输入角色名称" initialValue={this.props.QueryString} {...getFieldProps('roleName')} />
           </FormItem>
           <Button type="primary" htmlType="submit">查找</Button>

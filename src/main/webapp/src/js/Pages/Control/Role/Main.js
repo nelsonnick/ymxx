@@ -370,13 +370,13 @@ export default class RoleCont extends React.Component {
     const rolePowers = window.rolePower;
     let AddRole;
     if (rolePowers.indexOf('AddRole,') >= 0) {
-      AddRole = <Col span={12}><AddButton afterAdd={this.AfterAddAndDelete} QueryString={this.state.QueryString} /></Col>;
+      AddRole = <Col span={6}><AddButton afterAdd={this.AfterAddAndDelete} QueryString={this.state.QueryString} /></Col>;
     } else {
       AddRole = <p></p>;
     }
     let QuyRole;
     if (rolePowers.indexOf('QuyRole,') >= 0) {
-      QuyRole = <Col span={12}><DataSearch setQuery={this.getQuery} resetPage={this.resetPage} /></Col>;
+      QuyRole = <Col span={18}><DataSearch setQuery={this.getQuery} resetPage={this.resetPage} /></Col>;
     } else {
       QuyRole = <p></p>;
     }
