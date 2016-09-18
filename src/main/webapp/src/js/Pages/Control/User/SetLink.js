@@ -15,9 +15,9 @@ export default class SetLink extends React.Component {
     super(props);
     this.state = {
       visible: false,
-      options: [],
-      roleValue: [],
-      roleTree: [],
+      options: [],     // 部门树
+      roleValue: [],   // 当前权限
+      roleTree: [],    // 角色树
       userDid: [],
     };
     this.showModal = this.showModal.bind(this);
@@ -149,14 +149,14 @@ export default class SetLink extends React.Component {
     this.refs.SetForm.resetFields();
     this.setState({
       visible: false,
-      userValue: this.state.userValue,
+      roleValue: this.state.roleValue,
     });
   }
 
   handleReset() {
     this.refs.SetForm.resetFields();
     this.setState({
-      userValue: this.state.userValue,
+      roleValue: this.state.roleValue,
     });
   }
 

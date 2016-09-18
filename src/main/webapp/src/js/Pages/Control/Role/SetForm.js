@@ -15,14 +15,14 @@ class SetFrom extends React.Component {
     this.onChangeDept = this.onChangeDept.bind(this);
   }
 
-  componentWillReceiveProps() {
-    this.setState(
-      {
-        powerValue: this.props.powerValue,
-        deptValue: this.props.deptValue,
-      }
-    );
-  }
+  // componentWillReceiveProps() {
+  //   this.setState(
+  //     {
+  //       powerValue: this.props.powerValue,
+  //       deptValue: this.props.deptValue,
+  //     }
+  //   );
+  // }
   onChangePower(powerValue) {
     this.props.getPower(powerValue);
     this.setState({ powerValue });

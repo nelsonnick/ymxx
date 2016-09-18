@@ -120,21 +120,6 @@ export default class DataTable extends React.Component {
       key: 'name',
       width: 100,
     }, {
-      title: '证件号码',
-      dataIndex: 'number',
-      key: 'number',
-      width: 100,
-    }, {
-      title: '登录名称',
-      dataIndex: 'login',
-      key: 'login',
-      width: 100,
-    }, {
-      title: '联系电话',
-      dataIndex: 'phone',
-      key: 'phone',
-      width: 100,
-    }, {
       title: '所属部门',
       dataIndex: 'dname',
       key: 'dname',
@@ -143,11 +128,6 @@ export default class DataTable extends React.Component {
       title: '当前状态',
       dataIndex: 'state',
       key: 'state',
-      width: 100,
-    }, {
-      title: '用户说明',
-      dataIndex: 'other',
-      key: 'other',
       width: 100,
     }, {
       title: '操作',

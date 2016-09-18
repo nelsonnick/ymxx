@@ -389,11 +389,28 @@ public class UserController extends Controller {
         String cascadeString1 = "";
         if (userRoles.size()>0) {
             for (int i = 0; i < userRoles.size(); i++) {
-                cascadeString1 = cascadeString1 + "'" + userRoles.get(i).get("id").toString() + "',";
+                cascadeString1 = cascadeString1 + "'" + userRoles.get(i).get("rid").toString() + "',";
             }
             renderText("[" + cascadeString1.substring(0, cascadeString1.length() - 1) + "]");
         } else {
             renderText("[]");
+        }
+    }
+    /**
+     * 当前角色
+     */
+    public void set(){
+        String[] roles = getParaValues("role[]");
+        if (roles!=null) {
+            Db.update("delete from userrole where uid = ?", getPara("id"));
+            for (int i = 0; i < roles.length; i++) {
+                UserRole userRole = new UserRole();
+                userRole.set("uid", getPara("id").trim())
+                        .set("rid", roles[i]).save();
+            }
+            renderText("OK");
+        }else{
+            renderText("当前用户未指定角色，请指定");
         }
     }
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, TreeSelect, Select, Cascader } from 'antd';
+import { Form, Input, TreeSelect, Cascader } from 'antd';
 const FormItem = Form.Item;
 
 class SetFrom extends React.Component {
@@ -12,13 +12,13 @@ class SetFrom extends React.Component {
     this.onChangeRole = this.onChangeRole.bind(this);
   }
 
-  componentWillReceiveProps() {
-    this.setState(
-      {
-        roleValue: this.props.roleValue,
-      }
-    );
-  }
+  // componentWillReceiveProps() {
+  //   this.setState(
+  //     {
+  //       roleValue: this.props.roleValue,
+  //     }
+  //   );
+  // }
   onChangeRole(roleValue) {
     this.props.getRole(roleValue);
     this.setState({ roleValue });
@@ -26,7 +26,8 @@ class SetFrom extends React.Component {
 
   render() {
     const { getFieldProps } = this.props.form;
-    const { userId, userName, userPhone, userNumber, userState, userOther, userDept, userLogin, options, roleTree } = this.props;
+    // const { userId, userName, userPhone, userNumber, userState, userOther, userDept, userLogin, options, roleTree } = this.props;
+    const { userId, userName, userNumber, userDept, options, roleTree } = this.props;
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 14 },
@@ -37,24 +38,24 @@ class SetFrom extends React.Component {
     const userNameProps = getFieldProps('userName', {
       initialValue: userName,
     });
-    const userOtherProps = getFieldProps('userOther', {
-      initialValue: userOther,
-    });
+    // const userOtherProps = getFieldProps('userOther', {
+    //   initialValue: userOther,
+    // });
     const userNumberProps = getFieldProps('userNumber', {
       initialValue: userNumber,
     });
-    const userStateProps = getFieldProps('userState', {
-      initialValue: userState,
-    });
-    const userPhoneProps = getFieldProps('userPhone', {
-      initialValue: userPhone,
-    });
+    // const userStateProps = getFieldProps('userState', {
+    //   initialValue: userState,
+    // });
+    // const userPhoneProps = getFieldProps('userPhone', {
+    //   initialValue: userPhone,
+    // });
     const userDeptProps = getFieldProps('userDept', {
       initialValue: userDept,
     });
-    const userLoginProps = getFieldProps('userLogin', {
-      initialValue: userLogin,
-    });
+    // const userLoginProps = getFieldProps('userLogin', {
+    //   initialValue: userLogin,
+    // });
     const roleTreeProps = getFieldProps('roleTree', {
       initialValue: this.state.roleValue,
     });
@@ -81,41 +82,11 @@ class SetFrom extends React.Component {
           <Input placeholder="请输入用户证件号码" disabled="true" {...userNumberProps} />
         </FormItem>
         <FormItem
-          label="联系电话"
-          {...formItemLayout}
-          required
-        >
-          <Input placeholder="请输入用户手机号码" disabled="true" {...userPhoneProps} />
-        </FormItem>
-        <FormItem
-          label="登录名称"
-          {...formItemLayout}
-          required
-        >
-          <Input placeholder="请输入用户登录名称" disabled="true" {...userLoginProps} />
-        </FormItem>
-        <FormItem
           label="所属部门"
           {...formItemLayout}
           required
         >
           <Cascader allowClear={false} options={options} changeOnSelect placeholder="请选择所属部门" {...userDeptProps} disabled="true" />
-        </FormItem>
-        <FormItem
-          label="用户状态"
-          {...formItemLayout}
-          required
-        >
-          <Select size="large" disabled {...userStateProps} >
-            <Option value="激活">激活</Option>
-            <Option value="注销">注销</Option>
-          </Select>
-        </FormItem>
-        <FormItem
-          label="其他信息"
-          {...formItemLayout}
-        >
-          <Input type="textarea" rows="3" placeholder="其他需要填写的信息" disabled="true" {...userOtherProps} />
         </FormItem>
         <FormItem
           label="设置角色"

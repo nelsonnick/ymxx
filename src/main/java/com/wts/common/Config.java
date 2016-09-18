@@ -7,10 +7,7 @@ import com.jfinal.ext.handler.ContextPathHandler;
 import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.c3p0.C3p0Plugin;
-import com.wts.controller.DepartmentController;
-import com.wts.controller.MainController;
-import com.wts.controller.RoleController;
-import com.wts.controller.UserController;
+import com.wts.controller.*;
 import com.wts.entity.*;
 
 /**
@@ -35,6 +32,9 @@ public class Config extends JFinalConfig {
         me.add("/department", DepartmentController.class);
         me.add("/role", RoleController.class);
         me.add("/user", UserController.class);
+        me.add("/document", DocumentController.class);
+        me.add("/flow", FlowController.class);
+        me.add("/information", InformationController.class);
     }
 
     /**
@@ -55,6 +55,9 @@ public class Config extends JFinalConfig {
         arp.addMapping("roledept", RoleDept.class);
         arp.addMapping("user", User.class);
         arp.addMapping("userrole", UserRole.class);
+        arp.addMapping("document", Document.class);
+        arp.addMapping("information", Information.class);
+        arp.addMapping("flow", Flow.class);
     }
 
     /**

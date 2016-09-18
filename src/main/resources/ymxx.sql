@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : react
-Source Server Version : 50621
+Source Server         : 档案
+Source Server Version : 50713
 Source Host           : localhost:3306
 Source Database       : ymxx
 
 Target Server Type    : MYSQL
-Target Server Version : 50621
+Target Server Version : 50713
 File Encoding         : 65001
 
-Date: 2016-09-17 23:40:11
+Date: 2016-09-18 11:42:51
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -90,6 +90,73 @@ INSERT INTO `department` VALUES ('52', '大桥人社中心', '88097645', '大桥
 INSERT INTO `department` VALUES ('53', '槐荫区人才交流中心', '87954100', '营市东街24号', '激活', '', '1', '1');
 
 -- ----------------------------
+-- Table structure for document
+-- ----------------------------
+DROP TABLE IF EXISTS `document`;
+CREATE TABLE `document` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `dnumber` varchar(255) DEFAULT NULL,
+  `dbirth` datetime DEFAULT NULL,
+  `dstate` varchar(255) DEFAULT NULL,
+  `dtype` varchar(255) DEFAULT NULL,
+  `dcontent` varchar(255) DEFAULT NULL,
+  `dremark` varchar(255) DEFAULT NULL,
+  `pname` varchar(255) DEFAULT NULL,
+  `pnumber` varchar(255) DEFAULT NULL,
+  `psex` varchar(255) DEFAULT NULL,
+  `paddress` varchar(255) DEFAULT NULL,
+  `pphone1` varchar(255) DEFAULT NULL,
+  `pphone2` varchar(255) DEFAULT NULL,
+  `pbirth` datetime DEFAULT NULL,
+  `pstate` varchar(255) DEFAULT NULL,
+  `premark` varchar(255) DEFAULT NULL,
+  `did` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of document
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for flow
+-- ----------------------------
+DROP TABLE IF EXISTS `flow`;
+CREATE TABLE `flow` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `did` int(11) DEFAULT NULL,
+  `uid` int(11) DEFAULT NULL,
+  `time` datetime DEFAULT NULL,
+  `agent` varchar(255) DEFAULT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  `direct` varchar(255) DEFAULT NULL,
+  `type` varchar(255) DEFAULT NULL,
+  `remark` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of flow
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for information
+-- ----------------------------
+DROP TABLE IF EXISTS `information`;
+CREATE TABLE `information` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `did` int(11) DEFAULT NULL,
+  `uid` int(11) DEFAULT NULL,
+  `time` datetime DEFAULT NULL,
+  `content` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of information
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for power
 -- ----------------------------
 DROP TABLE IF EXISTS `power`;
@@ -100,7 +167,7 @@ CREATE TABLE `power` (
   `level` int(11) DEFAULT NULL,
   `father` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of power
@@ -135,6 +202,8 @@ INSERT INTO `power` VALUES ('27', 'GetRole', '获取列表', '3', '16');
 INSERT INTO `power` VALUES ('28', 'EdiRole', '修改用户', '3', '16');
 INSERT INTO `power` VALUES ('29', 'SetRole', '设置权限', '3', '16');
 INSERT INTO `power` VALUES ('30', 'DelRole', '删除用户', '3', '16');
+INSERT INTO `power` VALUES ('31', 'ActRole', '激活用户', '3', '16');
+INSERT INTO `power` VALUES ('32', 'AbdRole', '注销用户', '3', '16');
 
 -- ----------------------------
 -- Table structure for role
@@ -167,6 +236,59 @@ CREATE TABLE `roledept` (
 -- ----------------------------
 -- Records of roledept
 -- ----------------------------
+INSERT INTO `roledept` VALUES ('1', '3');
+INSERT INTO `roledept` VALUES ('1', '4');
+INSERT INTO `roledept` VALUES ('1', '5');
+INSERT INTO `roledept` VALUES ('1', '6');
+INSERT INTO `roledept` VALUES ('1', '7');
+INSERT INTO `roledept` VALUES ('1', '8');
+INSERT INTO `roledept` VALUES ('1', '9');
+INSERT INTO `roledept` VALUES ('1', '10');
+INSERT INTO `roledept` VALUES ('1', '11');
+INSERT INTO `roledept` VALUES ('1', '12');
+INSERT INTO `roledept` VALUES ('1', '13');
+INSERT INTO `roledept` VALUES ('1', '14');
+INSERT INTO `roledept` VALUES ('1', '15');
+INSERT INTO `roledept` VALUES ('1', '16');
+INSERT INTO `roledept` VALUES ('1', '17');
+INSERT INTO `roledept` VALUES ('1', '18');
+INSERT INTO `roledept` VALUES ('1', '2');
+INSERT INTO `roledept` VALUES ('1', '20');
+INSERT INTO `roledept` VALUES ('1', '21');
+INSERT INTO `roledept` VALUES ('1', '22');
+INSERT INTO `roledept` VALUES ('1', '23');
+INSERT INTO `roledept` VALUES ('1', '24');
+INSERT INTO `roledept` VALUES ('1', '25');
+INSERT INTO `roledept` VALUES ('1', '26');
+INSERT INTO `roledept` VALUES ('1', '27');
+INSERT INTO `roledept` VALUES ('1', '28');
+INSERT INTO `roledept` VALUES ('1', '29');
+INSERT INTO `roledept` VALUES ('1', '30');
+INSERT INTO `roledept` VALUES ('1', '31');
+INSERT INTO `roledept` VALUES ('1', '32');
+INSERT INTO `roledept` VALUES ('1', '33');
+INSERT INTO `roledept` VALUES ('1', '34');
+INSERT INTO `roledept` VALUES ('1', '35');
+INSERT INTO `roledept` VALUES ('1', '36');
+INSERT INTO `roledept` VALUES ('1', '19');
+INSERT INTO `roledept` VALUES ('1', '38');
+INSERT INTO `roledept` VALUES ('1', '39');
+INSERT INTO `roledept` VALUES ('1', '40');
+INSERT INTO `roledept` VALUES ('1', '41');
+INSERT INTO `roledept` VALUES ('1', '42');
+INSERT INTO `roledept` VALUES ('1', '43');
+INSERT INTO `roledept` VALUES ('1', '44');
+INSERT INTO `roledept` VALUES ('1', '45');
+INSERT INTO `roledept` VALUES ('1', '46');
+INSERT INTO `roledept` VALUES ('1', '47');
+INSERT INTO `roledept` VALUES ('1', '48');
+INSERT INTO `roledept` VALUES ('1', '49');
+INSERT INTO `roledept` VALUES ('1', '50');
+INSERT INTO `roledept` VALUES ('1', '51');
+INSERT INTO `roledept` VALUES ('1', '52');
+INSERT INTO `roledept` VALUES ('1', '37');
+INSERT INTO `roledept` VALUES ('1', '53');
+INSERT INTO `roledept` VALUES ('2', '53');
 
 -- ----------------------------
 -- Table structure for rolepower
@@ -182,6 +304,38 @@ CREATE TABLE `rolepower` (
 -- ----------------------------
 -- Records of rolepower
 -- ----------------------------
+INSERT INTO `rolepower` VALUES ('1', '5');
+INSERT INTO `rolepower` VALUES ('1', '6');
+INSERT INTO `rolepower` VALUES ('1', '7');
+INSERT INTO `rolepower` VALUES ('1', '1');
+INSERT INTO `rolepower` VALUES ('1', '8');
+INSERT INTO `rolepower` VALUES ('1', '9');
+INSERT INTO `rolepower` VALUES ('1', '2');
+INSERT INTO `rolepower` VALUES ('1', '10');
+INSERT INTO `rolepower` VALUES ('1', '11');
+INSERT INTO `rolepower` VALUES ('1', '12');
+INSERT INTO `rolepower` VALUES ('1', '3');
+INSERT INTO `rolepower` VALUES ('1', '13');
+INSERT INTO `rolepower` VALUES ('1', '17');
+INSERT INTO `rolepower` VALUES ('1', '18');
+INSERT INTO `rolepower` VALUES ('1', '19');
+INSERT INTO `rolepower` VALUES ('1', '20');
+INSERT INTO `rolepower` VALUES ('1', '21');
+INSERT INTO `rolepower` VALUES ('1', '22');
+INSERT INTO `rolepower` VALUES ('1', '23');
+INSERT INTO `rolepower` VALUES ('1', '24');
+INSERT INTO `rolepower` VALUES ('1', '14');
+INSERT INTO `rolepower` VALUES ('1', '15');
+INSERT INTO `rolepower` VALUES ('1', '25');
+INSERT INTO `rolepower` VALUES ('1', '26');
+INSERT INTO `rolepower` VALUES ('1', '27');
+INSERT INTO `rolepower` VALUES ('1', '28');
+INSERT INTO `rolepower` VALUES ('1', '29');
+INSERT INTO `rolepower` VALUES ('1', '30');
+INSERT INTO `rolepower` VALUES ('1', '16');
+INSERT INTO `rolepower` VALUES ('1', '4');
+INSERT INTO `rolepower` VALUES ('2', '5');
+INSERT INTO `rolepower` VALUES ('2', '6');
 
 -- ----------------------------
 -- Table structure for user
@@ -204,7 +358,7 @@ CREATE TABLE `user` (
 -- Records of user
 -- ----------------------------
 INSERT INTO `user` VALUES ('1', '王天硕', '370104198606282219', 'nelsonnick', '282219', '18653145531', '3', '激活', '超级管理员');
-INSERT INTO `user` VALUES ('2', '徐汉琪', '370103198903017546', 'xuhanqi', '017546', '18888888889', '41', '激活', '');
+INSERT INTO `user` VALUES ('2', '徐汉琪', '370103198903017546', 'xuhanqi', 'cad12c3d115c693513d17097951cf7af', '18888888889', '41', '注销', '测试人员');
 
 -- ----------------------------
 -- Table structure for userrole
@@ -218,3 +372,5 @@ CREATE TABLE `userrole` (
 -- ----------------------------
 -- Records of userrole
 -- ----------------------------
+INSERT INTO `userrole` VALUES ('2', '1');
+INSERT INTO `userrole` VALUES ('1', '2');
