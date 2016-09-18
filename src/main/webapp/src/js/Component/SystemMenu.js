@@ -49,17 +49,6 @@ export default class SystemMenu extends React.Component {
       getMenu.push(<SubMenu key="Document" title={<span><Icon type="file" />档案管理</span>} children={getSubMenuA} />);
     }
 
-    if (rolePowers.indexOf('Person,') >= 0) {
-      const getSubMenuB = [];
-      if (rolePowers.indexOf('PerInfo,') >= 0) {
-        getSubMenuB.push(<Menu.Item key="PerInfo"><span><Icon type="bars" />人员信息</span></Menu.Item>);
-      }
-      if (rolePowers.indexOf('PerChan,') >= 0) {
-        getSubMenuB.push(<Menu.Item key="PerChan"><span><Icon type="book" />信息变更</span></Menu.Item>);
-      }
-      getMenu.push(<SubMenu key="Person" title={<span><Icon type="team" />人员查询</span>} children={getSubMenuB} />);
-    }
-
     if (rolePowers.indexOf('Analysis,') >= 0) {
       const getSubMenuC = [];
       if (rolePowers.indexOf('DocAnal,') >= 0) {

@@ -3,8 +3,6 @@ import Blank from '../Pages/Others/Blank.js';
 import DocInfo from '../Pages/Document/Information/DocInfo.js';
 import DocChan from '../Pages/Document/Change/DocChan.js';
 import DocFlow from '../Pages/Document/Flow/DocFlow.js';
-import PerInfo from '../Pages/Person/Information/PerInfo.js';
-import PerChan from '../Pages/Person/Change/PerChan.js';
 import DocAnal from '../Pages/Analysis/Document/DocAnal.js';
 import PerAnal from '../Pages/Analysis/Person/PerAnal.js';
 import OpeAnal from '../Pages/Analysis/Operation/OpeAnal.js';
@@ -24,12 +22,6 @@ export default class Right extends React.Component {
         break;
       case 'DocFlow':
         tableCase = <DocFlow />;
-        break;
-      case 'PerInfo':
-        tableCase = <PerInfo />;
-        break;
-      case 'PerChan':
-        tableCase = <PerChan />;
         break;
       case 'DocAnal':
         tableCase = <DocAnal />;
