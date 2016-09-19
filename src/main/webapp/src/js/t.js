@@ -4,8 +4,8 @@ const rolePower = [
     'Type': 'file',
     'Stat': true,
     'Data': [
-      { 'Func': 'DocInfo', 'Name': '档案信息', 'Stat': true, 'Type': 'bars' },
-      { 'Func': 'DocChan', 'Name': '档案变更', 'Stat': true, 'Type': 'book' },
+      { 'Func': 'PerInfo', 'Name': '档案信息', 'Stat': true, 'Type': 'bars' },
+      { 'Func': 'PerChan', 'Name': '档案变更', 'Stat': true, 'Type': 'book' },
       { 'Func': 'DocFlow', 'Name': '档案流动', 'Stat': true, 'Type': 'mail' },
     ],
   },
@@ -79,8 +79,8 @@ for (var j = 0; j < rrr.length; j++) {
 }
 const rolePower = [
   { 'Func': 'Documen', 'Name': '档案管理', 'Level': '1', 'Father': '' },
-  { 'Func': 'DocInfo', 'Name': '档案信息', 'Level': '2', 'Father': 'Documen' },
-  { 'Func': 'DocChan', 'Name': '档案变更', 'Level': '2', 'Father': 'Documen' },
+  { 'Func': 'PerInfo', 'Name': '档案信息', 'Level': '2', 'Father': 'Documen' },
+  { 'Func': 'PerChan', 'Name': '档案变更', 'Level': '2', 'Father': 'Documen' },
   { 'Func': 'DocFlow', 'Name': '档案流动', 'Level': '2', 'Father': 'Documen' },
   { 'Func': 'Persons', 'Name': '人员管理', 'Level': '1', 'Father': '' },
   { 'Func': 'PerInfo', 'Name': '人员信息', 'Level': '2', 'Father': 'Persons' },

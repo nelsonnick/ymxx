@@ -3,9 +3,9 @@ package com.wts.entity;
 import com.jfinal.plugin.activerecord.Model;
 
 /**
- * Document model.
+ * Person model.
 
- mysql> desc document;
+ mysql> desc person;
  +-------------+--------------+------+-----+---------+----------------+
  | Field       | Type         | Null | Key | Default | Extra          |
  +-------------+--------------+------+-----+---------+----------------+
@@ -14,8 +14,8 @@ import com.jfinal.plugin.activerecord.Model;
  +-------------+--------------+------+-----+---------+----------------+
 
  */
-public class Document extends Model<Document> {
-    public static final Document dao = new Document();
+public class Person extends Model<Person> {
+    public static final Person dao = new Person();
 
 
  }

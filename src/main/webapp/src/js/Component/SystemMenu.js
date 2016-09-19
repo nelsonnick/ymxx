@@ -37,18 +37,28 @@ export default class SystemMenu extends React.Component {
     const getMenu = [];
     if (rolePowers.indexOf('Document,') >= 0) {
       const getSubMenuA = [];
-      if (rolePowers.indexOf('DocInfo,') >= 0) {
+      if (rolePowers.indexOf('PerInfo,') >= 0) {
         getSubMenuA.push(<Menu.Item key="DocInfo"><span><Icon type="bars" />档案信息</span></Menu.Item>);
       }
       if (rolePowers.indexOf('DocFlow,') >= 0) {
         getSubMenuA.push(<Menu.Item key="DocFlow"><span><Icon type="mail" />档案流动</span></Menu.Item>);
       }
-      if (rolePowers.indexOf('DocChan,') >= 0) {
+      if (rolePowers.indexOf('PerChan,') >= 0) {
         getSubMenuA.push(<Menu.Item key="DocChan"><span><Icon type="book" />信息变更</span></Menu.Item>);
       }
       getMenu.push(<SubMenu key="Document" title={<span><Icon type="file" />档案管理</span>} children={getSubMenuA} />);
     }
 
+    if (rolePowers.indexOf('Person,') >= 0) {
+      const getSubMenuB = [];
+      if (rolePowers.indexOf('PerInfo,') >= 0) {
+        getSubMenuB.push(<Menu.Item key="PerInfo"><span><Icon type="team" />人员信息</span></Menu.Item>);
+      }
+      if (rolePowers.indexOf('PerChan,') >= 0) {
+        getSubMenuB.push(<Menu.Item key="PerChan"><span><Icon type="book" />信息变更</span></Menu.Item>);
+      }
+      getMenu.push(<SubMenu key="Person" title={<span><Icon type="share-alt" />人员管理</span>} children={getSubMenuB} />);
+    }
     if (rolePowers.indexOf('Analysis,') >= 0) {
       const getSubMenuC = [];
       if (rolePowers.indexOf('DocAnal,') >= 0) {

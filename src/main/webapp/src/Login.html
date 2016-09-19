@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+<head>
+  <title>灵活就业人员档案管理系统</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-saclable=no">
+  <script src="http://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
+  <style type="text/css">
+    #red {color:red;}
+  </style>
+  <script type="text/javascript">
+    //点击切换验证码
+    function changeVerifyCode() {
+      $("#yzmImg").attr("src", "Kaptcha.jpg?" + Math.floor(Math.random() * 100));
+    }
+  </script>
+</head>
+<body>
+
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand active" href="#">
+        <span class="glyphicon glyphicon-home"></span>&nbsp;首页
+      </a>
+    </div>
+    <div class="navbar-header">
+      <form class="navbar-form navbar-right" action="${contextPath}/main/login" method="post">
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+            <input type="text" class="form-control" placeholder="请输入用户名" name="number">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+            <input type="password" class="form-control" placeholder="请输入密码" name="password">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
+            <input type="text" class="form-control" placeholder="请输入验证码"  name="verifyCode" id="verifyCode">
+          </div>
+        </div>
+        <div class="form-group">
+          <img src="Kaptcha.jpg" onclick="changeVerifyCode()" id="yzmImg" style="cursor: pointer;">
+        </div>
+        <div class="form-group">
+        </div>
+        <button type="submit" class="btn btn-success">
+          <span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;登陆
+        </button>
+        <a href="javascript:void(0)" class="btn" onclick="changeVerifyCode()">
+          <span class="glyphicon glyphicon-refresh"></span>&nbsp;刷新验证码
+        </a>
+        <div class="form-group">
+          <label id="red">${(error)!''}</label>
+        </div>
+      </form>
+    </div>
+  </div>
+</nav>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1>温暖人社</h1>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;——以实际行动践行社会主义核心价值观</p>
+    <p>
+      <a class="btn btn-primary btn-lg" href="http://www.jnhyhrss.gov.cn/index.asp">济南市槐荫区人力资源和社会保障局</a>
+    </p>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-4">
+      <h2 class="text-center">富强、民主、文明、和谐</h2>
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;是我国社会主义现代化国家的建设目标，也是从价值目标层面对社会主义核心价值观基本理念的凝练，在社会主义核心价值观中居于最高层次，对其他层次的价值理念具有统领作用。</p>
+
+      <p>
+        <a class="btn btn-primary btn-lg" href="http://app1.jnhrss.gov.cn:8001/siso/">济南市社会保险网上服务系统</a>
+      </p>
+
+    </div>
+    <div class="col-md-4">
+      <h2 class="text-center">自由、平等、公正、法治</h2>
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;是对美好社会的生动表述，也是从社会层面对社会主义核心价值观基本理念的凝练。它反映了中国特色社会主义的基本属性，是我们党矢志不渝、长期实践的核心价值理念。</p>
+      <p>
+        <a class="btn btn-primary btn-lg" href="http://www.sdjnsi.gov.cn/">济南市社会保险事业局</a>
+      </p>
+    </div>
+    <div class="col-md-4">
+      <h2 class="text-center">爱国、敬业、诚信、友善</h2>
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;是公民基本道德规范，是从个人行为层面对社会主义核心价值观基本理念的凝练。它覆盖社会道德生活的各个领域，是公民必须恪守的基本道德准则，也是评价公民道德行为选择的基本价值标准。</p>
+      <p>
+        <a class="btn btn-primary btn-lg" href="http://www.jnhrss.gov.cn/query/">济南市社会保险网上查询系统</a>
+      </p>
+    </div>
+  </div>
+</div>
+<hr />
+
+<footer>
+  <div class="container-fluid">
+    <p class="text-center">槐荫区职业介绍中心 2016</p>
+    <p class="text-center">MADE BY WANGTIANSHUO</p>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 档案
-Source Server Version : 50713
+Source Server         : react
+Source Server Version : 50621
 Source Host           : localhost:3306
 Source Database       : ymxx
 
 Target Server Type    : MYSQL
-Target Server Version : 50713
+Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2016-09-18 11:42:51
+Date: 2016-09-19 23:23:01
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -95,21 +95,15 @@ INSERT INTO `department` VALUES ('53', '槐荫区人才交流中心', '87954100'
 DROP TABLE IF EXISTS `document`;
 CREATE TABLE `document` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `dnumber` varchar(255) DEFAULT NULL,
-  `dbirth` datetime DEFAULT NULL,
-  `dstate` varchar(255) DEFAULT NULL,
-  `dtype` varchar(255) DEFAULT NULL,
-  `dcontent` varchar(255) DEFAULT NULL,
-  `dremark` varchar(255) DEFAULT NULL,
-  `pname` varchar(255) DEFAULT NULL,
-  `pnumber` varchar(255) DEFAULT NULL,
-  `psex` varchar(255) DEFAULT NULL,
-  `paddress` varchar(255) DEFAULT NULL,
-  `pphone1` varchar(255) DEFAULT NULL,
-  `pphone2` varchar(255) DEFAULT NULL,
-  `pbirth` datetime DEFAULT NULL,
-  `pstate` varchar(255) DEFAULT NULL,
-  `premark` varchar(255) DEFAULT NULL,
+  `number` varchar(255) DEFAULT NULL,
+  `birth` datetime DEFAULT NULL,
+  `state` varchar(255) DEFAULT NULL,
+  `type` varchar(255) DEFAULT NULL,
+  `content` varchar(255) DEFAULT NULL,
+  `remark` varchar(255) DEFAULT NULL,
+  `worktime` datetime DEFAULT NULL,
+  `retiretime` datetime DEFAULT NULL,
+  `pid` int(11) DEFAULT NULL,
   `did` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -154,6 +148,29 @@ CREATE TABLE `information` (
 
 -- ----------------------------
 -- Records of information
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for person
+-- ----------------------------
+DROP TABLE IF EXISTS `person`;
+CREATE TABLE `person` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `number` varchar(255) DEFAULT NULL,
+  `sex` varchar(255) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `phone1` varchar(255) DEFAULT NULL,
+  `phone2` varchar(255) DEFAULT NULL,
+  `phone3` varchar(255) DEFAULT NULL,
+  `birth` datetime DEFAULT NULL,
+  `state` varchar(255) DEFAULT NULL,
+  `remark` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of person
 -- ----------------------------
 
 -- ----------------------------
